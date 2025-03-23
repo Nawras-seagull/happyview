@@ -120,6 +120,11 @@ class HomeScreen extends StatelessWidget {
         'query': 'vehicles',
         'image': 'lib/assets/images/vehicles.png',
       },
+      {
+        'name': localizations.category_architecture,
+        'query':'architecture',
+        'image': 'lib/assets/images/architecture.png',
+      }
     ];
 
 
