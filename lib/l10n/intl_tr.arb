@@ -1,0 +1,13 @@
+{
+    "@@locale": "tr",
+    "appTitle": "Uygulamam",
+    "hello": "Merhaba",
+    "welcome": "Uygulamama hoş geldiniz",
+    "changeLanguage": "Dil Değiştir",
+    "settingsTitle": "Ayarlar",
+    "profileTitle": "Profil",
+    "homeTitle": "Ana Sayfa",
+    "greeting": "Merhaba, {name}",
+    "itemCount": "{count, plural, =0{Öğe yok} =1{1 öğe} other{{count} öğe}}",
+    "currentDate": "Bugün {date}"
+  }

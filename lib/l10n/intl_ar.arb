@@ -1,0 +1,13 @@
+{
+    "@@locale": "ar",
+    "appTitle": "تطبيقي",
+    "hello": "مرحبا",
+    "welcome": "مرحبا بك في تطبيقي",
+    "changeLanguage": "تغيير اللغة",
+    "settingsTitle": "الإعدادات",
+    "profileTitle": "الملف الشخصي",
+    "homeTitle": "الرئيسية",
+    "greeting": "مرحبا، {name}",
+    "itemCount": "{count, plural, =0{لا توجد عناصر} =1{عنصر واحد} =2{عنصران} few{{count} عناصر} many{{count} عنصر} other{{count} عنصر}}",
+    "currentDate": "اليوم هو {date}"
+  }
