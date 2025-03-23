@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/language_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -8,7 +7,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     final languageProvider = Provider.of<LanguageProvider>(context);
     
     return Scaffold(

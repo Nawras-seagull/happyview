@@ -6,10 +6,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  // Make the state class public by removing the underscore
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+// Changed from _HomeScreenState to HomeScreenState (public)
+class HomeScreenState extends State<HomeScreen> {
   int _counter = 0;
   
   void _incrementCounter() {
@@ -54,20 +56,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 32),
-         //     Text(
-       //         localizations.greeting('User'),
-         //       style: TextStyle(fontSize: 18),
-         //     ),
+              Text(
+                localizations.greeting('User'),
+                style: TextStyle(fontSize: 18),
+              ),
               SizedBox(height: 16),
-          /*     Text(
+              Text(
                 localizations.itemCount(_counter),
                 style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 16),
               Text(
                 localizations.currentDate(DateTime.now()),
                 style: TextStyle(fontSize: 16),
               ),
-              ), */
-              SizedBox(height: 16),
               SizedBox(height: 32),
               ElevatedButton.icon(
                 icon: Icon(Icons.add),
