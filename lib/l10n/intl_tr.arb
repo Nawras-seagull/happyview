@@ -1,13 +1,21 @@
 {
-    "@@locale": "tr",
-    "appTitle": "Uygulamam",
-    "hello": "Merhaba",
-    "welcome": "Uygulamama hoş geldiniz",
-    "changeLanguage": "Dil Değiştir",
-    "settingsTitle": "Ayarlar",
-    "profileTitle": "Profil",
-    "homeTitle": "Ana Sayfa",
-    "greeting": "Merhaba, {name}",
-    "itemCount": "{count, plural, =0{Öğe yok} =1{1 öğe} other{{count} öğe}}",
-    "currentDate": "Bugün {date}"
-  }
+  "@@locale": "tr",
+  "appTitle": "Uygulamam",
+  "hello": "Merhaba",
+  "welcome": "Uygulamama hoş geldiniz",
+  "changeLanguage": "Dil Değiştir",
+  "settingsTitle": "Ayarlar",
+  "profileTitle": "Profil",
+  "homeTitle": "Ana Sayfa",
+  "greeting": "Merhaba, {name}",
+  "itemCount": "{count, plural, =0{Öğe yok} =1{1 öğe} other{{count} öğe}}",
+  "currentDate": "Bugün {date}",
+  "category_animals": "Hayvanlar",
+  "category_nature": "Doğa",
+  "category_space": "Uzay",
+  "category_food_drink": "Yiyecek ve İçecek",
+  "category_shapes": "Şekiller",
+  "category_vehicles": "Taşıtlar",
+  "suprise":  "🎉 Beni şaşırt!" 
+
+}
