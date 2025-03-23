@@ -73,6 +73,14 @@
   "suprise":"Surprise me! 🎉",
   "@suprise": {
     "description": "Surprise me button"
+  },
+  "flowers":"flowers",
+  "@flowers": {
+    "description": "flowers category name"
+  },
+  "category_architecture": "Architecture",
+  "@category_architecture": {
+    "description": "Architecture category name"
   }
   
 }

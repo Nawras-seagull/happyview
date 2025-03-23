@@ -5,10 +5,11 @@ import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'picture_display_screen.dart';
 
+
 class SubcategoryScreen extends StatefulWidget {
   final String category;
 
-  const SubcategoryScreen({required this.category});
+  const SubcategoryScreen({super.key, required this.category});
 
   @override
   _SubcategoryScreenState createState() => _SubcategoryScreenState();
@@ -16,105 +17,20 @@ class SubcategoryScreen extends StatefulWidget {
 
 class _SubcategoryScreenState extends State<SubcategoryScreen> {
   late Future<List<Map<String, String>>> subcategories;
-
   @override
   void initState() {
     super.initState();
     subcategories = fetchAnimalCategories(widget.category);
   }
 
-  /* Future<List<Map<String, String>>> fetchAnimalCategories(
-      String category) async {
-    String accessKey = UnsplashService.accessKey;
-     final Map<String, List<String>> categoryTopics = {
-      'animals': ['mammals', 'birds', 'reptiles', 'marine-life', 'insects', 'amphibians', 'wildlife', 'pets', 'farm-animals'],
-      'nature': ['trees','flowers','forests', 'mountains', 'oceans'],
-      'space': ['planets', 'stars', 'galaxies'],
-      'food-drink': ['fruits', 'vegetables', 'desserts','beverages','fast-food','seafood','meat','dairy','baked-goods','healthy-food'],
-      'shapes': ['circles', 'squares', 'triangles', 'rectangles', 'hexagons', 'stars', 'hearts', 'spirals', 'diamonds', 'ovals'],
-      'vehicles': ['cars', 'motorcycles', 'trucks', 'bicycles', 'buses', 'trains', 'airplanes', 'boats', 'helicopters', 'scooters']
-    };
-
-    List<Future<Map<String, String>?>> futures = categoryTopics[category]!
-        .map((sub) => fetchCategoryImage(sub, accessKey))
-        .toList();
-
-    List<Map<String, String>?> results = await Future.wait(futures);
-    return results.whereType<Map<String, String>>().toList();
-  }
-
-  Future<Map<String, String>?> fetchCategoryImage(
-      String subcategory, String accessKey,
-      {int retries = 3}) async {
-    final String url =
-        'https://api.unsplash.com/photos/random?query=$subcategory&client_id=$accessKey';
-
-    for (int attempt = 0; attempt < retries; attempt++) {
-      try {
-        final response =
-            await http.get(Uri.parse(url)).timeout(Duration(seconds: 5));
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-          return {
-            'title': subcategory,
-            'imageUrl': data['urls']['small'],
-          };
-        }
-      } catch (e) {
-        if (attempt == retries - 1) {
-          return null;
-        }
-      }
-    }
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.category)),
-      body: FutureBuilder<List<Map<String, String>>>(
-        future: subcategories,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading data'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No images found'));
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final subcategory = snapshot.data![index];
-              return ListTile(
-                leading: Image.network(subcategory['imageUrl']!,
-                    width: 80, height: 80),
-                title: Text(subcategory['title']!),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        PictureDisplayScreen(query: subcategory['query']!),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
- */
 Future<List<Map<String, String>>> fetchAnimalCategories(String category) async {
      String accessKey = UnsplashService.accessKey; // Replace with your Unsplash API key
 
     final Map<String, List<String>> categoryTopics = {
       'animals': ['mammals', 'birds', 'reptiles', 'marine-life', 'insects', 'amphibians', 'wildlife', 'pets', 'farm-animals'],
-      'nature': ['trees','flowers','forests', 'mountains', 'oceans'],
-      'space': ['planets', 'stars', 'galaxies'],
+      'nature': ['trees','flower','forests', 'mountains', 'oceans', 'snow','sunsets','waterfalls','rivers','lakes'],
+      'space': ['planets', 'stars', 'galaxies', 'astronauts', 'telescopes', 'satellites'],
+      'architecture': ['buildings', 'bridges', 'skyscrapers', 'houses', 'interiors', 'exteriors', 'landmarks', 'monuments', 'towers', 'castles'],
       'food-drink': ['fruits', 'vegetables', 'desserts','beverages','fast-food','seafood','meat','dairy','baked-goods','healthy-food'],
       'shapes': ['circles', 'squares', 'triangles', 'rectangles', 'hexagons', 'stars', 'hearts', 'spirals', 'diamonds', 'ovals'],
       'vehicles': ['cars', 'motorcycles', 'trucks', 'bicycles', 'buses', 'trains', 'airplanes', 'boats', 'helicopters', 'scooters']
@@ -151,6 +67,7 @@ Future<List<Map<String, String>>> fetchAnimalCategories(String category) async {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.category} Subcategories', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
@@ -214,7 +131,11 @@ Future<List<Map<String, String>>> fetchAnimalCategories(String category) async {
                         ),
                         Center(
                           child: Text(
+                            //use translated name 
+                            // Add your translation service here
+                            
                             subcategory['name']!,
+
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 20,
