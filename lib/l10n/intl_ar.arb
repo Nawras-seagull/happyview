@@ -1,13 +1,26 @@
 {
-    "@@locale": "ar",
-    "appTitle": "تطبيقي",
-    "hello": "مرحبا",
-    "welcome": "مرحبا بك في تطبيقي",
-    "changeLanguage": "تغيير اللغة",
-    "settingsTitle": "الإعدادات",
-    "profileTitle": "الملف الشخصي",
-    "homeTitle": "الرئيسية",
-    "greeting": "مرحبا، {name}",
-    "itemCount": "{count, plural, =0{لا توجد عناصر} =1{عنصر واحد} =2{عنصران} few{{count} عناصر} many{{count} عنصر} other{{count} عنصر}}",
-    "currentDate": "اليوم هو {date}"
-  }
+  "@@locale": "ar",
+  "appTitle": "المتصفح السعيد",
+  "@appTitle": {"description": "app title"},
+  "hello": "مرحبا",
+  "@hello": {},
+  "welcome": "مرحبا بك في تطبيقي",
+  "changeLanguage": "تغيير اللغة",
+  "@changeLanguage": {},
+  "settingsTitle": "الإعدادات",
+  "@settingsTitle": {},
+  "profileTitle": "الملف الشخصي",
+  "@profileTitle": {},
+  "homeTitle": "الرئيسية",
+  "@homeTitle": {},
+  "greeting": "مرحبا، {name}",
+  "itemCount": "{count, plural, =0{لا توجد عناصر} =1{عنصر واحد} =2{عنصران} few{{count} عناصر} many{{count} عنصر} other{{count} عنصر}}",
+  "currentDate": "اليوم هو {date}",
+  "category_animals": "حيوانات",
+  "category_nature": "طبيعة",
+  "category_space": "فضاء",
+  "category_food_drink": "طعام ومشروبات",
+  "category_shapes": "أشكال",
+  "category_vehicles": "مركبات",
+  "suprise":  "🎉 فاجئني!" 
+}
