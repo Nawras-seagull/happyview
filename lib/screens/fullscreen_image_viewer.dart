@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
@@ -41,8 +42,10 @@ class FullScreenImageView extends StatelessWidget {
 
 // 2. Optimize the showRandomPicture function in home_screen.dart
 Future<void> showRandomPicture(BuildContext context) async {
+  if (!context.mounted) return; // ✅ Ensure context is valid
+
   try {
-    // Show loading indicator immediately
+    // Show loading indicator
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -50,7 +53,7 @@ Future<void> showRandomPicture(BuildContext context) async {
         child: CircularProgressIndicator(),
       ),
     );
-    
+
     final random = Random();
     final topics = [
       'animals',
@@ -62,7 +65,11 @@ Future<void> showRandomPicture(BuildContext context) async {
     ];
     final randomTopic = topics[random.nextInt(topics.length)];
 
-    // Use a try-catch block for better error handling
+    // Ensure widget is still mounted before closing the dialog
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
+
     final response = await http.get(
       Uri.parse(
         'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVeWw6g',
@@ -74,9 +81,9 @@ Future<void> showRandomPicture(BuildContext context) async {
       },
     );
 
-    // Close loading dialog
-    Navigator.of(context).pop();
+    if (!context.mounted) return; // ✅ Ensure context is valid before using it
 
+    // Handle response
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final imageUrl = data['urls']['regular'];
@@ -93,17 +100,17 @@ Future<void> showRandomPicture(BuildContext context) async {
       );
     }
   } catch (e) {
-    // Close loading dialog if still showing
-    if (Navigator.canPop(context)) {
+    if (context.mounted && Navigator.canPop(context)) {
       Navigator.of(context).pop();
     }
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: ${e.toString()}')),
-    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
   }
 }
-
 // 3. Optimize SubcategoryScreen to prevent excessive API calls
 // File: subcategory_screen.dart (partial)
 
@@ -163,7 +170,9 @@ Future<Map<String, String>> _fetchTopicImage(String topic, String accessKey) asy
       }
     }
   } catch (e) {
-    print('Error fetching image for $topic: $e');
+    if (kDebugMode) {
+      print('Error fetching image for $topic: $e');
+    }
   }
   
   // Fallback

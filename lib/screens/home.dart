@@ -260,6 +260,8 @@ void showRandomPicture(BuildContext context) async {
   );
 
   if (response.statusCode == 200) {
+      if (!context.mounted) return; // ✅ Ensure context is valid
+
     final data = json.decode(response.body);
     final imageUrl = data['urls']['regular'];
 
@@ -270,6 +272,8 @@ void showRandomPicture(BuildContext context) async {
       ),
     );
   } else {
+      if (!context.mounted) return; // ✅ Ensure context is valid
+
     // Handle error
     ScaffoldMessenger.of(
       context,
