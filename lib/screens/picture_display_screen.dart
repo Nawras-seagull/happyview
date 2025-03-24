@@ -9,10 +9,10 @@ class PictureDisplayScreen extends StatefulWidget {
   const PictureDisplayScreen({super.key, required this.query});
 
   @override
-  _PictureDisplayScreenState createState() => _PictureDisplayScreenState();
+  PictureDisplayScreenState createState() => PictureDisplayScreenState();
 }
 
-class _PictureDisplayScreenState extends State<PictureDisplayScreen> {
+class PictureDisplayScreenState extends State<PictureDisplayScreen> {
   final List<Map<String, dynamic>> _images = [];
   int _page = 1;
   bool _isLoading = false;
@@ -159,10 +159,10 @@ class FullScreenImageViewer extends StatefulWidget {
   });
 
   @override
-  _FullScreenImageViewerState createState() => _FullScreenImageViewerState();
+  FullScreenImageViewerState createState() => FullScreenImageViewerState();
 }
 
-class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
+class FullScreenImageViewerState extends State<FullScreenImageViewer> {
   late PageController _pageController;
 
   @override

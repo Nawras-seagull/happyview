@@ -12,10 +12,10 @@ class SubcategoryScreen extends StatefulWidget {
   const SubcategoryScreen({super.key, required this.category});
 
   @override
-  _SubcategoryScreenState createState() => _SubcategoryScreenState();
+  SubcategoryScreenState createState() => SubcategoryScreenState();
 }
 
-class _SubcategoryScreenState extends State<SubcategoryScreen> {
+class SubcategoryScreenState extends State<SubcategoryScreen> {
   late Future<List<Map<String, String>>> subcategories;
   @override
   void initState() {
