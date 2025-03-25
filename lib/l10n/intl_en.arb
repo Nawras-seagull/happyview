@@ -1,52 +1,52 @@
 {
-    "@@locale": "en",
-    "appTitle": "Happy View",
+  "@@locale": "en",
+  "appTitle": "Happy View",
   "@appTitle": {},
-    "hello": "Hello",
+  "hello": "Hello",
   "@hello": {},
-    "welcome": "Welcome to my app",
-    "@welcome": {
-      "description": "Welcome message displayed on home screen"
-    },
-    "changeLanguage": "Change Language",
+  "welcome": "Welcome to my app",
+  "@welcome": {
+    "description": "Welcome message displayed on home screen"
+  },
+  "changeLanguage": "Change Language",
   "@changeLanguage": {},
-    "settingsTitle": "Settings",
+  "settingsTitle": "Settings",
   "@settingsTitle": {},
-    "profileTitle": "Profile",
+  "profileTitle": "Profile",
   "@profileTitle": {},
-    "homeTitle": "Home",
+  "homeTitle": "Home",
   "@homeTitle": {},
-    "greeting": "Hello, {name}",
-    "@greeting": {
-      "description": "Personal greeting with name",
-      "placeholders": {
-        "name": {
-          "type": "String",
-          "example": "John"
-        }
+  "greeting": "Hello, {name}",
+  "@greeting": {
+    "description": "Personal greeting with name",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
       }
-    },
-    "itemCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
-    "@itemCount": {
-      "description": "Number of items message",
-      "placeholders": {
-        "count": {
-          "type": "int",
-          "example": "5"
-        }
+    }
+  },
+  "itemCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "@itemCount": {
+    "description": "Number of items message",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
       }
-    },
-    "currentDate": "Today is {date}",
-    "@currentDate": {
-      "description": "Current date message",
-      "placeholders": {
-        "date": {
-          "type": "DateTime",
-          "format": "yMMMd"
-        }
+    }
+  },
+  "currentDate": "Today is {date}",
+  "@currentDate": {
+    "description": "Current date message",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd"
       }
-    },
-    "category_animals": "Animals",
+    }
+  },
+  "category_animals": "Animals",
   "@category_animals": {
     "description": "Animals category name"
   },
@@ -70,11 +70,11 @@
   "@category_vehicles": {
     "description": "Vehicles category name"
   },
-  "suprise":"Surprise me! 🎉",
+  "suprise": "Surprise me! 🎉",
   "@suprise": {
     "description": "Surprise me button"
   },
-  "flowers":"flowers",
+  "flowers": "flowers",
   "@flowers": {
     "description": "flowers category name"
   },
@@ -82,36 +82,44 @@
   "@category_architecture": {
     "description": "Architecture category name"
   },
-  "suggestion_message":"Thank you for your suggestion!",
+  "suggestion_message": "Thank you for your suggestion!",
   "@suggestion_message": {
     "description": "Suggestion message"
   },
-  "suggestionTitle":"send Suggestions",
+  "suggestionTitle": "send Suggestions",
   "@suggestionTitle": {
     "description": "suggestionTitle"
   },
-  "suggestion_placeholder":"Enter your suggestion",
+  "suggestion_placeholder": "Enter your suggestion",
   "@suggestion_placeholder": {
     "description": "Suggestion placeholder"
   },
-  "submit":"Send Suggestions",
+  "submit": "Send Suggestions",
   "@submit": {
     "description": "Submit button"
   },
-  "cancel":"Cancel",
+  "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button"
   },
-  "suggestion_error":"Enter your suggestion...",
+  "suggestion_error": "Enter your suggestion...",
   "@suggestion_error": {
     "description": "Suggestion error message"
   },
-  "suggestion_subtitle":"Share your thoughts with us",
+  "suggestion_subtitle": "Share your thoughts with us",
   "@suggestion_subtitle": {
     "description": "Suggestion subtitle"
+  },
+  "verification": "Verification",
+  "@verification": {
+    "description": "Verification title"
+  },
+  "whatIsSum": "What is {num1} + {num2}?",
+  "@whatIsSum": {
+    "description": "Math question to verify human"
+  },
+  "incorrect": "Incorrect answer. Try again.",
+  "@incorrect": {
+    "description": "Incorrect answer message"
   }
-  
-  
 }
-  
-  

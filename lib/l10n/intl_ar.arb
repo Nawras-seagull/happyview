@@ -32,6 +32,11 @@
   "suggestion_error":"الرجاء كتابة اقتراح",
   "suggestion_subtitle":"أرسل لنا اقتراحاتك واستفساراتك",
   "cancel": "إلغاء",
-  "@cancel": {}
+  "@cancel": {},
+  "verification": "التحقق",
+  
+    "whatIsSum": " ما هو ناتج{num1} + {num2}؟",
+    "incorrect":"اجابة خاطئة"
+  
 
 }
