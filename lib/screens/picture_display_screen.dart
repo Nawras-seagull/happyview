@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
+import 'package:happy_view/widgets/download_button.dart';
 
 class PictureDisplayScreen extends StatefulWidget {
   final String query;
@@ -237,6 +238,9 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
       appBar: AppBar(
         title: Text(
             localizations.imageIndex(_currentIndex + 1, widget.images.length)),
+        actions: [
+          DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
+        ],
       ),
       body: PageView.builder(
         controller: _pageController,
