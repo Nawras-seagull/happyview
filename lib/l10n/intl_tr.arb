@@ -25,7 +25,10 @@
   "suggestion_placeholder":"Önerinizi buraya yazın",
   "suggestion_error":"Lütfen bir öneri yazın",
   "suggestion_subtitle":"Bize önerilerinizi ve sorularınızı gönderin",
-  "cancel": "İptal"
+  "cancel": "İptal",
+  "verification": "Doğrulama",
+  "whatIsSum": "Toplamı ne kadar {num1} + {num2}?",
+  "incorrect":"Yanlış cevap"
   
 
 

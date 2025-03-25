@@ -81,11 +81,8 @@ title: Row(
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
-              );
+            onPressed: () {              _showVerificationDialog(context);
+
             },
           ),
         ],
@@ -225,3 +222,52 @@ void showRandomPicture(BuildContext context) async {
   } 
 }
  
+
+
+ ///////// verification dialog
+void _showVerificationDialog(BuildContext context) {
+  final random = Random();
+  final num1 = random.nextInt(10);
+  final num2 = random.nextInt(10);
+  final correctAnswer = num1 + num2;
+  final localizations = AppLocalizations.of(context)!;
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(localizations.verification),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(localizations.whatIsSum(num1, num2)),
+            TextField(
+              keyboardType: TextInputType.number,
+              onSubmitted: (value) {
+                if (int.tryParse(value) == correctAnswer) {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsScreen()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(localizations.incorrect)),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(localizations.cancel),
+          ),
+        ],
+      );
+    },
+  );
+}
