@@ -65,7 +65,14 @@ String whatIsSum(int num1, int num2) {
       desc: 'Prompt for addition verification',
     );
   }
-
+  String imageIndex(int index, int total) {
+    return Intl.message(
+      'Image $index of $total',
+      name: 'imageIndex',
+      args: [index, total],
+      desc: 'Displayed image index and total number of images',
+    );
+  }
   // Add other translations as needed
   String get verification => Intl.message('Verification', name: 'verification');
   String get incorrectAnswer => Intl.message('Incorrect answer. Try again.', name: 'incorrectAnswer');

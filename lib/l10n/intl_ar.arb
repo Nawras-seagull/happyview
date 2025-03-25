@@ -36,7 +36,9 @@
   "verification": "التحقق",
   
     "whatIsSum": " ما هو ناتج{num1} + {num2}؟",
-    "incorrect":"اجابة خاطئة"
+    "incorrect":"اجابة خاطئة",
+    "imageIndex": "صورة {index} من {total}"
+
   
 
 }
