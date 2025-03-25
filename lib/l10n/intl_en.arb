@@ -116,7 +116,14 @@
   },
   "whatIsSum": "What is {num1} + {num2}?",
   "@whatIsSum": {
-    "description": "Math question to verify human"
+    "description": "Math question to verify human",
+      
+    "placeholders": {
+      "num1": {},
+      "num2": {}
+
+    }
+
   },
   "incorrect": "Incorrect answer. Try again.",
   "@incorrect": {
