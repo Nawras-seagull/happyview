@@ -18,7 +18,15 @@
   "category_vehicles": "Taşıtlar",
   "suprise":  "🎉 Beni şaşırt!" ,
   "flowers":  "🌸 Çiçekler",
-  "category_architecture": "Mimarlık"
+  "category_architecture": "Mimarlık",
+  "suggestion_message":"Önerileriniz için teşekkür ederiz",
+  "suggestionTitle":"Öneriler",
+  "submit":"Gönder",
+  "suggestion_placeholder":"Önerinizi buraya yazın",
+  "suggestion_error":"Lütfen bir öneri yazın",
+  "suggestion_subtitle":"Bize önerilerinizi ve sorularınızı gönderin",
+  "cancel": "İptal"
+  
 
 
 }
