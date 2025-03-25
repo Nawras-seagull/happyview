@@ -81,7 +81,36 @@
   "category_architecture": "Architecture",
   "@category_architecture": {
     "description": "Architecture category name"
+  },
+  "suggestion_message":"Thank you for your suggestion!",
+  "@suggestion_message": {
+    "description": "Suggestion message"
+  },
+  "suggestionTitle":"send Suggestions",
+  "@suggestionTitle": {
+    "description": "suggestionTitle"
+  },
+  "suggestion_placeholder":"Enter your suggestion",
+  "@suggestion_placeholder": {
+    "description": "Suggestion placeholder"
+  },
+  "submit":"Send Suggestions",
+  "@submit": {
+    "description": "Submit button"
+  },
+  "cancel":"Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "suggestion_error":"Enter your suggestion...",
+  "@suggestion_error": {
+    "description": "Suggestion error message"
+  },
+  "suggestion_subtitle":"Share your thoughts with us",
+  "@suggestion_subtitle": {
+    "description": "Suggestion subtitle"
   }
+  
   
 }
   

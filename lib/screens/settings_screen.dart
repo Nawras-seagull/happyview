@@ -1,34 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:happy_view/screens/suggestion_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final languageProvider = Provider.of<LanguageProvider>(context);
-    
-    return Scaffold(
-      appBar: AppBar(
-    //    title: Text(localizations.settingsTitle),
-      ),
-      body: ListView(
-        children: [
-          ListTile(
-         //   title: Text(localizations.changeLanguage),
-            subtitle: Text(_getLanguageName(languageProvider.currentLocale.languageCode)),
-            trailing: Icon(Icons.language),
-            onTap: () {
-              _showLanguageDialog(context, languageProvider);
-            },
-          ),
-          Divider(),
-        ],
-      ),
-    );
-  }
-  
+ @override
+Widget build(BuildContext context) {
+  final languageProvider = Provider.of<LanguageProvider>(context);
+          final localizations = AppLocalizations.of(context)!;
+
+
+  return Scaffold(
+    appBar: AppBar(),
+    body: ListView(
+      children: [
+        ListTile(
+          title:  Text(localizations.changeLanguage),
+          subtitle: Text(_getLanguageName(languageProvider.currentLocale.languageCode)),
+          trailing: const Icon(Icons.language),
+          onTap: () {
+            _showLanguageDialog(context, languageProvider);
+          },
+        ),
+        const Divider(),
+        ListTile(
+          title: Text(localizations.suggestionTitle),
+          subtitle:  Text(localizations.suggestion_subtitle),
+          trailing: const Icon(Icons.lightbulb_outline),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SuggestionScreen()),
+            );
+          },
+        ),
+        const Divider(),
+      ],
+    ),
+  );
+}
   // Helper method to get language name from code
   String _getLanguageName(String code) {
     switch (code) {
@@ -58,7 +71,9 @@ class SettingsScreen extends StatelessWidget {
               _buildLanguageOption(context, provider, 'tr', 'Türkçe'),
             ],
           ),
+          
         );
+        
       },
     );
   }

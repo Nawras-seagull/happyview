@@ -1,11 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:happy_view/firebase_options.dart';
 import 'package:happy_view/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     ChangeNotifierProvider(
@@ -13,6 +15,8 @@ void main() {
       child: MyApp(),
     ),
   );
+      await Firebase.initializeApp(   options: DefaultFirebaseOptions.currentPlatform);
+
 }
 
 class MyApp extends StatelessWidget {

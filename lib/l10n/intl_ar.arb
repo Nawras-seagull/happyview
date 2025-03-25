@@ -24,5 +24,14 @@
   "category_vehicles": "مركبات",
   "suprise":  "🎉 فاجئني!" ,
   "flowers":  "🌸 ورود" ,
-  "category_architecture": "هندسة معمارية"
+  "category_architecture": "هندسة معمارية",
+  "suggestion_message":"شكراً لاقتراحاتك",
+  "suggestionTitle":"اقتراحات",
+  "submit":"إرسال",
+  "suggestion_placeholder":"اكتب اقتراحك هنا",
+  "suggestion_error":"الرجاء كتابة اقتراح",
+  "suggestion_subtitle":"أرسل لنا اقتراحاتك واستفساراتك",
+  "cancel": "إلغاء",
+  "@cancel": {}
+
 }
