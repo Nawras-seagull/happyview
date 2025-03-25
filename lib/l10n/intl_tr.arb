@@ -28,7 +28,10 @@
   "cancel": "İptal",
   "verification": "Doğrulama",
   "whatIsSum": "Toplamı ne kadar {num1} + {num2}?",
-  "incorrect":"Yanlış cevap"
+  "incorrect":"Yanlış cevap",
+  
+    "imageIndex": "Resim {index} / {total}"
+  
   
 
 

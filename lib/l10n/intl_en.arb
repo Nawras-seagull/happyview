@@ -128,5 +128,21 @@
   "incorrect": "Incorrect answer. Try again.",
   "@incorrect": {
     "description": "Incorrect answer message"
-  }
+  },
+  
+    "imageIndex": "Image {index} of {total}",
+    "@imageIndex": {
+      "description": "Image index message",
+      "placeholders": {
+        "index": {
+          "type": "int",
+          "example": "1"
+        },
+        "total": {
+          "type": "int",
+          "example": "10"
+        }
+      }
+    }
+  
 }
