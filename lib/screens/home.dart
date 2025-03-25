@@ -15,75 +15,6 @@ class HomeScreen extends StatelessWidget {
 
  
 
-/* 
-  
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(localizations.appTitle),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SettingsScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                localizations.hello,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
-              Text(
-                localizations.welcome,
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 32),
-              Text(
-                localizations.greeting('User'),
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 16),
-              Text(
-                localizations.itemCount(0),
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 16),
-              Text(
-                localizations.currentDate(DateTime.now()),
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 32),
-              ElevatedButton.icon(
-                icon: Icon(Icons.add),
-                label: Text('Add Item'),
-                onPressed: () {
-                  // Add item
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-} */
-
-
   @override
   Widget build(BuildContext context) {
         final localizations = AppLocalizations.of(context)!;
@@ -133,7 +64,20 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
      
       appBar: AppBar(
-        title: Text(localizations.appTitle),
+
+title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'lib/assets/images/logo.png', // Path to your logo image
+                height: 40.0,
+              ),
+              const SizedBox(width: 8.0),
+ Text(localizations.appTitle),            ],
+          ),
+
+        
+
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
