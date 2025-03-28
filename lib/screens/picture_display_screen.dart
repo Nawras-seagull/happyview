@@ -1,3 +1,5 @@
+import 'dart:async'; // For debounce
+import 'dart:math'; // Import for random number generation
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,26 +20,27 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
   final List<Map<String, dynamic>> _images = [];
   int _page = 1;
   bool _isLoading = false;
-  bool _hasMore = true; // Track if there are more images to load
+  bool _hasMore = true;
   final ScrollController _scrollController = ScrollController();
-
-  final String _selectedSubcategory = 'All'; // Default subcategory
+  final String _selectedSubcategory = 'All';
+  Timer? _debounce; // For debouncing scroll events
 
   @override
   void initState() {
     super.initState();
-    _fetchImages();
+    _fetchImages(randomizePage: true); // Fetch random images on screen load
     _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
   // Fetch images from Unsplash
-  Future<void> _fetchImages() async {
+  Future<void> _fetchImages({bool randomizePage = false}) async {
     if (_isLoading || !_hasMore) return;
 
     setState(() {
@@ -45,20 +48,34 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
     });
 
     try {
+      // Generate a random page number if randomizePage is true
+      if (randomizePage) {
+        final random = Random();
+        _page =
+            random.nextInt(50) + 1; // Assuming Unsplash has at least 50 pages
+      }
+
       final newImages = await UnsplashService.fetchImages(
         widget.query,
         page: _page,
         subcategory: _selectedSubcategory == 'All' ? '' : _selectedSubcategory,
       );
-      setState(() {
-        if (newImages.isEmpty) {
-          _hasMore = false; // No more images to load
-        } else {
+
+      if (newImages.isEmpty) {
+        setState(() {
+          _hasMore = false;
+        });
+      } else {
+        setState(() {
           _images.addAll(newImages);
           _page++;
-        }
-      });
+        });
+
+        // Shuffle the images locally (optional)
+        _images.shuffle();
+      }
     } catch (e) {
+      _showErrorSnackbar('Failed to load images. Please try again.');
       if (kDebugMode) {
         print('Error fetching images: $e');
       }
@@ -69,26 +86,25 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
     }
   }
 
-  // Load more images when the user scrolls to the bottom
-  void _onScroll() {
-    if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent &&
-        _hasMore) {
-      _fetchImages();
-    }
+  // Show error message in a Snackbar
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
-  // Handle subcategory selection
-  /* void _onSubcategorySelected(String subcategory) {
-    setState(() {
-      _selectedSubcategory = subcategory;
-      _images.clear(); // Clear existing images
-      _page = 1; // Reset page counter
-      _hasMore = true; // Reset hasMore flag
+  // Debounced scroll listener
+  void _onScroll() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 200), () {
+      if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent &&
+          _hasMore) {
+        _fetchImages();
+      }
     });
-    _fetchImages(); // Fetch images for the new subcategory
   }
- */
+
   // Navigate to the full-screen image viewer
   void _openFullScreenImage(int index) {
     Navigator.push(
@@ -97,7 +113,7 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
         builder: (context) => FullScreenImageViewer(
           images: _images,
           initialIndex: index,
-          query: widget.query, // Pass the query to the FullScreenImageViewer
+          query: widget.query,
         ),
       ),
     );
@@ -115,34 +131,30 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
           Expanded(
             child: GridView.builder(
               controller: _scrollController,
-              padding: EdgeInsets.all(16.0),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // 2 columns
-                crossAxisSpacing: 16.0, // Spacing between columns
-                mainAxisSpacing: 16.0, // Spacing between rows
-                childAspectRatio:
-                    0.7, // Adjust the aspect ratio for Pinterest-like layout
+              padding: const EdgeInsets.all(16.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 16.0,
+                childAspectRatio: 0.7,
               ),
-              itemCount: _images.length +
-                  (_hasMore ? 1 : 0), // Add 1 for the loading indicator
+              itemCount: _images.length + (_hasMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == _images.length) {
-                  return Center(
-                      child:
-                          CircularProgressIndicator()); // Show loading indicator at the bottom
+                  return const Center(child: CircularProgressIndicator());
                 }
                 final image = _images[index];
                 return GestureDetector(
-                  onTap: () => _openFullScreenImage(
-                      index), // Open full-screen image viewer
+                  onTap: () => _openFullScreenImage(index),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: CachedNetworkImage(
                       imageUrl: image['url'],
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                 );
@@ -239,7 +251,6 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
         title: Text(
             localizations.imageIndex(_currentIndex + 1, widget.images.length)),
         actions: [
-          
           DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
         ],
       ),
