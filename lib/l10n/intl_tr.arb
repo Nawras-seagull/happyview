@@ -27,18 +27,19 @@
   "suggestion_subtitle":"Bize önerilerinizi ve sorularınızı gönderin",
   "cancel": "İptal",
   "confirm": "Onayla",
+  "close": "Kapat",
   "verification": "Doğrulama",
   "whatIsSum": "Toplamı ne kadar {num1} + {num2}?",
   "incorrect":"Yanlış cevap",
-  
-    "imageIndex": "Resim {index} / {total}",
-    "storagePermissionDenied": "Depolama izni reddedildi",
-    "imageSavedToGallery": "Resim galeriye kaydedildi!",
-    "error": "Hata",
-    "failedToDecodeImage": "Resim çözümlenemedi",
-    "saveToGallery": "Galeriye Kaydet"
-  
-  
-
-
+  "imageIndex": "Resim {index} / {total}",
+  "storagePermissionDenied": "Depolama izni reddedildi",
+  "imageSavedToGallery": "Resim galeriye kaydedildi!",
+  "error": "Hata",
+  "failedToDecodeImage": "Resim çözümlenemedi",
+  "saveToGallery": "Galeriye Kaydet",
+  "privacyPolicyTitle": "Gizlilik Politikası",
+  "privacyPolicySubTitle": "Gizlilik politikamızı görüntüleyin ve veri paylaşımı",
+  "viewPrivacyPolicy": "Gizlilik Politikasını Görüntüle",
+  "openPrivacyPolicyOnline": "Gizlilik Politikasını Çevrimiçi Aç",
+  "privacyPolicyContent": "Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Firebase aracılığıyla minimum, anonim veri toplama\n- İsteğe bağlı analiz ve performans takibi\n- Zorunlu kullanıcı bilgisi gerekmez\n\n3. Üçüncü Taraf Hizmetler\n- Görseller için Unsplash API\n- Analiz için Firebase\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Uygulamayı kullanarak, isteğe bağlı veri toplamayı kabul etmiş olursunuz\n- Cihaz ayarlarından analizleri devre dışı bırakabilirsiniz\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.pro"
 }
