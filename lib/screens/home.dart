@@ -9,17 +9,13 @@ import 'package:http/http.dart' as http;
 import 'settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-   const HomeScreen({super.key});
-
-
-
- 
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-        final localizations = AppLocalizations.of(context)!;
+    final localizations = AppLocalizations.of(context)!;
 
-  // Define categories with translations
+    // Define categories with translations
     final categories = [
       {
         'name': localizations.category_animals,
@@ -53,44 +49,35 @@ class HomeScreen extends StatelessWidget {
       },
       {
         'name': localizations.category_architecture,
-        'query':'architecture',
+        'query': 'architecture',
         'image': 'lib/assets/images/architecture.png',
       }
     ];
 
-
-
-
     return Scaffold(
-     
       appBar: AppBar(
-
-title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'lib/assets/images/logo.png', // Path to your logo image
-                height: 40.0,
-              ),
-              const SizedBox(width: 8.0),
- Text(localizations.appTitle),            ],
-          ),
-
-        
-
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'lib/assets/images/logo.png', // Path to your logo image
+              height: 40.0,
+            ),
+            const SizedBox(width: 8.0),
+            Text(localizations.appTitle),
+          ],
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: () {              _showVerificationDialog(context);
-
+            onPressed: () {
+              _showVerificationDialog(context);
             },
           ),
         ],
       ),
       body: Column(
         children: [
-          
-          
           // Grid of Categories
           Expanded(
             child: GridView.builder(
@@ -115,7 +102,8 @@ title: Row(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () => showRandomPicture(context),
-              child:  Text(localizations.suprise, // Translate the name
+              child: Text(
+                localizations.suprise, // Translate the name
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
@@ -160,18 +148,19 @@ class CategoryCard extends StatelessWidget {
                 top: Radius.circular(8.0),
               ),
               child: AspectRatio(
-  aspectRatio: 13 / 8, // Adjust ratio as needed
-  child: Image.asset(
-    image,
-    width: double.infinity,
-    fit: BoxFit.cover,
-  ),
-),
+                aspectRatio: 13 / 8, // Adjust ratio as needed
+                child: Image.asset(
+                  image,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(((name)), // Translate the name
-                  style: const TextStyle(
+              child: Text(
+                ((name)), // Translate the name
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -183,7 +172,7 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
- 
+
 void showRandomPicture(BuildContext context) async {
   final random = Random();
   final topics = [
@@ -204,30 +193,34 @@ void showRandomPicture(BuildContext context) async {
   );
 
   if (response.statusCode == 200) {
-      if (!context.mounted) return; // ✅ Ensure context is valid
+    if (!context.mounted) return; // ✅ Ensure context is valid
 
     final data = json.decode(response.body);
     final imageUrl = data['urls']['regular'];
+    final photographerName = data['user']['name'];
+    final photoLink = data['links']['html'];
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FullScreenImageView(imageUrl: imageUrl),
+        builder: (context) => FullScreenImageView(
+          imageUrl: imageUrl,
+          photographerName: photographerName,
+          photoLink: photoLink,
+        ),
       ),
     );
   } else {
-      if (!context.mounted) return; // ✅ Ensure context is valid
+    if (!context.mounted) return; // ✅ Ensure context is valid
 
     // Handle error
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Failed to load image')));
-  } 
+  }
 }
- 
 
-
- ///////// verification dialog
+///////// verification dialog
 void _showVerificationDialog(BuildContext context) {
   final random = Random();
   final num1 = random.nextInt(10);

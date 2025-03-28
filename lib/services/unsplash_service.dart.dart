@@ -52,52 +52,35 @@ class UnsplashService {
   ];
 
   // Advanced content filtering method
+
   static Future<List<Map<String, dynamic>>> fetchImages(
     String query, {
     int page = 1,
     String subcategory = '',
-    int perPage = 30,
   }) async {
-        final searchQuery = subcategory.isEmpty ? query : '$query $subcategory'; // Combine main category and subcategory
+    final fullQuery = subcategory.isNotEmpty ? '$query $subcategory' : query;
+    
+    final response = await http.get(
+      Uri.parse(
+        'https://api.unsplash.com/search/photos?query=$fullQuery&client_id=$accessKey&page=$page&per_page=20',
+      ),
+    );
 
-    try {
-      final response = await http.get(
-        Uri.parse(
-          'https://api.unsplash.com/search/photos?'
-          'query=$query&'
-          'page=$page&'
-          'per_page=$perPage&'
-          'client_id=$accessKey'
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        final List<dynamic> results = data['results'] ?? [];
-
-        // Filter images based on multiple criteria
-        final filteredImages = results.where((image) {
-          return _isImageSafe(image);
-        }).toList();
-
-        return filteredImages.map((image) {
-          return {
-            'id': image['id'],
-            'url': image['urls']['regular'],
-            'description': image['description'] ?? image['alt_description'] ?? '',
-            'photographer': image['user']['name'] ?? 'Unknown',
-          };
-        }).toList();
-      }
-
-      return [];
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching safe images: $e');
-      }
-      return [];
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return (data['results'] as List).map((photo) {
+        return {
+          'url': photo['urls']['regular'],
+          'photographer': photo['user']['name'],
+          'photographerLink': photo['user']['links']['html'],
+          'photoLink': photo['links']['html'],
+        };
+      }).toList();
+    } else {
+      throw Exception('Failed to load images');
     }
   }
+
 
   // Comprehensive safety check
   static bool _isImageSafe(dynamic image) {
