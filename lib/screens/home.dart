@@ -159,12 +159,14 @@ class CategoryCard extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(8.0),
               ),
-              child: Image.asset(
-                image,
-                width: double.infinity,
-                height: 100,
-                fit: BoxFit.cover,
-              ),
+              child: AspectRatio(
+  aspectRatio: 13 / 8, // Adjust ratio as needed
+  child: Image.asset(
+    image,
+    width: double.infinity,
+    fit: BoxFit.cover,
+  ),
+),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -191,6 +193,7 @@ void showRandomPicture(BuildContext context) async {
     'food-drink',
     'shapes',
     'vehicles',
+    'buildings'
   ];
   final randomTopic = topics[random.nextInt(topics.length)];
 
@@ -231,6 +234,7 @@ void _showVerificationDialog(BuildContext context) {
   final num2 = random.nextInt(10);
   final correctAnswer = num1 + num2;
   final localizations = AppLocalizations.of(context)!;
+  final TextEditingController controller = TextEditingController();
 
   showDialog(
     context: context,
@@ -242,20 +246,8 @@ void _showVerificationDialog(BuildContext context) {
           children: [
             Text(localizations.whatIsSum(num1, num2)),
             TextField(
+              controller: controller,
               keyboardType: TextInputType.number,
-              onSubmitted: (value) {
-                if (int.tryParse(value) == correctAnswer) {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SettingsScreen()),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(localizations.incorrect)),
-                  );
-                }
-              },
             ),
           ],
         ),
@@ -265,6 +257,22 @@ void _showVerificationDialog(BuildContext context) {
               Navigator.of(context).pop();
             },
             child: Text(localizations.cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              if (int.tryParse(controller.text) == correctAnswer) {
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsScreen()),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(localizations.incorrect)),
+                );
+              }
+            },
+            child: Text(localizations.confirm),
           ),
         ],
       );

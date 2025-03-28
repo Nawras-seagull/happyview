@@ -239,6 +239,7 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
         title: Text(
             localizations.imageIndex(_currentIndex + 1, widget.images.length)),
         actions: [
+          
           DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
         ],
       ),
