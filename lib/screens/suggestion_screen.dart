@@ -28,6 +28,8 @@ class SuggestionScreenState extends State<SuggestionScreen> {
       await _firestore.collection('suggestions').add({
         'suggestion': _suggestionController.text,
         'timestamp': FieldValue.serverTimestamp(), // Add a timestamp
+       'retentionPeriod': '50 days' // Add your retention policy
+
       });
       _suggestionController.clear(); // Clear the text field
       if (!mounted) return;

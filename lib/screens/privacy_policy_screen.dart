@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
-  Future<void> _launchPrivacyPolicy() async {
-    final Uri privacyPolicyUrl =
-        Uri.parse('https://your-website.com/privacy-policy');
-    if (!await launchUrl(privacyPolicyUrl)) {
-      throw Exception('Could not launch privacy policy');
-    }
-  }
 
   void _showPrivacyPolicyDialog(BuildContext context) {
     showDialog(
