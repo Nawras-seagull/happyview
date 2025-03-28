@@ -199,7 +199,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
   late final Future<List<Map<String, String>>> subcategories = 
       _getSubcategories(widget.category).catchError((error) {
     if (kDebugMode) print('Error loading subcategories: $error');
-    return [];
+    return <Map<String, String>>[];
   });
 
   Future<List<Map<String, String>>> _getSubcategories(String category) async {
@@ -213,7 +213,6 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
   }
 
   Future<List<Map<String, String>>> fetchSubcategories(String category) async {
-    const fallbackImage = 'assets/images/placeholder.png';
     final topics = _getCategoryTopics(category);
     
     final results = await Future.wait(
@@ -385,7 +384,7 @@ class _SubcategoryCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+          colors: [Colors.transparent, Colors.black.withValues(alpha: 0.3)],
         ),
       ),
     );
