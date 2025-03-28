@@ -26,6 +26,7 @@
   "suggestion_error":"Lütfen bir öneri yazın",
   "suggestion_subtitle":"Bize önerilerinizi ve sorularınızı gönderin",
   "cancel": "İptal",
+  "confirm": "Onayla",
   "verification": "Doğrulama",
   "whatIsSum": "Toplamı ne kadar {num1} + {num2}?",
   "incorrect":"Yanlış cevap",

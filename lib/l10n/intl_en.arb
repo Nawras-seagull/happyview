@@ -102,6 +102,10 @@
   "@cancel": {
     "description": "Cancel button"
   },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button"
+  },
   "suggestion_error": "Enter your suggestion...",
   "@suggestion_error": {
     "description": "Suggestion error message"
