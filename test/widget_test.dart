@@ -4,7 +4,7 @@
 // utility in the flutter_test package. For example, you can send tap and scroll
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
-
+/* 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:happy_view/main.dart';
@@ -26,5 +26,26 @@ void main() {
     // Verify that our counter has incremented.
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
+  });
+} */
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:happy_view/main.dart';
+import 'package:happy_view/providers/language_provider.dart';
+
+void main() {
+  testWidgets('App initializes without crashing', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ],
+        child: const MyApp(),
+      ),
+    );
+
+    expect(find.byType(MaterialApp), findsOneWidget);
+    
   });
 }
