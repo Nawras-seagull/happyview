@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,7 +59,9 @@ class UnsplashAttribution {
         throw 'Could not launch $url';
       }
     } catch (e) {
-      print('Error launching URL: $e');
+      if (kDebugMode) {
+        print('Error launching URL: $e');
+      }
     }
   }
 

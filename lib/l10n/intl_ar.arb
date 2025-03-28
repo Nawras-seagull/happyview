@@ -34,7 +34,7 @@
   "cancel": "إلغاء",
   "confirm": "تأكيد",
   "close": "إغلاق",
-  "verification": "التحقق",
+  "verification": "للوالدين فقط",
   "whatIsSum": " ما هو ناتج{num1} + {num2}؟",
   "incorrect":"اجابة خاطئة",
   "imageIndex": "صورة {index} من {total}",

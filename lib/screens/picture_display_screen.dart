@@ -56,6 +56,9 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
             random.nextInt(50) + 1; // Assuming Unsplash has at least 50 pages
       }
 
+
+
+
       final newImages = await UnsplashService.fetchImages(
         widget.query,
         page: _page,
@@ -80,6 +83,11 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
       if (kDebugMode) {
         print('Error fetching images: $e');
       }
+
+
+
+
+      
     } finally {
       setState(() {
         _isLoading = false;
@@ -88,11 +96,17 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
   }
 
   // Show error message in a Snackbar
-  void _showErrorSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
+ void _showErrorSnackbar(String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      action: SnackBarAction(
+        label: 'Retry',
+        onPressed: _fetchImages,
+      ),
+    ),
+  );
+}
 
   // Debounced scroll listener
   void _onScroll() {

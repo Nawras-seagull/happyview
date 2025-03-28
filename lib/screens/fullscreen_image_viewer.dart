@@ -6,7 +6,6 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -55,8 +54,9 @@ class FullScreenImageView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (await canLaunch(photoLink)) {
-                          await launch(photoLink);
+                        final Uri photoUri = Uri.parse(photoLink);
+                        if (await canLaunchUrl(photoUri)) {
+                          await launchUrl(photoUri);
                         }
                       },
                       child: Text(
