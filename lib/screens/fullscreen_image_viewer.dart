@@ -9,33 +9,81 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class FullScreenImageView extends StatelessWidget {
   final String imageUrl;
+  final String photographerName;
+  final String photoLink;
 
-  const FullScreenImageView({super.key, required this.imageUrl});
+  const FullScreenImageView({
+    super.key,
+    required this.imageUrl,
+    required this.photographerName,
+    required this.photoLink,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: CachedNetworkImage(
-            imageUrl: imageUrl,
-            placeholder: (context, url) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            fadeInDuration: const Duration(milliseconds: 200),
-            fit: BoxFit.contain,
-            memCacheWidth: 1080, // Limit memory cache size
-          ),
-        ),
+      appBar: AppBar(
+        title: const Text('Image Viewer'),
       ),
+      body: Stack(
+        children: [
+          Center(
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.contain,
+            ),
+          ),
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'Photo by ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        if (await canLaunch(photoLink)) {
+                          await launch(photoLink);
+                        }
+                      },
+                      child: Text(
+                        photographerName,
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      ' on Unsplash',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.black,
     );
   }
 }
@@ -70,11 +118,13 @@ Future<void> showRandomPicture(BuildContext context) async {
       Navigator.of(context).pop();
     }
 
-    final response = await http.get(
+    final response = await http
+        .get(
       Uri.parse(
         'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVeWw6g',
       ),
-    ).timeout(
+    )
+        .timeout(
       const Duration(seconds: 10),
       onTimeout: () {
         throw TimeoutException('Connection timed out');
@@ -87,11 +137,17 @@ Future<void> showRandomPicture(BuildContext context) async {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final imageUrl = data['urls']['regular'];
+      final photographerName = data['user']['name'];
+      final photoLink = data['links']['html'];
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => FullScreenImageView(imageUrl: imageUrl),
+          builder: (context) => FullScreenImageView(
+            imageUrl: imageUrl,
+            photographerName: photographerName,
+            photoLink: photoLink,
+          ),
         ),
       );
     } else {
@@ -135,29 +191,32 @@ Future<List<Map<String, String>>> fetchAnimalCategories(String category) async {
 
   List<String> topics = categoryTopics[category.toLowerCase()] ?? [];
   List<Map<String, String>> categories = [];
-  
+
   // Create a batch of futures to run in parallel instead of sequentially
   List<Future<Map<String, String>>> futures = [];
-  
+
   for (String topic in topics) {
     futures.add(_fetchTopicImage(topic, accessKey));
   }
-  
+
   // Wait for all futures to complete
   final results = await Future.wait(futures);
   categories.addAll(results);
-  
+
   return categories;
 }
 
 // Helper method to fetch a single topic image
-Future<Map<String, String>> _fetchTopicImage(String topic, String accessKey) async {
+Future<Map<String, String>> _fetchTopicImage(
+    String topic, String accessKey) async {
   try {
-    final response = await http.get(
-      Uri.parse(
-        'https://api.unsplash.com/search/photos?query=$topic&client_id=$accessKey&per_page=1',
-      ),
-    ).timeout(const Duration(seconds: 5));
+    final response = await http
+        .get(
+          Uri.parse(
+            'https://api.unsplash.com/search/photos?query=$topic&client_id=$accessKey&per_page=1',
+          ),
+        )
+        .timeout(const Duration(seconds: 5));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
@@ -165,7 +224,8 @@ Future<Map<String, String>> _fetchTopicImage(String topic, String accessKey) asy
         return {
           'name': topic.replaceAll('-', ' ').toUpperCase(),
           'query': topic,
-          'image': data['results'][0]['urls']['small'], // Use smaller image size
+          'image': data['results'][0]['urls']
+              ['small'], // Use smaller image size
         };
       }
     }
@@ -174,7 +234,7 @@ Future<Map<String, String>> _fetchTopicImage(String topic, String accessKey) asy
       print('Error fetching image for $topic: $e');
     }
   }
-  
+
   // Fallback
   return {
     'name': topic.replaceAll('-', ' ').toUpperCase(),

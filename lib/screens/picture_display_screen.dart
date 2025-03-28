@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:happy_view/services/unsplash_attribution.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:happy_view/widgets/download_button.dart';
 
@@ -241,38 +242,52 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
       });
     }
   }
+@override
+Widget build(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
 
-  @override
-  Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            localizations.imageIndex(_currentIndex + 1, widget.images.length)),
-        actions: [
-          DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
-        ],
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(
+        localizations.imageIndex(_currentIndex + 1, widget.images.length)
       ),
-      body: PageView.builder(
-        controller: _pageController,
-        itemCount: widget.images.length,
-        itemBuilder: (context, index) {
-          final image = widget.images[index];
-          return InteractiveViewer(
-            panEnabled: true, // Allow zooming and panning
-            minScale: 1.0,
-            maxScale: 3.0,
-            child: CachedNetworkImage(
-              imageUrl: image['url'],
-              fit: BoxFit.contain,
-              placeholder: (context, url) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          );
-        },
-      ),
-    );
-  }
+      actions: [
+        DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
+      ],
+    ),
+    body: Stack(
+      children: [
+        PageView.builder(
+          controller: _pageController,
+          itemCount: widget.images.length,
+          itemBuilder: (context, index) {
+            final image = widget.images[index];
+            return InteractiveViewer(
+              panEnabled: true,
+              minScale: 1.0,
+              maxScale: 3.0,
+              child: CachedNetworkImage(
+                imageUrl: image['url'],
+                fit: BoxFit.contain,
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            );
+          },
+        ),
+        // Attribution positioned at the bottom
+        Positioned(
+          left: 16,
+          right: 16,
+          bottom: 16,
+          child: UnsplashAttribution.buildAttribution(
+            context, 
+            widget.images[_currentIndex],
+          ),
+        ),
+      ],
+    ),
+  );
+}
 }
