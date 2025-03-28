@@ -33,8 +33,10 @@ class _DownloadButtonState extends State<DownloadButton> {
       // Check and request permissions
       if (Platform.isAndroid) {
         final status = await Permission.storage.request();
-        if (!status.isGranted) {
+        if (!status.isGranted) {      if (!mounted) return;
+
           throw Exception(
+            
               AppLocalizations.of(context)!.storagePermissionDenied);
         }
       }
@@ -85,8 +87,9 @@ class _DownloadButtonState extends State<DownloadButton> {
     try {
       // Decode image (works for AVIF, WebP, PNG, etc.)
       final image = img.decodeImage(originalBytes);
-      if (image == null)
+      if (image == null) {
         throw Exception(AppLocalizations.of(context)!.failedToDecodeImage);
+      }
 
       // Encode as JPEG
       return Uint8List.fromList(img.encodeJpg(image, quality: 95));
