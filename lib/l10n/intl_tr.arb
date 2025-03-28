@@ -31,7 +31,12 @@
   "whatIsSum": "Toplamı ne kadar {num1} + {num2}?",
   "incorrect":"Yanlış cevap",
   
-    "imageIndex": "Resim {index} / {total}"
+    "imageIndex": "Resim {index} / {total}",
+    "storagePermissionDenied": "Depolama izni reddedildi",
+    "imageSavedToGallery": "Resim galeriye kaydedildi!",
+    "error": "Hata",
+    "failedToDecodeImage": "Resim çözümlenemedi",
+    "saveToGallery": "Galeriye Kaydet"
   
   
 

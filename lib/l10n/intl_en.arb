@@ -147,6 +147,15 @@
           "example": "10"
         }
       }
-    }
-  
+    },
+  "storagePermissionDenied": "Storage permission denied",
+  "@storagePermissionDenied": {},
+  "imageSavedToGallery": "Image saved to gallery!",
+  "@imageSavedToGallery": {},
+  "error": "Error",
+  "@error": {},
+  "failedToDecodeImage": "Failed to decode image",
+  "@failedToDecodeImage": {},
+  "saveToGallery": "Save to gallery",
+  "@saveToGallery": {}
 }

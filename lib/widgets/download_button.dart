@@ -6,13 +6,14 @@ import 'package:gal/gal.dart';
 import 'package:image/image.dart' as img; // For image conversion
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import localization
 
 class DownloadButton extends StatefulWidget {
   final String imageUrl;
   final String? imageId; // Optional ID for filename
 
   const DownloadButton({
-    super.key, 
+    super.key,
     required this.imageUrl,
     this.imageId,
   });
@@ -33,7 +34,8 @@ class _DownloadButtonState extends State<DownloadButton> {
       if (Platform.isAndroid) {
         final status = await Permission.storage.request();
         if (!status.isGranted) {
-          throw Exception('Storage permission denied');
+          throw Exception(
+              AppLocalizations.of(context)!.storagePermissionDenied);
         }
       }
 
@@ -49,7 +51,8 @@ class _DownloadButtonState extends State<DownloadButton> {
 
       // Get temporary directory
       final tempDir = await getTemporaryDirectory();
-      final filePath = '${tempDir.path}/${_generateImageName()}.jpg'; // Force .jpg extension
+      final filePath =
+          '${tempDir.path}/${_generateImageName()}.jpg'; // Force .jpg extension
       final file = File(filePath);
 
       // Write JPEG file
@@ -60,16 +63,18 @@ class _DownloadButtonState extends State<DownloadButton> {
 
       if (!mounted) return;
 
-     ScaffoldMessenger.of(context).showSnackBar(
-  const SnackBar(
-    content: Text('Image saved to gallery!'),
-    duration: Duration(seconds: 2),
-  ),
-);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.imageSavedToGallery),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
+        SnackBar(
+            content: Text(
+                '${AppLocalizations.of(context)!.error}: ${e.toString()}')),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -80,8 +85,9 @@ class _DownloadButtonState extends State<DownloadButton> {
     try {
       // Decode image (works for AVIF, WebP, PNG, etc.)
       final image = img.decodeImage(originalBytes);
-      if (image == null) throw Exception('Failed to decode image');
-      
+      if (image == null)
+        throw Exception(AppLocalizations.of(context)!.failedToDecodeImage);
+
       // Encode as JPEG
       return Uint8List.fromList(img.encodeJpg(image, quality: 95));
     } catch (e) {
@@ -92,7 +98,8 @@ class _DownloadButtonState extends State<DownloadButton> {
 
   String _generateImageName() {
     // Use provided ID or fallback to timestamp
-    return widget.imageId ?? 'unsplash_${DateTime.now().millisecondsSinceEpoch}';
+    return widget.imageId ??
+        'unsplash_${DateTime.now().millisecondsSinceEpoch}';
   }
 
   @override
@@ -106,7 +113,7 @@ class _DownloadButtonState extends State<DownloadButton> {
             )
           : const Icon(Icons.download),
       onPressed: _downloadAndSaveImage,
-      tooltip: 'Save to gallery',
+      tooltip: AppLocalizations.of(context)!.saveToGallery,
     );
   }
 }

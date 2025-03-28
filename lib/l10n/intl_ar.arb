@@ -32,14 +32,14 @@
   "suggestion_error":"الرجاء كتابة اقتراح",
   "suggestion_subtitle":"أرسل لنا اقتراحاتك واستفساراتك",
   "cancel": "إلغاء",
-  
   "confirm": "تأكيد",
   "verification": "التحقق",
-  
-    "whatIsSum": " ما هو ناتج{num1} + {num2}؟",
-    "incorrect":"اجابة خاطئة",
-    "imageIndex": "صورة {index} من {total}"
-
-  
-
+  "whatIsSum": " ما هو ناتج{num1} + {num2}؟",
+  "incorrect":"اجابة خاطئة",
+  "imageIndex": "صورة {index} من {total}",
+  "storagePermissionDenied": "تم رفض إذن الوصول إلى التخزين",
+  "imageSavedToGallery": "تم حفظ الصورة في المعرض!",
+  "error": "خطأ",
+  "failedToDecodeImage": "فشل في فك تشفير الصورة",
+  "saveToGallery": "حفظ في المعرض"
 }
