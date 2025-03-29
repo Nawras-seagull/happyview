@@ -1,4 +1,4 @@
-package com.example.happyview3
+package com.nawras.happyview
 
 import io.flutter.embedding.android.FlutterActivity
 

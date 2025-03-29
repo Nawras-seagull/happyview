@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '375472596129',
     projectId: 'happy-view-ec151',
     storageBucket: 'happy-view-ec151.firebasestorage.app',
-    iosBundleId: 'com.example.happyview3',
+    iosBundleId: 'com.nawras.happyview',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '375472596129',
     projectId: 'happy-view-ec151',
     storageBucket: 'happy-view-ec151.firebasestorage.app',
-    iosBundleId: 'com.example.happyview3',
+    iosBundleId: 'com.nawras.happyview',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
