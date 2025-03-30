@@ -2,11 +2,17 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
 import 'package:http/http.dart' as http;
 import 'settings_screen.dart';
+
+// Top-level function for parsing JSON off the main thread
+Map<String, dynamic> parseJson(String responseBody) {
+  return json.decode(responseBody);
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -69,7 +75,7 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               _showVerificationDialog(context);
             },
@@ -101,16 +107,88 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () => showRandomPicture(context),
+              onPressed: () => _showRandomPicture(context),
               child: Text(
                 localizations.suprise, // Translate the name
-                style: TextStyle(fontSize: 20.0),
+                style: const TextStyle(fontSize: 20.0),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  // Improved random picture function with proper error handling and loading state
+  void _showRandomPicture(BuildContext context) async {
+    final random = Random();
+    final topics = [
+      'animals',
+      'nature',
+      'space',
+      'food-drink',
+      'shapes',
+      'vehicles',
+      'buildings'
+    ];
+    final randomTopic = topics[random.nextInt(topics.length)];
+    
+    try {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+      
+      // Make the API request
+      final response = await http.get(
+        Uri.parse(
+          'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g',
+        ),
+      );
+      
+      if (!context.mounted) return;
+      Navigator.pop(context); // Remove loading indicator
+      
+      if (response.statusCode == 200) {
+        // Parse JSON off the main thread
+        final data = await compute(parseJson, response.body);
+        
+        if (!context.mounted) return;
+        
+        // Navigate to image view
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FullScreenImageView(
+              imageUrl: data['urls']['regular'],
+              photographerName: data['user']['name'],
+              photoLink: data['links']['html'],
+            ),
+          ),
+        );
+      } else {
+        if (!context.mounted) return;
+        // Handle error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to load image')),
+        );
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      // Ensure we always dismiss the loading dialog even on error
+      if (ModalRoute.of(context)?.isCurrent != true) {
+        Navigator.pop(context);
+      }
+      
+      // Display error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
   }
 }
 
@@ -159,7 +237,7 @@ class CategoryCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                ((name)), // Translate the name
+                name, // Translate the name
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -173,54 +251,7 @@ class CategoryCard extends StatelessWidget {
   }
 }
 
-void showRandomPicture(BuildContext context) async {
-  final random = Random();
-  final topics = [
-    'animals',
-    'nature',
-    'space',
-    'food-drink',
-    'shapes',
-    'vehicles',
-    'buildings'
-  ];
-  final randomTopic = topics[random.nextInt(topics.length)];
-
-  final response = await http.get(
-    Uri.parse(
-      'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g',
-    ),
-  );
-
-  if (response.statusCode == 200) {
-    if (!context.mounted) return; // ✅ Ensure context is valid
-
-    final data = json.decode(response.body);
-    final imageUrl = data['urls']['regular'];
-    final photographerName = data['user']['name'];
-    final photoLink = data['links']['html'];
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FullScreenImageView(
-          imageUrl: imageUrl,
-          photographerName: photographerName,
-          photoLink: photoLink,
-        ),
-      ),
-    );
-  } else {
-    if (!context.mounted) return; // ✅ Ensure context is valid
-
-    // Handle error
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Failed to load image')));
-  }
-}
-
-///////// verification dialog
+// Verification dialog function
 void _showVerificationDialog(BuildContext context) {
   final random = Random();
   final num1 = random.nextInt(10);
