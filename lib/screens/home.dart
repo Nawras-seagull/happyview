@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:happy_view/widgets/categories.dart';
 import 'settings_screen.dart';
 
 // Top-level function for parsing JSON off the main thread
@@ -22,43 +23,7 @@ class HomeScreen extends StatelessWidget {
     final localizations = AppLocalizations.of(context)!;
 
     // Define categories with translations
-    final categories = [
-      {
-        'name': localizations.category_animals,
-        'query': 'animals',
-        'image': 'lib/assets/images/animals.png',
-      },
-      {
-        'name': localizations.category_nature,
-        'query': 'nature',
-        'image': 'lib/assets/images/nature.png',
-      },
-      {
-        'name': localizations.category_space,
-        'query': 'space',
-        'image': 'lib/assets/images/space.png',
-      },
-      {
-        'name': localizations.category_food_drink,
-        'query': 'food-drink',
-        'image': 'lib/assets/images/science.png',
-      },
-      {
-        'name': localizations.category_shapes,
-        'query': 'shapes',
-        'image': 'lib/assets/images/shapes.png',
-      },
-      {
-        'name': localizations.category_vehicles,
-        'query': 'vehicles',
-        'image': 'lib/assets/images/vehicles.png',
-      },
-      {
-        'name': localizations.category_architecture,
-        'query': 'architecture',
-        'image': 'lib/assets/images/architecture.png',
-      }
-    ];
+       final categories = getCategories(AppLocalizations.of(context)!);
 
     return Scaffold(
       appBar: AppBar(

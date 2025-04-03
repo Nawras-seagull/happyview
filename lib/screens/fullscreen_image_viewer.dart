@@ -26,7 +26,7 @@ class FullScreenImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image Viewer'),
+      //  title: const Text('Image Viewer'),
       ),
       body: Stack(
         children: [
