@@ -1,13 +1,8 @@
 // 1. Replace FullScreenImageView with an optimized version
 // File: fullscreen_image_viewer.dart
-import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_view/services/unsplash_service.dart.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:url_launcher/url_launcher.dart';
 
 class FullScreenImageView extends StatelessWidget {
@@ -89,10 +84,10 @@ class FullScreenImageView extends StatelessWidget {
 }
 
 // 2. Optimize the showRandomPicture function in home_screen.dart
-Future<void> showRandomPicture(BuildContext context) async {
-  if (!context.mounted) return; // ✅ Ensure context is valid
-
-  try {
+/* Future<void> showRandomPicture(BuildContext context) async {
+ if (!context.mounted) return; // ✅ Ensure context is valid
+ */ 
+ /*  try {
     // Show loading indicator
     showDialog(
       context: context,
@@ -241,4 +236,4 @@ Future<Map<String, String>> _fetchTopicImage(
     'query': topic,
     'image': 'https://source.unsplash.com/featured/?$topic',
   };
-}
+} */

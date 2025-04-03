@@ -31,14 +31,14 @@ android {
         // For more information, see: https://flutter.dev/to/review-gradle-config.
        // minSdk = flutter.minSdkVersion
        // targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = 2
+        versionName = "1.0.1"
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true     // Kotlin uses "isMinifyEnabled" instead of "minifyEnabled"
-            isShrinkResources = true   // Kotlin uses "isShrinkResources" instead of "shrinkResources"
+            isMinifyEnabled = false     // Kotlin uses "isMinifyEnabled" instead of "minifyEnabled"
+            isShrinkResources = false   // Kotlin uses "isShrinkResources" instead of "shrinkResources"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -50,3 +50,12 @@ android {
 flutter {
     source = "../.."
 }
+
+/* dependencies {
+    implementation("com.google.android.play:core:2.0.3") {
+        exclude(group = "com.google.android.play", module = "core-common")
+    }
+    implementation("com.google.android.play:core-ktx:2.0.3") {
+        exclude(group = "com.google.android.play", module = "core-common")
+    }
+} */
