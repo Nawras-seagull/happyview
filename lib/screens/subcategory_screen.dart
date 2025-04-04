@@ -49,54 +49,119 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
 
   void _loadSubcategories() {
     setState(() {
-      _subcategories = _getSubcategories(context, widget.category).catchError((error) {
+      _subcategories =
+          _getSubcategories(context, widget.category).catchError((error) {
         if (kDebugMode) print('Error loading subcategories: $error');
         return <Map<String, String>>[];
       });
     });
   }
 
-Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String category) async {
-  if (_categoryCache.containsKey(category)) {
-    return _categoryCache[category]!;
+  Future<List<Map<String, String>>> _getSubcategories(
+      BuildContext context, String category) async {
+    if (_categoryCache.containsKey(category)) {
+      return _categoryCache[category]!;
+    }
+
+    final topics = _getCategoryTopics(category);
+    final results = await Future.wait(
+      topics.map((topic) => _fetchTopic(context, topic)),
+    );
+    final subcategories = results.whereType<Map<String, String>>().toList();
+    _categoryCache[category] = subcategories;
+    return subcategories;
   }
-  
-  final topics = _getCategoryTopics(category);
-  final results = await Future.wait(
-    topics.map((topic) => _fetchTopic(context, topic)),
-  );
-  final subcategories = results.whereType<Map<String, String>>().toList();
-  _categoryCache[category] = subcategories;
-  return subcategories;
-}
+
   Map<String, List<String>> get _categoryTopicsMap => {
-    'animals': ['mammals', 'birds', 'reptiles', 'sea-creatures', 'insects', 'amphibians', 
-                'wildlife', 'pets', 'farm-animals', 'baby-animals'],
-    'nature': ['trees', 'flower', 'forests', 'mountains', 'oceans', 'snow', 'sunsets', 
-               'waterfalls', 'rivers', 'lakes', 'leaf'],
-    'space': ['planets', 'stars', 'galaxies', 'astronauts'],
-    'architecture': ['buildings', 'bridges', 'skyscrapers', 'houses', 'furniture', 
-                     'exteriors', 'landmarks', 'monuments', 'towers', 'castles'],
-    'food-drink': ['fruits', 'vegetables', 'desserts', 'beverages', 'fast-food', 
-                   'seafood', 'meat', 'dairy', 'baked-goods', 'healthy-food'],
-    'shapes': ['circles', 'squares', 'triangles', 'rectangles', 'hexagons', 
-               'hearts', 'spirals', 'diamonds', 'ovals'],
-    'vehicles': ['cars', 'motorcycles', 'trucks', 'bicycles', 'buses', 'trains', 
-                 'airplanes', 'boats', 'helicopters', 'scooters', 'excavators'],
-  };
+        'animals': [
+          'mammals',
+          'birds',
+          'reptiles',
+          'sea-creatures',
+          'insects',
+          'amphibians',
+          'wildlife',
+          'pets',
+          'farm-animals',
+          'baby-animals'
+        ],
+        'nature': [
+          'trees',
+          'flower',
+          'forests',
+          'mountains',
+          'oceans',
+          'snow',
+          'sunsets',
+          'waterfalls',
+          'rivers',
+          'lakes',
+          'leaf'
+        ],
+        'space': ['planets', 'stars', 'galaxies', 'astronauts'],
+        'architecture': [
+          'buildings',
+          'bridges',
+          'skyscrapers',
+          'houses',
+          'furniture',
+          'exteriors',
+          'landmarks',
+          'monuments',
+          'towers',
+          'castles'
+        ],
+        'food-drink': [
+          'fruits',
+          'vegetables',
+          'desserts',
+          'beverages',
+          'fast-food',
+          'seafood',
+          'meat',
+          'dairy',
+          'baked-goods',
+          'healthy-food'
+        ],
+        'shapes': [
+          'circles',
+          'squares',
+          'triangles',
+          'rectangles',
+          'hexagons',
+          'hearts',
+          'spirals',
+          'diamonds',
+          'ovals'
+        ],
+        'vehicles': [
+          'cars',
+          'motorcycles',
+          'trucks',
+          'bicycles',
+          'buses',
+          'trains',
+          'airplanes',
+          'boats',
+          'helicopters',
+          'scooters',
+          'excavators'
+        ],
+      };
 
   List<String> _getCategoryTopics(String category) {
     return _categoryTopicsMap[category.toLowerCase()] ?? [];
   }
 
-  Future<Map<String, String>?> _fetchTopic(BuildContext context, String topic) async {
+  Future<Map<String, String>?> _fetchTopic(
+      BuildContext context, String topic) async {
     try {
       if (_imageCache.containsKey(topic)) {
         return _createSubcategoryItem(context, topic, topic);
       }
 
       final response = await http.get(Uri.parse(
-        'https://api.unsplash.com/search/photos?query=$topic&client_id=${UnsplashService.accessKey}&per_page=1'));
+          'https://api.unsplash.com/search/photos?query=$topic&client_id=${UnsplashService.accessKey}&per_page=1'));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -112,7 +177,8 @@ Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String
     return _createSubcategoryItem(context, topic, _fallbackImage);
   }
 
-  Map<String, String> _createSubcategoryItem(BuildContext context, String topic, String image) {
+  Map<String, String> _createSubcategoryItem(
+      BuildContext context, String topic, String image) {
     return {
       'name': _getTranslatedTopic(context, topic),
       'query': topic,
@@ -196,20 +262,41 @@ Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String
     };
   }
 
+  String _getTranslatedCategory(
+      AppLocalizations? localizations, String category) {
+    final translations = {
+      'animals': localizations?.category_animals,
+      'nature': localizations?.category_nature,
+      'space': localizations?.category_space,
+      'architecture': localizations?.architecture,
+      'food-drink': localizations?.category_food_drink,
+      'shapes': localizations?.category_shapes,
+      'vehicles': localizations?.category_vehicles,
+    };
+
+    // Return the translated category or the original category if no translation is found
+    return translations[category] ??
+        category.replaceAll('-', ' ').toUpperCase();
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final category = widget.category;
 
+    // Fetch the translated category name
+    final translatedCategory = _getTranslatedCategory(localizations, category);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('$category ${localizations?.subcategories ?? 'Subcategories'}'),
+        title: Text('$translatedCategory '
+            /* ${localizations?.subcategories ?? 'Subcategories'}' */
+            ),
         backgroundColor: Colors.orangeAccent,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-       //   _buildTopicFilter(context, category, localizations),
           Expanded(
             child: FutureBuilder<List<Map<String, String>>>(
               future: _subcategories,
@@ -226,7 +313,34 @@ Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String
           ),
         ],
       ),
+    ) /*   Widget _buildTopicFilter(BuildContext context, String category, AppLocalizations? localizations) {
+    final topics = _getCategoryTopics(category);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: topics.map((topic) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ChoiceChip(
+                label: Text(_getTranslatedTopic(context, topic)),
+                selected: _selectedTopic == topic,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedTopic = selected ? topic : null;
+                  });
+                },
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
+  }
+ */
+        ;
   }
 
 /*   Widget _buildTopicFilter(BuildContext context, String category, AppLocalizations? localizations) {
@@ -257,19 +371,21 @@ Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String
   }
  */
   Widget _buildErrorState() => Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Icon(Icons.error_outline, size: 48, color: Colors.red),
-        const SizedBox(height: 16),
-        Text(AppLocalizations.of(context)?.loadError ?? 'Failed to load subcategories'),
-        TextButton(
-          onPressed: _loadSubcategories,
-          child: Text(AppLocalizations.of(context)?.loadErrorRetry ?? 'Retry'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.red),
+            const SizedBox(height: 16),
+            Text(AppLocalizations.of(context)?.loadError ??
+                'Failed to load subcategories'),
+            TextButton(
+              onPressed: _loadSubcategories,
+              child:
+                  Text(AppLocalizations.of(context)?.loadErrorRetry ?? 'Retry'),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   Widget _buildGrid(List<Map<String, String>> items) {
     final filteredItems = _selectedTopic != null
@@ -281,94 +397,81 @@ Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 1.0,
+          childAspectRatio: 0.9,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
         itemCount: filteredItems.length,
-        itemBuilder: (context, index) => _SubcategoryCard(item: filteredItems[index]),
-      ),
-    );
-  }
-}
-
-class _SubcategoryCard extends StatelessWidget {
-  final Map<String, String> item;
-
-  const _SubcategoryCard({required this.item});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => _navigateToPictureScreen(context),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            _buildImage(),
-            _buildOverlay(),
-            _buildTitle(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _navigateToPictureScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PictureDisplayScreen(query: item['query']!),
-      ),
-    );
-  }
-
-  Widget _buildImage() {
-    return CachedNetworkImage(
-      cacheManager: _customCacheManager,
-      imageUrl: item['image']!,
-      fit: BoxFit.cover,
-      placeholder: (context, url) => _buildPlaceholder(),
-      errorWidget: (context, url, error) => _buildPlaceholder(),
-    );
-  }
-
-  Widget _buildOverlay() {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.transparent, Colors.black.withOpacity(0.3)],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Align(
-      alignment: Alignment.bottomLeft,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Text(
-          item['name']!,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPlaceholder() {
-    return const ColoredBox(
-      color: Colors.grey,
-      child: Center(
-        child: Icon(Icons.image, size: 40, color: Colors.white),
+        itemBuilder: (context, index) {
+          final item = filteredItems[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      PictureDisplayScreen(query: item['query'] ?? ''),
+                ),
+              );
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+              child: Stack(
+                children: [
+                  // The image
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: item['image'] ?? _fallbackImage,
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.broken_image,
+                        color: Colors.grey,
+                      ),
+                      fit: BoxFit.cover,
+                      cacheManager: _customCacheManager,
+                      height: double.infinity,
+                      width: double.infinity,
+                    ),
+                  ),
+                  // The overlay
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                      color: Colors.black.withValues(alpha: 0.2)
+                         , // Semi-transparent black overlay
+                    ),
+                  ),
+                  // The name text over the image
+                  Positioned(
+                    left: 8.0, // Align to the left
+                    bottom: 8.0, // Position near the bottom of the image
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4.0),
+                      child: Text(
+                        item['name'] ?? '',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white, // Text color
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
