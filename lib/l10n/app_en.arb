@@ -461,5 +461,17 @@
   "excavators": "Excavators",
   "@excavators": {
     "description": "Excavators category name"
+  },
+  "subcategories": "Subcategories",
+  "@subcategories": {
+    "description": "Subcategories title"
+  },
+  "loadError": "Failed to load data",
+  "@loadError": {
+    "description": "Error message when data fails to load"
+  },
+  "loadErrorRetry": "Retry",
+  "@loadErrorRetry": {
+    "description": "Retry button text"
   }
 }
