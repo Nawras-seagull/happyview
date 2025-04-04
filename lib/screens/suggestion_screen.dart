@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class SuggestionScreen extends StatefulWidget {
@@ -71,7 +72,10 @@ class SuggestionScreenState extends State<SuggestionScreen> {
             ElevatedButton(
               onPressed: _isSubmitting ? null : _submitSuggestion,
               child: _isSubmitting
-                  ? CircularProgressIndicator(color: Colors.white)
+                  ? SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          )
                   : Text(localizations.submit),
             ),
           ],

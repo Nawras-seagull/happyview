@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'picture_display_screen.dart';
@@ -302,7 +303,10 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
               future: _subcategories,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child:SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          ));
                 }
                 if (snapshot.hasError || !snapshot.hasData) {
                   return _buildErrorState();
@@ -380,7 +384,10 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                     child: CachedNetworkImage(
                       imageUrl: item['image'] ?? _fallbackImage,
                       placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                          const Center(child: SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          )),
                       errorWidget: (context, url, error) => const Icon(
                         Icons.broken_image,
                         color: Colors.grey,

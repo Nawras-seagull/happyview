@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gal/gal.dart';
 import 'package:image/image.dart' as img; // For image conversion
 import 'package:path_provider/path_provider.dart';
@@ -112,7 +113,10 @@ class _DownloadButtonState extends State<DownloadButton> {
           ? const SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
+              child: SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          ),
             )
           : const Icon(Icons.download),
       onPressed: _downloadAndSaveImage,
