@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
 import 'package:happy_view/widgets/categories.dart';
 import 'package:happy_view/widgets/random_picture_helper.dart';
-import 'settings_screen.dart';
+import 'package:audioplayers/audioplayers.dart';import 'settings_screen.dart';
 
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
@@ -41,8 +41,9 @@ class CategoryTile extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
+  
+   HomeScreen({super.key});
+final AudioPlayer _audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -101,16 +102,22 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           // Surprise Me! Button
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () => showRandomPicture(context),
-              child: Text(
-                localizations.suprise, // Translate the name
-                style: const TextStyle(fontSize: 20.0),
-              ),
-            ),
-          ),
+Padding(
+  padding: const EdgeInsets.all(16.0),
+  child: ElevatedButton(
+    onPressed: () async {
+      // Play sound
+      await _audioPlayer.play(AssetSource('sounds/yay.wav'));
+
+      // Then show the picture
+      showRandomPicture(context);
+    },
+    child: Text(
+      localizations.suprise, // Translate the name
+      style: const TextStyle(fontSize: 20.0),
+    ),
+  ),
+),
         ],
       ),
     );
