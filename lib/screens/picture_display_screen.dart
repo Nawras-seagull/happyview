@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:happy_view/services/unsplash_attribution.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
+import 'package:happy_view/widgets/animated_panda.dart';
 import 'package:happy_view/widgets/download_button.dart';
 
 class PictureDisplayScreen extends StatefulWidget {
@@ -176,9 +177,12 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
               },
             ),
           ),
+            // The fun panda
+    AnimatedPanda()
         ],
       ),
     );
+    
   }
 }
 
