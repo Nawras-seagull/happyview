@@ -11,6 +11,7 @@ import 'settings_screen.dart';
 Map<String, dynamic> parseJson(String responseBody) {
   return json.decode(responseBody);
 }
+
 class CategoryTile extends StatelessWidget {
   final String name;
   final String image;
@@ -27,7 +28,9 @@ class CategoryTile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset(image, height: 150, width: 150, fit: BoxFit.cover),
+            child: Image.asset(image, height: 150, width: 150, fit: BoxFit.cover,// Set cache dimensions to reduce memory usage
+              cacheWidth: 150, // Match the widget's width
+              cacheHeight: 150, ),
           ),
           const SizedBox(height: 2),
           Text(name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 9, 45, 42))),
@@ -85,10 +88,10 @@ class HomeScreen extends StatelessWidget {
               {          final category = categories[index];
 
                 return CategoryTile(
-            name: category['name'],
-            image: category['image'],
-            query: category['query'],
-            onTap: () => Navigator.push(
+                name: category['name'],
+                image: category['image'],
+               query: category['query'],
+                onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => SubcategoryScreen(category: category['query'])),
             ),
