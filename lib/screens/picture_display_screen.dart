@@ -8,6 +8,7 @@ import 'package:happy_view/services/unsplash_attribution.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:happy_view/widgets/animated_panda.dart';
 import 'package:happy_view/widgets/download_button.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class PictureDisplayScreen extends StatefulWidget {
   final String query;
@@ -157,7 +158,10 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
               itemCount: _images.length + (_hasMore ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == _images.length) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: SpinKitThreeInOut( 
+                    color: Color.fromARGB(255, 8, 127, 148),
+                    size: 30.0,
+                  ));
                 }
                 final image = _images[index];
                 return GestureDetector(
@@ -168,7 +172,10 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
                       imageUrl: image['url'],
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                          const Center(child: SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          )),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),
@@ -288,7 +295,10 @@ Widget build(BuildContext context) {
                 imageUrl: image['url'],
                 fit: BoxFit.contain,
                 placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
+                    Center(child: SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          )),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             );

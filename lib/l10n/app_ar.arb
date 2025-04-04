@@ -32,7 +32,9 @@
   "@greeting": {
     "placeholders": {
       "name": {
-    "description": "تحية مخصصة للمستخدم"
+    "description": "تحية مخصصة للمستخدم",
+        "type": "String",
+        "example": "أحمد"
       }
     }
   },
@@ -377,13 +379,9 @@
   "@verification": {},
   "whatIsSum": " ما هو ناتج{num1} + {num2}؟", 
   "@whatIsSum": {
-    "description": "سؤال رياضي",
+    "description": "سؤال رياضي"
       
-    "placeholders": {
-      "num1": {},
-      "num2": {}
 
-    }
 
   },
   "incorrect": "اجابة خاطئة",

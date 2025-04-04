@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/widgets/categories.dart'; // Import categories.dart
@@ -29,7 +30,10 @@ Future<void> showRandomPicture(BuildContext context) async {
       context: context,
       barrierDismissible: false,
       builder: (context) => const Center(
-        child: CircularProgressIndicator(),
+        child: SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          ),
       ),
     );
 
