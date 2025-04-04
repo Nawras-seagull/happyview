@@ -313,63 +313,14 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
           ),
         ],
       ),
-    ) /*   Widget _buildTopicFilter(BuildContext context, String category, AppLocalizations? localizations) {
-    final topics = _getCategoryTopics(category);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: topics.map((topic) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ChoiceChip(
-                label: Text(_getTranslatedTopic(context, topic)),
-                selected: _selectedTopic == topic,
-                onSelected: (selected) {
-                  setState(() {
-                    _selectedTopic = selected ? topic : null;
-                  });
-                },
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
- */
+    )
+    
+    
+    
         ;
   }
 
-/*   Widget _buildTopicFilter(BuildContext context, String category, AppLocalizations? localizations) {
-    final topics = _getCategoryTopics(category);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: topics.map((topic) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ChoiceChip(
-                label: Text(_getTranslatedTopic(context, topic)),
-                selected: _selectedTopic == topic,
-                onSelected: (selected) {
-                  setState(() {
-                    _selectedTopic = selected ? topic : null;
-                  });
-                },
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
- */
   Widget _buildErrorState() => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -467,8 +418,9 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       ),
                     ),
                   ),
+                  
                 ],
-              ),
+              )
             ),
           );
         },
