@@ -1,110 +1,410 @@
 {
   "@@locale": "tr",
   "appTitle": "Mutlu Görünüm",
+  "@appTitle": {
+    "description": "Uygulamanın başlığı"
+  },
   "hello": "Merhaba",
+  "@hello": {
+    "description": "Kullanıcıya selamlama"
+  },
   "welcome": "Uygulamama hoş geldiniz",
+  "@welcome": {
+    "description": "Kullanıcıya hoş geldiniz mesajı"
+  },
   "changeLanguage": "Dil Değiştir",
+  "@changeLanguage": {
+    "description": "Dil değiştirme düğmesi"
+  },
   "settingsTitle": "Ayarlar",
+  "@settingsTitle": {
+    "description": "Ayarlar sayfasının başlığı"
+  },
   "profileTitle": "Profil",
+  "@profileTitle": {
+    "description": "Profil sayfasının başlığı"
+  },
   "homeTitle": "Ana Sayfa",
+  "@homeTitle": {
+    "description": "Ana sayfanın başlığı"
+  },
   "greeting": "Merhaba, {name}",
+  "@greeting": {
+    "description": "Kullanıcıya özel selamlama",
+    "placeholders": {
+      "name": {}
+    }
+  },
   "itemCount": "{count, plural, =0{Öğe yok} =1{1 öğe} other{{count} öğe}}",
+  "@itemCount": {
+    "description": "Listedeki öğe sayısını gösterir",
+    "placeholders": {
+      "count": {}
+    }
+  },
   "currentDate": "Bugün {date}",
+  "@currentDate": {
+    "description": "Geçerli tarihi gösterir",
+    "placeholders": {
+      "date": {}
+    }
+  },
   "category_animals": "Hayvanlar",
+  "@category_animals": {
+    "description": "Hayvanlar kategorisinin adı"
+  },
   "category_nature": "Doğa",
+  "@category_nature": {
+    "description": "Doğa kategorisinin adı"
+  },
   "category_space": "Uzay",
+  "@category_space": {
+    "description": "Uzay kategorisinin adı"
+  },
   "category_food_drink": "Yiyecek ve İçecek",
+  "@category_food_drink": {
+    "description": "Yiyecek ve içecek kategorisinin adı"
+  },
   "category_shapes": "Şekiller",
+  "@category_shapes": {
+    "description": "Şekiller kategorisinin adı"
+  },
   "category_vehicles": "Taşıtlar",
-"suprise":  "🎉 Beni şaşırt!" ,
-  "flowers":  "🌸 Çiçekler",
+  "@category_vehicles": {
+    "description": "Taşıtlar kategorisinin adı"
+  },
+  "suprise": "🎉 Beni şaşırt!",
+  "@suprise": {
+    "description": "Kullanıcıyı şaşırtan düğme"
+  },
+  "flowers": "🌸 Çiçekler",
+  "@flowers": {
+    "description": "Çiçekler kategorisinin adı"
+  },
   "category_architecture": "Mimarlık",
-  "suggestion_message":"Önerileriniz için teşekkür ederiz",
-  "suggestionTitle":"Öneriler",
-  "submit":"Gönder",
-  "suggestion_placeholder":"Önerinizi buraya yazın",
-  "suggestion_error":"Lütfen bir öneri yazın",
-  "suggestion_subtitle":"Bize önerilerinizi ve sorularınızı gönderin",
+  "@category_architecture": {
+    "description": "Mimarlık kategorisinin adı"
+  },
+  "suggestion_message": "Önerileriniz için teşekkür ederiz",
+  "@suggestion_message": {},
+  "suggestionTitle": "Öneriler",
+  "@suggestionTitle": {},
+  "submit": "Gönder",
+  "@submit": {},
+  "suggestion_placeholder": "Önerinizi buraya yazın",
+  "@suggestion_placeholder": {},
+  "suggestion_error": "Lütfen bir öneri yazın",
+  "@suggestion_error": {},
+  "suggestion_subtitle": "Bize önerilerinizi ve sorularınızı gönderin",
+  "@suggestion_subtitle": {},
   "cancel": "İptal",
+  "@cancel": {},
   "confirm": "Onayla",
+  "@confirm": {},
   "close": "Kapat",
+  "@close": {},
   "verification": "Sadece ebeveynler için",
+  "@verification": {},
   "whatIsSum": "Toplamı ne kadar {num1} + {num2}?",
-  "incorrect":"Yanlış cevap",
+  "@whatIsSum": {
+    "description": "Toplama sorusu",
+    "placeholders": {
+      "num1": {},
+      "num2": {}
+    }
+  },
+  "incorrect": "Yanlış cevap",
+  "@incorrect": {},
   "imageIndex": "Resim {index} / {total}",
+  "@imageIndex": { 
+    "description": "Resim dizinini gösterir",
+    "placeholders": {
+      "index": {},
+      "total": {}
+    }
+  },
   "storagePermissionDenied": "Depolama izni reddedildi",
+  "@storagePermissionDenied": {},
   "imageSavedToGallery": "Resim galeriye kaydedildi!",
+  "@imageSavedToGallery": {},
   "error": "Hata",
+  "@error": {},
   "failedToDecodeImage": "Resim çözümlenemedi",
+  "@failedToDecodeImage": {},
   "saveToGallery": "Galeriye Kaydet",
+  "@saveToGallery": {},
   "privacyPolicyTitle": "Gizlilik Politikası",
+  "@privacyPolicyTitle": {},
   "privacyPolicySubTitle": "Gizlilik politikamızı görüntüleyin ve veri paylaşımı",
+  "@privacyPolicySubTitle": {},
   "viewPrivacyPolicy": "Gizlilik Politikasını Görüntüle",
+  "@viewPrivacyPolicy": {},
   "openPrivacyPolicyOnline": "Gizlilik Politikasını Çevrimiçi Aç",
+  "@openPrivacyPolicyOnline": {},
   "privacyPolicyContent": "Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Firebase aracılığıyla minimum, anonim veri toplama\n- İsteğe bağlı analiz ve performans takibi\n- Zorunlu kullanıcı bilgisi gerekmez\n\n3. Üçüncü Taraf Hizmetler\n- Görseller için Unsplash API\n- Analiz için Firebase\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Uygulamayı kullanarak, isteğe bağlı veri toplamayı kabul etmiş olursunuz\n- Cihaz ayarlarından analizleri devre dışı bırakabilirsiniz\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.pro",
+  "@privacyPolicyContent": {},
   "mammals": "Memeliler",
+  "@mammals": {
+    "description": "Memeliler kategorisinin adı"
+  },
   "birds": "Kuşlar",
+  "@birds": {
+    "description": "Kuşlar kategorisinin adı"
+  },
   "reptiles": "Sürüngenler",
+  "@reptiles": {
+    "description": "Sürüngenler kategorisinin adı"
+  },
   "seacCreatures": "Deniz canlıları",
+  "@seacCreatures": {
+    "description": "Deniz canlıları kategorisinin adı"
+  },
   "insects": "Böcekler",
-    "amphibians": "Amfibi hayvanlar",
+  "@insects": {
+    "description": "Böcekler kategorisinin adı"
+  },
+  "amphibians": "Amfibi hayvanlar",
+  "@amphibians": {
+    "description": "Amfibi hayvanlar kategorisinin adı"
+  },
   "wildlife": "Yaban hayatı",
+  "@wildlife": {
+    "description": "Yaban hayatı kategorisinin adı"
+  },
   "pets": "Evcil hayvanlar",
+  "@pets": {
+    "description": "Evcil hayvanlar kategorisinin adı"
+  },
   "farmAnimals": "Çiftlik hayvanları",
+  "@farmAnimals": {
+    "description": "Çiftlik hayvanları kategorisinin adı"
+  },
   "babyAnimals": "Bebek hayvanlar",
+  "@babyAnimals": {
+    "description": "Bebek hayvanlar kategorisinin adı"
+  },
   "trees": "Ağaçlar",
+  "@trees": {
+    "description": "Ağaçlar kategorisinin adı"
+  },
   "flower": "Çiçekler",
+  "@flower": {
+    "description": "Çiçekler kategorisinin adı"
+  },
   "forests": "Ormanlar",
+  "@forests": {
+    "description": "Ormanlar kategorisinin adı"
+  },
   "mountains": "Dağlar",
+  "@mountains": {
+    "description": "Dağlar kategorisinin adı"
+  },
   "oceans": "Okyanuslar",
+  "@oceans": {
+    "description": "Okyanuslar kategorisinin adı"
+  },
   "snow": "Kar",
+  "@snow": {
+    "description": "Kar kategorisinin adı"
+  },
   "sunsets": "Gün batımları",
+  "@sunsets": {
+    "description": "Gün batımları kategorisinin adı"
+  },
   "waterfalls": "Şelaleler",
+  "@waterfalls": {
+    "description": "Şelaleler kategorisinin adı"
+  },
   "rivers": "Nehirler",
+  "@rivers": {
+    "description": "Nehirler kategorisinin adı"
+  },
   "lakes": "Göller",
+  "@lakes": {
+    "description": "Göller kategorisinin adı"
+  },
   "leaf": "Yaprak",
+  "@leaf": {
+    "description": "Yaprak kategorisinin adı"
+  },
   "planets": "Gezegenler",
+  "@planets": {
+    "description": "Gezegenler kategorisinin adı"
+  },
   "stars": "Yıldızlar",
+  "@stars": {
+    "description": "Yıldızlar kategorisinin adı"
+  },
   "galaxies": "Galaksiler",
+  "@galaxies": {
+    "description": "Galaksiler kategorisinin adı"
+  },
   "astronauts": "Astronotlar",
+  "@astronauts": {
+    "description": "Astronotlar kategorisinin adı"
+  },
   "buildings": "Binalar",
+  "@buildings": {
+    "description": "Binalar kategorisinin adı"
+  },
   "bridges": "Köprüler",
+  "@bridges": {
+    "description": "Köprüler kategorisinin adı"
+  },
   "skyscrapers": "Gökdelenler",
+  "@skyscrapers": {
+    "description": "Gökdelenler kategorisinin adı"
+  },
   "houses": "Evler",
+  "@houses": {
+    "description": "Evler kategorisinin adı"
+  },
   "furniture": "Mobilyalar",
+  "@furniture": {
+    "description": "Mobilyalar kategorisinin adı"
+  },
   "exteriors": "Dış mekanlar",
+  "@exteriors": {
+    "description": "Dış mekanlar kategorisinin adı"
+  },
   "landmarks": "Simgeler",
+  "@landmarks": {
+    "description": "Simgeler kategorisinin adı"
+  },
   "monuments": "Anıtlar",
+  "@monuments": {
+    "description": "Anıtlar kategorisinin adı"
+  },
   "towers": "Kuleler",
+  "@towers": {
+    "description": "Kuleler kategorisinin adı"
+  },
   "castles": "Kaleler",
+  "@castles": {
+    "description": "Kaleler kategorisinin adı"
+  },
   "fruits": "Meyveler",
+  "@fruits": {
+    "description": "Meyveler kategorisinin adı"
+  },
   "vegetables": "Sebzeler",
+  "@vegetables": {
+    "description": "Sebzeler kategorisinin adı"
+  },
   "desserts": "Tatlılar",
+  "@desserts": {
+    "description": "Tatlılar kategorisinin adı"
+  },
   "beverages": "İçecekler",
+  "@beverages": {
+    "description": "İçecekler kategorisinin adı"
+  },
   "fastFood": "Hızlı yiyecekler",
+  "@fastFood": {
+    "description": "Hızlı yiyecekler kategorisinin adı"
+  },
   "seafood": "Deniz ürünleri",
+  "@seafood": {
+    "description": "Deniz ürünleri kategorisinin adı"
+  },
   "meat": "Et",
+  "@meat": {
+    "description": "Et kategorisinin adı"
+  },
   "dairy": "Süt ürünleri",
+  "@dairy": {
+    "description": "Süt ürünleri kategorisinin adı"
+  },
   "bakedGoods": "Fırın ürünleri",
+  "@bakedGoods": {
+    "description": "Fırın ürünleri kategorisinin adı"
+  },
   "healthyFood": "Sağlıklı yiyecekler",
+  "@healthyFood": {
+    "description": "Sağlıklı yiyecekler kategorisinin adı"
+  },
   "circles": "Daireler",
+  "@circles": {
+    "description": "Daireler kategorisinin adı"
+  },
   "squares": "Kareler",
+  "@squares": {
+    "description": "Kareler kategorisinin adı"
+  },
   "triangles": "Üçgenler",
+  "@triangles": {
+    "description": "Üçgenler kategorisinin adı"
+  },
   "rectangles": "Dikdörtgenler",
+  "@rectangles": {
+    "description": "Dikdörtgenler kategorisinin adı"
+  },
   "hexagons": "Altıgenler",
+  "@hexagons": {
+    "description": "Altıgenler kategorisinin adı"
+  },
   "hearts": "Kalpler",
+  "@hearts": {
+    "description": "Kalpler kategorisinin adı"
+  },
   "spirals": "Sarmallar",
+  "@spirals": {
+    "description": "Sarmallar kategorisinin adı"
+  },
   "diamonds": "Elmaslar",
+  "@diamonds": {
+    "description": "Elmaslar kategorisinin adı"
+  },
   "ovals": "Oval şekiller",
+  "@ovals": {
+    "description": "Oval şekiller kategorisinin adı"
+  },
   "cars": "Arabalar",
+  "@cars": {
+    "description": "Arabalar kategorisinin adı"
+  },
   "motorcycles": "Motosikletler",
+  "@motorcycles": {
+    "description": "Motosikletler kategorisinin adı"
+  },
   "trucks": "Kamyonlar",
+  "@trucks": {
+    "description": "Kamyonlar kategorisinin adı"
+  },
   "bicycles": "Bisikletler",
+  "@bicycles": {
+    "description": "Bisikletler kategorisinin adı"
+  },
   "buses": "Otobüsler",
+  "@buses": {
+    "description": "Otobüsler kategorisinin adı"
+  },
   "trains": "Trenler",
+  "@trains": {
+    "description": "Trenler kategorisinin adı"
+  },
   "airplanes": "Uçaklar",
+  "@airplanes": {
+    "description": "Uçaklar kategorisinin adı"
+  },
   "boats": "Tekneler",
+  "@boats": {
+    "description": "Tekneler kategorisinin adı"
+  },
   "helicopters": "Helikopterler",
+  "@helicopters": {
+    "description": "Helikopterler kategorisinin adı"
+  },
   "scooters": "Scooterlar",
-  "excavators": "Ekskavatörler"
+  "@scooters": {
+    "description": "Scooterlar kategorisinin adı"
+  },
+  "excavators": "Ekskavatörler",
+  "@excavators": {
+    "description": "Ekskavatörler kategorisinin adı"
+  },
+  "subcategories": "Alt kategoriler",
+  "@subcategories": {
+    "description": "Alt kategoriler başlığı"
+  }
 }
