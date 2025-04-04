@@ -29,63 +29,65 @@ class SubcategoryScreen extends StatefulWidget {
 class SubcategoryScreenState extends State<SubcategoryScreen> {
   static final Map<String, List<Map<String, String>>> _categoryCache = {};
   final Map<String, ImageProvider> _imageCache = {};
-  static const String fallbackImage = 'https://via.placeholder.com/300';
+  static const String _fallbackImage = 'https://via.placeholder.com/300';
 
-  late Future<List<Map<String, String>>> subcategories; // Remove 'final' keyword
+  late Future<List<Map<String, String>>> _subcategories;
   String? _selectedTopic;
 
   @override
   void initState() {
     super.initState();
-    subcategories = _getSubcategories(context, widget.category).catchError((error) {
-      if (kDebugMode) print('Error loading subcategories: $error');
-      return <Map<String, String>>[];
+    _loadSubcategories();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _categoryCache.clear();
+    _loadSubcategories();
+  }
+
+  void _loadSubcategories() {
+    setState(() {
+      _subcategories = _getSubcategories(context, widget.category).catchError((error) {
+        if (kDebugMode) print('Error loading subcategories: $error');
+        return <Map<String, String>>[];
+      });
     });
   }
-@override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  // Force refresh translations when dependencies (like localizations) change
-  _categoryCache.clear();
-  setState(() {
-    subcategories = _getSubcategories(context, widget.category);
-  });
+
+Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String category) async {
+  if (_categoryCache.containsKey(category)) {
+    return _categoryCache[category]!;
+  }
+  
+  final topics = _getCategoryTopics(category);
+  final results = await Future.wait(
+    topics.map((topic) => _fetchTopic(context, topic)),
+  );
+  final subcategories = results.whereType<Map<String, String>>().toList();
+  _categoryCache[category] = subcategories;
+  return subcategories;
 }
-  Future<List<Map<String, String>>> _getSubcategories(BuildContext context, String category) async {
-    if (_categoryCache.containsKey(category)) {
-      return _categoryCache[category]!;
-    }
-    final fetched = await fetchSubcategories(context, category);
-    _categoryCache[category] = fetched;
-    return fetched;
+  Map<String, List<String>> get _categoryTopicsMap => {
+    'animals': ['mammals', 'birds', 'reptiles', 'sea-creatures', 'insects', 'amphibians', 
+                'wildlife', 'pets', 'farm-animals', 'baby-animals'],
+    'nature': ['trees', 'flower', 'forests', 'mountains', 'oceans', 'snow', 'sunsets', 
+               'waterfalls', 'rivers', 'lakes', 'leaf'],
+    'space': ['planets', 'stars', 'galaxies', 'astronauts'],
+    'architecture': ['buildings', 'bridges', 'skyscrapers', 'houses', 'furniture', 
+                     'exteriors', 'landmarks', 'monuments', 'towers', 'castles'],
+    'food-drink': ['fruits', 'vegetables', 'desserts', 'beverages', 'fast-food', 
+                   'seafood', 'meat', 'dairy', 'baked-goods', 'healthy-food'],
+    'shapes': ['circles', 'squares', 'triangles', 'rectangles', 'hexagons', 
+               'hearts', 'spirals', 'diamonds', 'ovals'],
+    'vehicles': ['cars', 'motorcycles', 'trucks', 'bicycles', 'buses', 'trains', 
+                 'airplanes', 'boats', 'helicopters', 'scooters', 'excavators'],
+  };
+
+  List<String> _getCategoryTopics(String category) {
+    return _categoryTopicsMap[category.toLowerCase()] ?? [];
   }
-
-  Future<List<Map<String, String>>> fetchSubcategories(BuildContext context, String category) async {
-    final topics = _getCategoryTopics(category);
-
-    final results = await Future.wait(
-      topics.map((topic) => _fetchTopic(context, topic)),
-    );
-    return results
-        .where((item) => item != null)
-        .cast<Map<String, String>>()
-        .toList();
-  }
-
-
-List _getCategoryTopics(String category) {
-    return {
-      'animals': ['mammals', 'birds', 'reptiles', 'sea-creatures', 'insects', 'amphibians', 'wildlife', 'pets', 'farm-animals','baby-animals'],
-      'nature': ['trees','flower','forests', 'mountains', 'oceans', 'snow','sunsets','waterfalls','rivers','lakes','leaf'],
-      'space': ['planets', 'stars', 'galaxies', 'astronauts'],
-      'architecture': ['buildings', 'bridges', 'skyscrapers', 'houses', 'furniture', 'exteriors', 'landmarks', 'monuments', 'towers', 'castles'],
-      'food-drink': ['fruits', 'vegetables', 'desserts','beverages','fast-food','seafood','meat','dairy','baked-goods','healthy-food'],
-      'shapes': ['circles', 'squares', 'triangles', 'rectangles', 'hexagons',  'hearts', 'spirals', 'diamonds', 'ovals'],
-      'vehicles': ['cars', 'motorcycles', 'trucks', 'bicycles', 'buses', 'trains', 'airplanes', 'boats', 'helicopters', 'scooters','excavators']
-    
-    }[category.toLowerCase()] ?? [];
-  }
-
 
   Future<Map<String, String>?> _fetchTopic(BuildContext context, String topic) async {
     try {
@@ -94,7 +96,7 @@ List _getCategoryTopics(String category) {
       }
 
       final response = await http.get(Uri.parse(
-          'https://api.unsplash.com/search/photos?query=$topic&client_id=${UnsplashService.accessKey}&per_page=1'));
+        'https://api.unsplash.com/search/photos?query=$topic&client_id=${UnsplashService.accessKey}&per_page=1'));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -107,21 +109,25 @@ List _getCategoryTopics(String category) {
     } catch (e) {
       if (kDebugMode) print('Error fetching topic $topic: $e');
     }
-    return _createSubcategoryItem(context, topic, fallbackImage);
+    return _createSubcategoryItem(context, topic, _fallbackImage);
   }
 
   Map<String, String> _createSubcategoryItem(BuildContext context, String topic, String image) {
-    final localizations = AppLocalizations.of(context);
-    final translatedName = _getTranslatedTopic(localizations, topic);
     return {
-      'name': translatedName,
+      'name': _getTranslatedTopic(context, topic),
       'query': topic,
       'image': image,
     };
   }
 
-  String _getTranslatedTopic(AppLocalizations? localizations, String topic) {
-    final translations = {
+  String _getTranslatedTopic(BuildContext context, String topic) {
+    final localizations = AppLocalizations.of(context);
+    final translations = _getTranslationMap(localizations);
+    return translations[topic] ?? topic.replaceAll('-', ' ').toUpperCase();
+  }
+
+  Map<String, String?> _getTranslationMap(AppLocalizations? localizations) {
+    return {
       'mammals': localizations?.mammals,
       'birds': localizations?.birds,
       'reptiles': localizations?.reptiles,
@@ -188,25 +194,25 @@ List _getCategoryTopics(String category) {
       'scooters': localizations?.scooters,
       'excavators': localizations?.excavators,
     };
-    return translations[topic] ?? topic.replaceAll('-', ' ').toUpperCase();
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    final category = widget.category;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.category} Subcategories'),
+        title: Text('$category ${localizations?.subcategories ?? 'Subcategories'}'),
         backgroundColor: Colors.orangeAccent,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTitle(widget.category, localizations),
+       //   _buildTopicFilter(context, category, localizations),
           Expanded(
             child: FutureBuilder<List<Map<String, String>>>(
-              future: subcategories,
+              future: _subcategories,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -223,64 +229,68 @@ List _getCategoryTopics(String category) {
     );
   }
 
-  Widget _buildTitle(String category, AppLocalizations? localizations) {
+/*   Widget _buildTopicFilter(BuildContext context, String category, AppLocalizations? localizations) {
     final topics = _getCategoryTopics(category);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-      child: Wrap(
-        spacing: 8,
-        children: topics.map((topic) {
-          final translated = _getTranslatedTopic(localizations, topic);
-          return ChoiceChip(
-            label: Text(translated),
-            selected: _selectedTopic == topic,
-            onSelected: (selected) {
-              setState(() {
-                _selectedTopic = selected ? topic : null;
-              });
-            },
-          );
-        }).toList(),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: topics.map((topic) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ChoiceChip(
+                label: Text(_getTranslatedTopic(context, topic)),
+                selected: _selectedTopic == topic,
+                onSelected: (selected) {
+                  setState(() {
+                    _selectedTopic = selected ? topic : null;
+                  });
+                },
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
-
+ */
   Widget _buildErrorState() => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, size: 48, color: Colors.red),
-            const SizedBox(height: 16),
-            const Text('Failed to load subcategories'),
-            TextButton(
-              onPressed: () => setState(() {}),
-              child: const Text('Retry'),
-            ),
-          ],
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.error_outline, size: 48, color: Colors.red),
+        const SizedBox(height: 16),
+        Text(AppLocalizations.of(context)?.loadError ?? 'Failed to load subcategories'),
+        TextButton(
+          onPressed: _loadSubcategories,
+          child: Text(AppLocalizations.of(context)?.loadErrorRetry ?? 'Retry'),
         ),
-      );
+      ],
+    ),
+  );
 
   Widget _buildGrid(List<Map<String, String>> items) {
+    final filteredItems = _selectedTopic != null
+        ? items.where((item) => item['query'] == _selectedTopic).toList()
+        : items;
+
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(12),
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 12.0,
-          mainAxisSpacing: 12.0,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
           childAspectRatio: 1.0,
         ),
-        itemCount: items.length,
-        itemBuilder: (context, index) => _SubcategoryCard(item: items[index]),
+        itemCount: filteredItems.length,
+        itemBuilder: (context, index) => _SubcategoryCard(item: filteredItems[index]),
       ),
     );
   }
-
-
-  
 }
-
 
 class _SubcategoryCard extends StatelessWidget {
   final Map<String, String> item;
@@ -290,16 +300,12 @@ class _SubcategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        borderRadius: BorderRadius.circular(16.0),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PictureDisplayScreen(query: item['query']!),
-          ),
-        ),
+        onTap: () => _navigateToPictureScreen(context),
         child: Stack(
+          fit: StackFit.expand,
           children: [
             _buildImage(),
             _buildOverlay(),
@@ -310,25 +316,28 @@ class _SubcategoryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImage() {
-    return Positioned.fill(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16.0),
-        child: CachedNetworkImage(
-          cacheManager: _customCacheManager,
-          imageUrl: item['image']!,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => _buildPlaceholder(),
-          errorWidget: (context, url, error) => _buildPlaceholder(),
-        ),
+  void _navigateToPictureScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PictureDisplayScreen(query: item['query']!),
       ),
     );
   }
 
+  Widget _buildImage() {
+    return CachedNetworkImage(
+      cacheManager: _customCacheManager,
+      imageUrl: item['image']!,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => _buildPlaceholder(),
+      errorWidget: (context, url, error) => _buildPlaceholder(),
+    );
+  }
+
   Widget _buildOverlay() {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -339,27 +348,27 @@ class _SubcategoryCard extends StatelessWidget {
   }
 
   Widget _buildTitle() {
-    
-    return Positioned(
-      left: 12,
-      right: 12,
-      bottom: 12,
-      child: Text(
-        item['name']!,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Text(
+          item['name']!,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 
   Widget _buildPlaceholder() {
-    return Container(
-      color: Colors.grey[200],
-      child: const Center(
-        child: Icon(Icons.image, size: 40, color: Colors.grey),
+    return const ColoredBox(
+      color: Colors.grey,
+      child: Center(
+        child: Icon(Icons.image, size: 40, color: Colors.white),
       ),
     );
   }
