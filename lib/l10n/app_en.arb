@@ -86,13 +86,37 @@
   "@suggestion_message": {
     "description": "Suggestion message"
   },
-  "suggestionTitle": "send Suggestions",
+  "suggestionTitle": "Your Suggestion",
   "@suggestionTitle": {
     "description": "suggestionTitle"
   },
-  "suggestion_placeholder": "Enter your suggestion",
+  "suggestion_placeholder": "Enter your suggestion here...",
   "@suggestion_placeholder": {
     "description": "Suggestion placeholder"
+  },
+  "suggestionValidationEmpty": "Please enter a suggestion",
+  "@suggestionValidationEmpty": {
+    "description": "Suggestion validation error message"
+  },
+  "suggestionValidationLength": "Suggestion must be less than 10 characters",
+  "@suggestionValidationLength": {
+    "description": "Suggestion validation length error message"
+  },
+  "emailLabel": "Email (optional)",
+  "@emailLabel": {
+    "description": "Email label"
+  },
+  "emailHint": "Enter your email if you want a response",
+  "@emailHint": {
+    "description": "Email hint"
+  },
+  "categoryLabel" : "Category (optional)",
+  "@categoryLabel" : {
+    "description": "Category label"
+  },
+  "categoryHint" : "E.g., Feature Request, Bug Report, etc.",
+  "@categoryHint" : {
+    "description": "Category hint"
   },
   "submit": "Send Suggestions",
   "@submit": {

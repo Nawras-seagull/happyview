@@ -361,11 +361,31 @@
   "@suggestion_message": {},
   "suggestionTitle": "اقتراحات",
   "@suggestionTitle": {},
-  "submit": "إرسال",
-  "@submit": {},
   "suggestion_placeholder": "اكتب اقتراحك هنا",
   "@suggestion_placeholder": {},
-  "suggestion_error": "الرجاء كتابة اقتراح",
+  "suggestionValidationEmpty": "الرجاء إدخال اقتراح",
+  "@suggestionValidationEmpty": {},
+  "suggestionValidationLength": "الرجاء إدخال اقتراح لا يقل عن 10 أحرف",
+  "@suggestionValidationLength": {},
+  "emailLabel": "البريد الإلكتروني (اختياري)",
+  "@emailLabel": {
+    "description": "تسمية حقل البريد الإلكتروني"
+  },
+  "emailHint": "أدخل بريدك الإلكتروني اذا كنت ترغب في تلقي رد",
+  "@emailHint": {
+    "description": "تلميح حقل البريد الإلكتروني"
+  },
+  "categoryLabel" :"الفئة (اختياري)",
+  "@categoryLabel": {
+    "description": "تسمية حقل الفئة"
+  },
+  "categoryHint" : "مثال: الحيوانات، الطبيعة، الفضاء",
+  "@categoryHint": {
+    "description": "تلميح حقل الفئة"
+  },
+  "submit": "إرسال اقتراح",
+  "@submit": {},
+  "suggestion_error": "اكتب اقتراحك",
   "@suggestion_error": {},
   "suggestion_subtitle": "أرسل لنا اقتراحاتك واستفساراتك",
   "@suggestion_subtitle": {},
