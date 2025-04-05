@@ -1,0 +1,16 @@
+{
+    "blocked_words": [
+      "badword1",
+      "badword2",
+      "violence",
+      "drugs",
+      "blood",
+      "sex",
+      "hate",
+      "kill",
+      "gun",
+      "weapon",
+      "inappropriate"
+      
+    ]
+  }

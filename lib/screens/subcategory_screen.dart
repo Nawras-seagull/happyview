@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:happy_view/screens/query_result.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
-import 'picture_display_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final _customCacheManager = CacheManager(
@@ -84,7 +84,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
           'wildlife',
           'pets',
           'farm-animals',
-          'baby-animals'
+          'baby-animals',
+          'dinosaurs',
         ],
         'nature': [
           'trees',
@@ -260,6 +261,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
       'helicopters': localizations?.helicopters,
       'scooters': localizations?.scooters,
       'excavators': localizations?.excavators,
+      'dinosaurs': localizations?.dinosaurs,
     };
   }
 
@@ -365,7 +367,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      PictureDisplayScreen(query: item['query'] ?? ''),
+                      UnifiedPictureScreen(query: item['query'] ?? ''),
                 ),
               );
             },

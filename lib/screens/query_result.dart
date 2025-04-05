@@ -1,5 +1,5 @@
-import 'dart:async'; // For debounce
-import 'dart:math'; // Import for random number generation
+import 'dart:async';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,28 +10,47 @@ import 'package:happy_view/widgets/animated_panda.dart';
 import 'package:happy_view/widgets/download_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class PictureDisplayScreen extends StatefulWidget {
-  final String query;
+class UnifiedPictureScreen extends StatefulWidget {
+  final String? query; // For subcategory display
+  final List<dynamic>? initialResults; // For search results
 
-  const PictureDisplayScreen({super.key, required this.query});
+  const UnifiedPictureScreen({
+    super.key,
+    this.query,
+    this.initialResults,
+  }) : assert(query != null || initialResults != null, 
+           'Either query or initialResults must be provided');
 
   @override
-  PictureDisplayScreenState createState() => PictureDisplayScreenState();
+  UnifiedPictureScreenState createState() => UnifiedPictureScreenState();
 }
 
-class PictureDisplayScreenState extends State<PictureDisplayScreen> {
+class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   final List<Map<String, dynamic>> _images = [];
   int _page = 1;
   bool _isLoading = false;
   bool _hasMore = true;
   final ScrollController _scrollController = ScrollController();
-  final String _selectedSubcategory = 'All';
-  Timer? _debounce; // For debouncing scroll events
+  Timer? _debounce;
+  String _currentQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _fetchImages(randomizePage: true); // Fetch random images on screen load
+    
+    if (widget.initialResults != null) {
+      // Convert search results to our image format
+      _images.addAll(widget.initialResults!.map((result) => {
+        'url': result['urls']['small'],
+        'user': result['user'],
+        'links': result['links'],
+      }));
+      _hasMore = false; // Search results are typically a single page
+    } else if (widget.query != null) {
+      _currentQuery = widget.query!;
+      _fetchImages(randomizePage: true);
+    }
+    
     _scrollController.addListener(_onScroll);
   }
 
@@ -42,75 +61,51 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
     super.dispose();
   }
 
-  // Fetch images from Unsplash
   Future<void> _fetchImages({bool randomizePage = false}) async {
     if (_isLoading || !_hasMore) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     try {
-      // Generate a random page number if randomizePage is true
       if (randomizePage) {
         final random = Random();
-        _page =
-            random.nextInt(50) + 1; // Assuming Unsplash has at least 50 pages
+        _page = random.nextInt(50) + 1;
       }
 
-
-
-
       final newImages = await UnsplashService.fetchImages(
-        widget.query,
+        _currentQuery,
         page: _page,
-        subcategory: _selectedSubcategory == 'All' ? '' : _selectedSubcategory,
       );
 
       if (newImages.isEmpty) {
-        setState(() {
-          _hasMore = false;
-        });
+        setState(() => _hasMore = false);
       } else {
         setState(() {
           _images.addAll(newImages);
           _page++;
         });
-
-        // Shuffle the images locally (optional)
         _images.shuffle();
       }
     } catch (e) {
       _showErrorSnackbar('Failed to load images. Please try again.');
-      if (kDebugMode) {
-        print('Error fetching images: $e');
-      }
-
-
-
-
-      
+      if (kDebugMode) print('Error fetching images: $e');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
-  // Show error message in a Snackbar
- void _showErrorSnackbar(String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(message),
-      action: SnackBarAction(
-        label: 'Retry',
-        onPressed: _fetchImages,
+  void _showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+          label: 'Retry',
+          onPressed: _fetchImages,
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-  // Debounced scroll listener
   void _onScroll() {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 200), () {
@@ -122,7 +117,6 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
     });
   }
 
-  // Navigate to the full-screen image viewer
   void _openFullScreenImage(int index) {
     Navigator.push(
       context,
@@ -130,7 +124,7 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
         builder: (context) => FullScreenImageViewer(
           images: _images,
           initialIndex: index,
-          query: widget.query,
+          query: _currentQuery,
         ),
       ),
     );
@@ -140,60 +134,69 @@ class PictureDisplayScreenState extends State<PictureDisplayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.query),
+        title: Text(widget.query ?? 'Search Results'),
       ),
       body: Column(
         children: [
-          // Image Grid
           Expanded(
-            child: GridView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(16.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: _images.length + (_hasMore ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == _images.length) {
-                  return const Center(child: SpinKitThreeInOut( 
-                    color: Color.fromARGB(255, 8, 127, 148),
-                    size: 30.0,
-                  ));
-                }
-                final image = _images[index];
-                return GestureDetector(
-                  onTap: () => _openFullScreenImage(index),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      imageUrl: image['url'],
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: SpinKitThreeInOut( 
+            child: _images.isEmpty && !_isLoading
+                ? Center(
+                    child: Text(
+                      'No images found',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  )
+                : GridView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(16.0),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16.0,
+                      mainAxisSpacing: 16.0,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemCount: _images.length + (_hasMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == _images.length) {
+                        return const Center(
+                          child: SpinKitThreeInOut(
                             color: Color.fromARGB(255, 8, 127, 148),
                             size: 30.0,
-                          )),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
+                          ),
+                        );
+                      }
+                      final image = _images[index];
+                      return GestureDetector(
+                        onTap: () => _openFullScreenImage(index),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: CachedNetworkImage(
+                            imageUrl: image['url'],
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                const Center(child: SpinKitThreeInOut(
+                                  color: Color.fromARGB(255, 8, 127, 148),
+                                  size: 30.0,
+                                )),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
-            // The fun panda
-    AnimatedPanda()
+          AnimatedPanda(),
         ],
       ),
     );
-    
   }
 }
 
-// Full-Screen Image Viewer
+// FullScreenImageViewer remains the same as in your original code
 class FullScreenImageViewer extends StatefulWidget {
   final List<Map<String, dynamic>> images;
   final int initialIndex;

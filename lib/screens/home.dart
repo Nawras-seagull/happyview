@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:happy_view/screens/query_result.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
-import 'package:happy_view/screens/search_screen.dart';
 import 'package:happy_view/widgets/categories.dart';
 import 'package:happy_view/widgets/random_picture_helper.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
-import 'search_screen.dart';
+
 
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
@@ -63,13 +63,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
-  List<dynamic> _searchResults = [];
 
-  void _handleSearch(List<dynamic> results) {
-    setState(() {
-      _searchResults = results;
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +101,10 @@ class _HomeScreenState extends State<HomeScreen> {
           FunSearchBar(onSearch: (List<dynamic> results) {
             // Navigate to the SearchScreen and pass the search results
             Navigator.push(
+
               context,
               MaterialPageRoute(
-                builder: (context) => SearchScreen(searchResults: results),
+      builder: (context) => UnifiedPictureScreen(initialResults: results),
               ),
             );
           }),

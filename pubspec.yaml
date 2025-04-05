@@ -48,3 +48,6 @@ flutter:
     - lib/assets/images/
     - lib/l10n/
     - assets/sounds/yay.wav
+    - assets/profanity/en.json
+    - assets/profanity/ar.json
+    - assets/profanity/tr.json

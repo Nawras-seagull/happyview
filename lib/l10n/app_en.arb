@@ -486,6 +486,10 @@
   "@excavators": {
     "description": "Excavators category name"
   },
+  "dinosaurs": "Dinosaurs",
+  "@dinosaurs": {
+    "description": "Dinosaurs category name"
+  },
   "subcategories": "Subcategories",
   "@subcategories": {
     "description": "Subcategories title"

@@ -411,6 +411,10 @@
   "@excavators": {
     "description": "Ekskavatörler kategorisinin adı"
   },
+  "dinosaurs": "Dinozorlar",
+  "@dinosaurs": {
+    "description": "Dinozorlar kategorisinin adı"
+  },
   "subcategories": "Alt kategoriler",
   "@subcategories": {
     "description": "Alt kategoriler başlığı"
