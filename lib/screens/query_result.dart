@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -24,7 +23,7 @@ class UnifiedPictureScreen extends StatefulWidget {
   @override
   UnifiedPictureScreenState createState() => UnifiedPictureScreenState();
 }
-
+////////////////////////
 class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   final List<Map<String, dynamic>> _images = [];
   int _page = 1;
@@ -37,20 +36,27 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   @override
   void initState() {
     super.initState();
-    
-    if (widget.initialResults != null) {
-      // Convert search results to our image format
-      _images.addAll(widget.initialResults!.map((result) => {
+
+    // In query_result.dart
+if (widget.initialResults != null) {
+  // Convert search results to our image format
+  _images.addAll(widget.initialResults!.map((result) => {
         'url': result['urls']['small'],
         'user': result['user'],
         'links': result['links'],
       }));
-      _hasMore = false; // Search results are typically a single page
-    } else if (widget.query != null) {
-      _currentQuery = widget.query!;
-      _fetchImages(randomizePage: true);
-    }
+  
+  // Set the current query
+  if (widget.query != null) {
+    _currentQuery = widget.query!;
+  }
+}
     
+     else if (widget.query != null) {
+      _currentQuery = widget.query!;
+      _fetchImages();
+    }
+
     _scrollController.addListener(_onScroll);
   }
 
@@ -61,17 +67,12 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
     super.dispose();
   }
 
-  Future<void> _fetchImages({bool randomizePage = false}) async {
+  Future<void> _fetchImages() async {
     if (_isLoading || !_hasMore) return;
 
     setState(() => _isLoading = true);
 
     try {
-      if (randomizePage) {
-        final random = Random();
-        _page = random.nextInt(50) + 1;
-      }
-
       final newImages = await UnsplashService.fetchImages(
         _currentQuery,
         page: _page,
@@ -84,13 +85,21 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
           _images.addAll(newImages);
           _page++;
         });
-        _images.shuffle();
       }
     } catch (e) {
       _showErrorSnackbar('Failed to load images. Please try again.');
       if (kDebugMode) print('Error fetching images: $e');
     } finally {
       setState(() => _isLoading = false);
+    }
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        _hasMore &&
+        !_isLoading) {
+      _fetchImages();
     }
   }
 
@@ -104,17 +113,6 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
         ),
       ),
     );
-  }
-
-  void _onScroll() {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 200), () {
-      if (_scrollController.position.pixels ==
-              _scrollController.position.maxScrollExtent &&
-          _hasMore) {
-        _fetchImages();
-      }
-    });
   }
 
   void _openFullScreenImage(int index) {
@@ -196,7 +194,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   }
 }
 
-// FullScreenImageViewer remains the same as in your original code
+// FullScreenImageViewer 
 class FullScreenImageViewer extends StatefulWidget {
   final List<Map<String, dynamic>> images;
   final int initialIndex;
@@ -210,8 +208,7 @@ class FullScreenImageViewer extends StatefulWidget {
   });
 
   @override
-  FullScreenImageViewerState createState() => FullScreenImageViewerState();
-}
+  FullScreenImageViewerState createState() => FullScreenImageViewerState();}
 
 class FullScreenImageViewerState extends State<FullScreenImageViewer> {
   late PageController _pageController;

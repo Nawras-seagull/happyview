@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:happy_view/services/profanity_filter.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:translator/translator.dart'; // A popular Flutter translation package
+/////////////
 class FunSearchBar extends StatefulWidget {
-  final Function(List<dynamic>) onSearch;
+  final Function(List<dynamic>, String) onSearch;
 
   const FunSearchBar({Key? key, required this.onSearch}) : super(key: key);
 
@@ -17,6 +18,7 @@ class FunSearchBar extends StatefulWidget {
 class _FunSearchBarState extends State<FunSearchBar> {
   final TextEditingController _controller = TextEditingController();
   //List<String> _blockedWords = [];
+final GoogleTranslator translator = GoogleTranslator();
 
   @override
   void initState() {
@@ -35,20 +37,7 @@ class _FunSearchBarState extends State<FunSearchBar> {
 
   }
 
-/* 
-  Future<void> _loadBlockedWords() async {
-    try {
-      final String jsonString =
-          await rootBundle.loadString('assets/blocked_words.json');
-      final data = json.decode(jsonString) as Map<String, dynamic>;
-      setState(() {
-        _blockedWords = List<String>.from(data['blocked_words'] ?? []);
-      });
-    } catch (e) {
-      print('Failed to load blocked words: $e');
-    }
-  }
- */
+
   Future<void> _onSubmit() async {
     final query = _controller.text.trim();
 
@@ -67,9 +56,32 @@ class _FunSearchBarState extends State<FunSearchBar> {
       }
 
       HapticFeedback.lightImpact(); // Small vibration effect
-
-      final url =
-          'https://api.unsplash.com/search/photos?query=$query&client_id=${UnsplashService.accessKey}&per_page=20';
+// Translate query to English if not already in English
+    String englishQuery = query;
+    try {
+      // Translate to English
+      var translation = await translator.translate(query, to: 'en');
+      englishQuery = translation.text;
+      
+      print('Original query: "$query"');
+      print('Translated query: "$englishQuery"');
+      
+      // Show translation notification
+      if (englishQuery != query) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Translated: "$query" → "$englishQuery"'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Translation error: $e');
+      // Fall back to original query if translation fails
+    }
+      // Properly encode the URL parameters
+    final encodedQuery = Uri.encodeComponent(englishQuery);
+    final url = 'https://api.unsplash.com/search/photos?query=$encodedQuery&client_id=${UnsplashService.accessKey}&per_page=20';
 
       try {
         final response = await http.get(Uri.parse(url));
@@ -77,7 +89,7 @@ class _FunSearchBarState extends State<FunSearchBar> {
           final data = json.decode(response.body) as Map<String, dynamic>;
           final results = data['results'] as List<dynamic>;
 
-          widget.onSearch(results);
+        widget.onSearch(results, englishQuery);
           _controller.clear(); // Clear after search
         } else {
           print('Error: ${response.statusCode}');

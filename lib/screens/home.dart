@@ -98,16 +98,20 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           // Search Bar
-          FunSearchBar(onSearch: (List<dynamic> results) {
-            // Navigate to the SearchScreen and pass the search results
-            Navigator.push(
-
-              context,
-              MaterialPageRoute(
-      builder: (context) => UnifiedPictureScreen(initialResults: results),
-              ),
-            );
-          }),
+          
+       // In home.dart (HomeScreen)
+FunSearchBar(onSearch: (List<dynamic> results, String query) {
+  // Navigate to the SearchScreen with both search results and the query
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => UnifiedPictureScreen(
+        initialResults: results,
+        query: query,  // Now passing the query from FunSearchBar
+      ),
+    ),
+  );
+}),
           
          // Grid of Categories
           Expanded(
