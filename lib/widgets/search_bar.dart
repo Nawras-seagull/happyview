@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happy_view/services/profanity_filter.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,12 +16,50 @@ class FunSearchBar extends StatefulWidget {
 
 class _FunSearchBarState extends State<FunSearchBar> {
   final TextEditingController _controller = TextEditingController();
+  //List<String> _blockedWords = [];
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Load bad words from multiple JSON files
+ profanityFilter.loadBadWords('assets/profanity/en.json').then((_) {
+    print('Loaded en.json');
+  });
+  profanityFilter.loadBadWords('assets/profanity/ar.json').then((_) {
+    print('Loaded ar.json');
+  });
+  profanityFilter.loadBadWords('assets/profanity/tr.json').then((_) {
+    print('Loaded tr.json');
+  });
+
+  }
+
+/* 
+  Future<void> _loadBlockedWords() async {
+    try {
+      final String jsonString =
+          await rootBundle.loadString('assets/blocked_words.json');
+      final data = json.decode(jsonString) as Map<String, dynamic>;
+      setState(() {
+        _blockedWords = List<String>.from(data['blocked_words'] ?? []);
+      });
+    } catch (e) {
+      print('Failed to load blocked words: $e');
+    }
+  }
+ */
   Future<void> _onSubmit() async {
     final query = _controller.text.trim();
 
     if (query.isNotEmpty) {
-      if (!_isSafeSearch(query)) {
+      /*  if (!_isSafeSearch(query)) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please enter a safe search term.')),
+        );
+        return;
+      } */
+      if (profanityFilter.containsBadWords(query)) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please enter a safe search term.')),
         );
@@ -38,11 +77,8 @@ class _FunSearchBarState extends State<FunSearchBar> {
           final data = json.decode(response.body) as Map<String, dynamic>;
           final results = data['results'] as List<dynamic>;
 
-          // Pass the results to the parent widget via the onSearch callback
           widget.onSearch(results);
-
-          // Clear the text field after the search
-          _controller.clear();
+          _controller.clear(); // Clear after search
         } else {
           print('Error: ${response.statusCode}');
         }
@@ -52,24 +88,21 @@ class _FunSearchBarState extends State<FunSearchBar> {
     }
   }
 
-  bool _isSafeSearch(String query) {
-    final List<String> blockedWords = [
-      'badword1',
-      'badword2',
-      'violence',
-      'drugs',
-      'blood',
-      'sex',
-      'hate',
-      'kill',
-      'gun',
-      'weapon',
-      'inappropriate',
-      // Add more as needed
-    ];
-
+/*   bool _isSafeSearch(String query) {
     final lowerQuery = query.toLowerCase();
-    return !blockedWords.any((word) => lowerQuery.contains(word));
+    return !_blockedWords.any((word) => lowerQuery.contains(word));
+  } */
+
+  final profanityFilter = ProfanityFilter();
+
+  void checkMessage(String input) {
+    if (profanityFilter.containsBadWords(input)) {
+      print('Profanity detected!');
+    } else {
+      print('Clean!');
+    }
+
+    print('Censored: ${profanityFilter.censor(input)}');
   }
 
   @override
@@ -78,8 +111,7 @@ class _FunSearchBarState extends State<FunSearchBar> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 16.0), // Add left and right padding
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: TextField(
             controller: _controller,
             decoration: InputDecoration(
@@ -90,12 +122,10 @@ class _FunSearchBarState extends State<FunSearchBar> {
               contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
               suffixIcon: IconButton(
                 icon: Icon(Icons.search),
-                onPressed:
-                    _onSubmit, // Trigger the search when the icon is pressed
+                onPressed: _onSubmit,
               ),
             ),
-            onSubmitted: (_) =>
-                _onSubmit(), // Trigger the search when "Enter" is pressed
+            onSubmitted: (_) => _onSubmit(),
           ),
         ),
         const SizedBox(height: 6),

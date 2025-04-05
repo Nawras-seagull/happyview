@@ -353,6 +353,10 @@
   "@excavators": {
     "description": "اسم فئة الحفارات"
   },
+  "dinosaurs": "ديناصورات",
+  "@dinosaurs": {
+    "description": "اسم فئة الديناصورات"
+  },
   "subcategories": "فئات فرعية",
   "@subcategories": {
     "description": "عنوان الفئات الفرعية"
