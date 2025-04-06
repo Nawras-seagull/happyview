@@ -521,6 +521,17 @@
   "safeSearchEnabled":"🔒 Safe search is ON",
   "@safeSearchEnabled": {
     "description": "Safe search enabled message"
+  },
+  "photoBy": "Photo by ",
+  "@photoBy": {
+    "description": "Photo by label"
+  },
+  "unknownPhotographer" : "Unknown Photographer",
+  "@unknownPhotographer" : {
+    "description": "Unknown photographer label"
+  },
+  "on":" on ",
+  "@on": {
+    "description": "On label"
   }
-  
 }

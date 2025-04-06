@@ -438,5 +438,17 @@
   "safeSearchEnabled": "Güvenli arama etkinleştirildi 🔒",
   "@safeSearchEnabled": {
     "description": "Güvenli arama etkinleştirildi durumu"
+  },
+  "photoBy": "Fotoğraf: ",
+  "@photoBy": {
+    "description": "Fotoğrafın sahibi"
+  },
+  "unknownPhotographer" : "Bilinmeyen fotoğrafçı",
+  "@unknownPhotographer" : {
+    "description": "Bilinmeyen fotoğrafçı durumu"
+  },
+  "on": "üzerinde bulundu",
+  "@on": {
+    "description": "Üzerinde durumu"
   }
 }

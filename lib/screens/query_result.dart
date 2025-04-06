@@ -41,9 +41,11 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
 if (widget.initialResults != null) {
   // Convert search results to our image format
   _images.addAll(widget.initialResults!.map((result) => {
-        'url': result['urls']['small'],
+        'url': result['urls']['regular'],
         'user': result['user'],
         'links': result['links'],
+        'location': result['location'] ?? '',
+
       }));
   
   // Set the current query
@@ -289,8 +291,12 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
           localizations.imageIndex(_currentIndex + 1, widget.images.length),
         ),
         actions: [
-          DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
+          DownloadButton(imageUrl: widget.images[_currentIndex]['url'],
+                          location: widget.images[_currentIndex]['location'],
+                          ),
+                          
         ],
+       
       ),
       body: Stack(
         children: [
