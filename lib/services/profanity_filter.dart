@@ -7,7 +7,7 @@ class ProfanityFilter {
   Future<void> loadBadWords(String path) async {
     final String jsonString = await rootBundle.loadString(path);
     final List<dynamic> decoded = json.decode(jsonString);
-    _badWords = (decoded as List<dynamic>).map((word) => word.toString().toLowerCase()).toList();
+    _badWords = (decoded).map((word) => word.toString().toLowerCase()).toList();
   }
 
   bool containsBadWords(String text) {

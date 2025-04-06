@@ -134,7 +134,9 @@ if (widget.initialResults != null) {
       appBar: AppBar(
         title: Text(widget.query ?? 'Search Results'),
       ),
-      body: Column(
+       body: Stack(  // Changed from Column to Stack
+      children: [
+        Column(
         children: [
           Expanded(
             child: _images.isEmpty && !_isLoading
@@ -186,14 +188,23 @@ if (widget.initialResults != null) {
                       );
                     },
                   ),
+                  
           ),
-          AnimatedPanda(),
+     
         ],
       ),
-    );
-  }
+    // Now the AnimatedPanda can be a direct child of Stack
+         const Positioned(
+          bottom: -1,
+          left: 0,
+          right: 0, 
+          child: AnimatedPanda(),
+        ),
+      ],
+    ),
+  );
 }
-
+}
 // FullScreenImageViewer 
 class FullScreenImageViewer extends StatefulWidget {
   final List<Map<String, dynamic>> images;
@@ -267,55 +278,57 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
       });
     }
   }
-@override
-Widget build(BuildContext context) {
-  final localizations = AppLocalizations.of(context)!;
 
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(
-        localizations.imageIndex(_currentIndex + 1, widget.images.length)
+  @override
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          localizations.imageIndex(_currentIndex + 1, widget.images.length),
+        ),
+        actions: [
+          DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
+        ],
       ),
-      actions: [
-        DownloadButton(imageUrl: widget.images[_currentIndex]['url']),
-      ],
-    ),
-    body: Stack(
-      children: [
-        PageView.builder(
-          controller: _pageController,
-          itemCount: widget.images.length,
-          itemBuilder: (context, index) {
-            final image = widget.images[index];
-            return InteractiveViewer(
-              panEnabled: true,
-              minScale: 1.0,
-              maxScale: 3.0,
-              child: CachedNetworkImage(
-                imageUrl: image['url'],
-                fit: BoxFit.contain,
-                placeholder: (context, url) =>
-                    Center(child: SpinKitThreeInOut( 
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
-                          )),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            );
-          },
-        ),
-        // Attribution positioned at the bottom
-        Positioned(
-          left: 16,
-          right: 16,
-          bottom: 16,
-          child: UnsplashAttribution.buildAttribution(
-            context, 
-            widget.images[_currentIndex],
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            itemCount: widget.images.length,
+            itemBuilder: (context, index) {
+              final image = widget.images[index];
+              return InteractiveViewer(
+                panEnabled: true,
+                minScale: 1.0,
+                maxScale: 3.0,
+                child: CachedNetworkImage(
+                  imageUrl: image['url'],
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => Center(
+                    child: SpinKitThreeInOut(
+                      color: Color.fromARGB(255, 8, 127, 148),
+                      size: 30.0,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              );
+            },
           ),
-        ),
-      ],
-    ),
-  );
-}
+          // Attribution positioned at the bottom
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 16,
+            child: UnsplashAttribution.buildAttribution(
+              context, 
+              widget.images[_currentIndex],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -9,48 +9,114 @@ import 'package:happy_view/widgets/random_picture_helper.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
-
+import 'package:flutter/foundation.dart';
 
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
   return json.decode(responseBody);
 }
 
-class CategoryTile extends StatelessWidget {
+// Use compute to offload JSON parsing
+Future<Map<String, dynamic>> parseJsonInBackground(String responseBody) async {
+  return await compute(parseJson, responseBody);
+}
+
+class CategoryTile extends StatefulWidget {
   final String name;
   final String image;
   final String query;
   final VoidCallback onTap;
 
-  const CategoryTile(
-      {required this.name,
-      required this.image,
-      required this.query,
-      required this.onTap,
-      super.key});
+  const CategoryTile({
+    required this.name,
+    required this.image,
+    required this.query,
+    required this.onTap,
+    super.key,
+  });
+
+  @override
+  _CategoryTileState createState() => _CategoryTileState();
+}
+
+class _CategoryTileState extends State<CategoryTile>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _rotationAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the animation controller
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    // Define the scale animation (zoom in effect)
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    // Define the rotation animation (wiggle effect)
+    _rotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              image, height: 150, width: 150,
-              fit: BoxFit.cover, // Set cache dimensions to reduce memory usage
-              cacheWidth: 150, // Match the widget's width
-              cacheHeight: 150,
+      onTap: widget.onTap,
+      onLongPress: () {
+        _controller.repeat(reverse: true); // Start the animation
+      },
+      onLongPressUp: () {
+        _controller.reset(); // Reset the animation when the press is released
+      },
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: Transform.rotate(
+              angle: _rotationAnimation.value,
+              child: child,
             ),
-          ),
-          const SizedBox(height: 2),
-          Text(name,
+          );
+        },
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                widget.image,
+                height: 150,
+                width: 150,
+                fit: BoxFit.cover,
+                cacheWidth: 150, // Match the widget's width
+                cacheHeight: 150,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              widget.name,
               style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 9, 45, 42))),
-        ],
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: const Color.fromARGB(255, 9, 45, 42),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
