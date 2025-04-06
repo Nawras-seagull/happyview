@@ -501,5 +501,26 @@
   "loadErrorRetry": "Retry",
   "@loadErrorRetry": {
     "description": "Retry button text"
+  },
+  "search": "Search...",
+  "@search": {
+    "description": "Search bar placeholder"
+  },
+  "safeSearch":"Please enter a safe search term.",
+  "@safeSearch": {
+    "description": "Safe search error message"
+  },
+  "safeSearchText":"Please enter a safe search term.",
+  "@safeSearchText": {
+    "description": "Safe search text"
+  },
+  "translated":"Translated: ",
+  "@translated": {
+    "description": "Translated label"
+  },
+  "safeSearchEnabled":"🔒 Safe search is ON",
+  "@safeSearchEnabled": {
+    "description": "Safe search enabled message"
   }
+  
 }
