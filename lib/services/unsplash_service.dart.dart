@@ -1,32 +1,27 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class UnsplashService {
   static const String accessKey = 'rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g';
 
-  // List of keywords to filter out
-  static final List<String> _inappropriateKeywords = [
-    'nude',
-    'explicit',
-    'violence',
-    'gore',
-    'weapon',
-    'graphic',
-    'sexual',
-    'mature',
-    'adult',
-    'offensive',
-    'trauma',
-    'blood',
-    'drugs',
-    'alcohol',
-    'politically sensitive',
-    'hate speech',
-    'profanity',
-    'abuse',
-    'dead'
-  ];
+// List of inappropriate keywords loaded from profanity/en.json
+  static List<String> _inappropriateKeywords = [];
+
+  /// Initialize the inappropriate keywords from the JSON file
+  static Future<void> loadInappropriateKeywords() async {
+    try {
+      final String jsonString = await rootBundle.loadString('assets/profanity/en.json');
+      final List<dynamic> jsonList = json.decode(jsonString);
+      _inappropriateKeywords = jsonList.map((e) => e.toString().toLowerCase()).toList();
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error loading inappropriate keywords: $e');
+      }
+      _inappropriateKeywords = []; // Fallback to an empty list if loading fails
+    }
+  }
 
   // Advanced content filtering method
 
@@ -36,7 +31,7 @@ class UnsplashService {
     String subcategory = '',
   }) async {
     final fullQuery = subcategory.isNotEmpty ? '$query $subcategory' : query;
-
+ try {
     final response = await http.get(
       Uri.parse(
         'https://api.unsplash.com/search/photos?query=$fullQuery&client_id=$accessKey&page=$page&per_page=20',
@@ -59,11 +54,18 @@ class UnsplashService {
       }).toList();
 
       return safeImages;
-    } else {
-      throw Exception('Failed to load images');
+   } else if (response.statusCode == 403) {
+        throw Exception('Rate limit exceeded. Please try again later.');
+      } else {
+        throw Exception('Failed to load images: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching images: $e');
+      }
+      throw Exception('An error occurred while fetching images.');
     }
   }
-
   // Comprehensive safety check
   static bool _isImageSafe(dynamic image) {
     try {

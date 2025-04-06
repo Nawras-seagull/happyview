@@ -5,13 +5,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 class UnsplashAttribution {
   /// Generates a styled text widget with photographer attribution
-  /// 
+  ///
   /// [imageData] should be a map containing:
   /// - 'photographer': Photographer's name
   /// - 'photographerLink': Link to photographer's Unsplash profile
   /// - 'photoLink': Link to the specific photo
   static Widget buildAttribution(
-    BuildContext context, 
+    BuildContext context,
     Map<String, dynamic> imageData, {
     Color? textColor,
     double fontSize = 14.0,
@@ -24,7 +24,7 @@ class UnsplashAttribution {
         children: [
           const TextSpan(text: 'Photo by '),
           TextSpan(
-            text: imageData['photographer'],
+            text: imageData['photographer'] ?? 'Unknown Photographer',
             style: TextStyle(
               color: Colors.blue[200],
               fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class UnsplashAttribution {
               decoration: TextDecoration.underline,
             ),
             recognizer: TapGestureRecognizer()
-              ..onTap = () => _launchUrl(imageData['photoLink']),
+              ..onTap = () => _launchUrl('https://unsplash.com'),
           ),
         ],
       ),
@@ -50,7 +50,14 @@ class UnsplashAttribution {
   }
 
   /// Launch URL safely
-  static Future<void> _launchUrl(String url) async {
+  static Future<void> _launchUrl(String? url) async {
+    if (url == null || url.isEmpty) {
+      if (kDebugMode) {
+        print('Invalid URL: $url');
+      }
+      return;
+    }
+
     try {
       final Uri uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
