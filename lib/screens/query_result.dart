@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:happy_view/services/unsplash_attribution.dart';
+import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:happy_view/widgets/animated_panda.dart';
-import 'package:happy_view/widgets/download_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class UnifiedPictureScreen extends StatefulWidget {
@@ -121,10 +119,11 @@ if (widget.initialResults != null) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FullScreenImageViewer(
-          images: _images,
-          initialIndex: index,
-          query: _currentQuery,
+        builder: (context) => FullScreenImageView(
+          imageUrl: _images[index]['url'],
+          photographerName: _images[index]['photographer'],
+          photoLink: _images[index]['photoLink']
+
         ),
       ),
     );
@@ -208,7 +207,7 @@ if (widget.initialResults != null) {
 }
 }
 // FullScreenImageViewer 
-class FullScreenImageViewer extends StatefulWidget {
+/* class FullScreenImageViewer extends StatefulWidget {
   final List<Map<String, dynamic>> images;
   final int initialIndex;
   final String query; // Add the query property
@@ -338,3 +337,4 @@ class FullScreenImageViewerState extends State<FullScreenImageViewer> {
     );
   }
 }
+ */

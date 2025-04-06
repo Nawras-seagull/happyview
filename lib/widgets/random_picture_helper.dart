@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/widgets/categories.dart';
@@ -30,16 +31,16 @@ class ImagePrefetcher {
     if (_prefetchedImages.isEmpty) {
       return null;
     }
-    
+
     final random = Random();
     final index = random.nextInt(_prefetchedImages.length);
     final image = _prefetchedImages.removeAt(index);
-    
+
     // Start prefetching new images if we're running low
     if (_prefetchedImages.length < 3 && !_isPrefetching) {
       _prefetchMoreImages();
     }
-    
+
     return image;
   }
 
@@ -47,11 +48,10 @@ class ImagePrefetcher {
   void setAvailableTopics(List<String> topics) {
     _availableTopics = topics;
   }
-
   // Prefetch more images in the background
   Future<void> _prefetchMoreImages() async {
     if (_isPrefetching || _availableTopics == null || _availableTopics!.isEmpty) return;
-    
+
     _isPrefetching = true;
     try {
       // Prefetch 5 more images
@@ -72,31 +72,24 @@ class ImagePrefetcher {
   Future<void> initialize(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     final categories = getCategories(localizations);
-    
+
     // Extract topics from categories
     final topics = categories.map((category) => category['query'].toString()).toList();
     setAvailableTopics(topics);
-    
-    // Start prefetching
+    // Start prefetching images
     _prefetchMoreImages();
   }
 
-  // Fetch a random image from the API using only topics from categories
+  // Fetch a random image from the API
   Future<Map<String, dynamic>?> _fetchRandomImage() async {
     try {
       final random = Random();
-      
-      // Ensure we have topics available
-      if (_availableTopics == null || _availableTopics!.isEmpty) {
-        throw Exception('No topics available');
-      }
-      
-      // Select a random topic from available categories
+      // Hard-coded topics to avoid dependency on context
       final randomTopic = _availableTopics![random.nextInt(_availableTopics!.length)];
 
       final response = await http.get(
         Uri.parse(
-          'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g',
+          'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=${UnsplashService.accessKey}',
         ),
       );
 
@@ -110,13 +103,11 @@ class ImagePrefetcher {
     return null;
   }
 }
-
-// Improved function to show random pictures with reduced delay
 Future<void> showRandomPicture(BuildContext context) async {
   final random = Random();
   final localizations = AppLocalizations.of(context)!;
-  
-  // Show loading indicator immediately (with a more engaging animation)
+
+  // Show loading indicator immediately
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -124,7 +115,8 @@ Future<void> showRandomPicture(BuildContext context) async {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.8),
+          color: Colors.white.withValues(
+                          alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: const SpinKitPulse(
@@ -138,66 +130,68 @@ Future<void> showRandomPicture(BuildContext context) async {
   try {
     // Try to get a prefetched image first
     Map<String, dynamic>? imageData = ImagePrefetcher().getRandomPrefetchedImage();
-    
-    // If no prefetched image is available, fetch one
-    if (imageData == null) {
-      // Fetch categories dynamically
-      final categories = getCategories(localizations);
-      final topics = categories.map((category) => category['query'].toString()).toList();
 
-      // Select a random topic from our category list
-      final randomTopic = topics[random.nextInt(topics.length)];
-
-      // Make the API request
-      final response = await http.get(
-        Uri.parse(
-          'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g',
+    // If we have a prefetched image, use it
+    if (imageData != null) {
+      if (!context.mounted) return;
+      Navigator.pop(context); // Remove loading indicator
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FullScreenImageView(
+            imageUrl: imageData['urls']['regular'],
+            photographerName: imageData['user']['name'],
+            photoLink: imageData['links']['html'],
+          ),
         ),
       );
-
-      if (response.statusCode == 200) {
-        // Parse JSON off the main thread
-        imageData = await compute(parseJson, response.body);
-      } else {
-  if (kDebugMode) {
-    print('Failed to fetch data. Status code: ${response.statusCode}');
-  }
-      }
+      return;
     }
-/////////////
-    if (!context.mounted) return;
-    
-    // Close loading dialog
-    Navigator.pop(context);
 
-    // Navigate to image view
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FullScreenImageView(
-          imageUrl: imageData!['urls']['regular'],
-          photographerName: imageData['user']['name'],
-          photoLink: imageData['links']['html'],
-          // You could also show which category this image came from
-          // categoryName: randomCategoryName,
-        ),
+    // If no prefetched image, fetch a new one
+    final categories = getCategories(localizations);
+    final topics = categories.map((category) => category['query']).toList();
+    final randomTopic = topics[random.nextInt(topics.length)];
+
+    final response = await http.get(
+      Uri.parse(
+        'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g',
       ),
     );
+
+    if (!context.mounted) return;
+    Navigator.pop(context); // Remove loading indicator
+
+    if (response.statusCode == 200) {
+      final data = await compute(parseJson, response.body);
+
+      if (!context.mounted) return;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FullScreenImageView(
+            imageUrl: data['urls']['regular'],
+            photographerName: data['user']['name'],
+            photoLink: data['links']['html'],
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to load image')),
+      );
+    }
   } catch (e) {
     if (!context.mounted) return;
+    Navigator.pop(context); // Remove loading indicator on error
     
-    // Ensure we always dismiss the loading dialog even on error
-    if (ModalRoute.of(context)?.isCurrent != true) {
-      Navigator.pop(context);
-    }
-
-    // Display error message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Error: ${e.toString()}')),
     );
   }
 }
-
 // Initialize prefetching when the app starts
 void initializeImagePrefetching(BuildContext context) {
   ImagePrefetcher().initialize(context);
