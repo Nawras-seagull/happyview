@@ -418,5 +418,25 @@
   "subcategories": "Alt kategoriler",
   "@subcategories": {
     "description": "Alt kategoriler başlığı"
+  },
+  "search": "Ara",
+  "@search": {
+    "description": "Arama çubuğu"
+  },
+  "safeSearch": "Güvenli arama",
+  "@safeSearch": {
+    "description": "Güvenli arama seçeneği"
+  },
+  "safeSearchText": "lutfen güvenli arama seçeneğini açın",
+  "@safeSearchText": {
+    "description": "Güvenli arama metni"
+  },
+  "translated": "Çevirildi",
+  "@translated": {
+    "description": "Çeviri durumu"
+  },
+  "safeSearchEnabled": "Güvenli arama etkinleştirildi 🔒",
+  "@safeSearchEnabled": {
+    "description": "Güvenli arama etkinleştirildi durumu"
   }
 }

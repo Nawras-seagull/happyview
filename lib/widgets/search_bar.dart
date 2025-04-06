@@ -1,16 +1,18 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happy_view/services/profanity_filter.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:translator/translator.dart'; // A popular Flutter translation package
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /////////////
 class FunSearchBar extends StatefulWidget {
   final Function(List<dynamic>, String) onSearch;
 
-  const FunSearchBar({Key? key, required this.onSearch}) : super(key: key);
+  const FunSearchBar({super.key, required this.onSearch});
 
   @override
   _FunSearchBarState createState() => _FunSearchBarState();
@@ -35,6 +37,8 @@ class _FunSearchBarState extends State<FunSearchBar> {
 
   Future<void> _onSubmit() async {
     final query = _controller.text.trim();
+    final localizations = AppLocalizations.of(context)!;
+    final translatedtitle = localizations.translated;
 
     if (query.isNotEmpty) {
       /*  if (!_isSafeSearch(query)) {
@@ -46,7 +50,7 @@ class _FunSearchBarState extends State<FunSearchBar> {
       // Check for profanity
       if (profanityFilter.containsBadWords(query)) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please enter a safe search term.')),
+          SnackBar(content: Text(localizations.safeSearchText)),
         );
         return;
       }
@@ -59,35 +63,40 @@ class _FunSearchBarState extends State<FunSearchBar> {
         var translation = await translator.translate(query, to: 'en');
         englishQuery = translation.text;
 
-        print('Original query: "$query"');
-        print('Translated query: "$englishQuery"');
+        if (kDebugMode) {
+          print('Original query: "$query"');
+        }
+        if (kDebugMode) {
+          print('Translated query: "$englishQuery"');
+        }
 
         // Show translation notification
         if (englishQuery != query) {
           if (profanityFilter.containsBadWords(englishQuery)) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Please enter a safe search term.')),
-              );
-        return;
-          }
-          else {
+              SnackBar(content: Text(localizations.safeSearch)),
+            );
+            return;
+          } else {
             // Show translation notification
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Translated: "$query" → "$englishQuery"'),
+                content: Text('"$translatedtitle" "$query" → "$englishQuery"'),
                 duration: Duration(seconds: 2),
               ),
             );
           }
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Translated: "$query" → "$englishQuery"'),
+                content: Text('"$translatedtitle" "$query" → "$englishQuery"'),
               duration: Duration(seconds: 2),
             ),
           );
         }
       } catch (e) {
-        print('Translation error: $e');
+        if (kDebugMode) {
+          print('Translation error: $e');
+        }
         // Fall back to original query if translation fails
       }
       // Properly encode the URL parameters
@@ -104,10 +113,14 @@ class _FunSearchBarState extends State<FunSearchBar> {
           widget.onSearch(results, englishQuery);
           _controller.clear(); // Clear after search
         } else {
-          print('Error: ${response.statusCode}');
+          if (kDebugMode) {
+            print('Error: ${response.statusCode}');
+          }
         }
       } catch (e) {
-        print('Error fetching images: $e');
+        if (kDebugMode) {
+          print('Error fetching images: $e');
+        }
       }
     }
   }
@@ -121,16 +134,23 @@ class _FunSearchBarState extends State<FunSearchBar> {
 
   void checkMessage(String input) {
     if (profanityFilter.containsBadWords(input)) {
-      print('Profanity detected!');
+      if (kDebugMode) {
+        print('Profanity detected!');
+      }
     } else {
-      print('Clean!');
+      if (kDebugMode) {
+        print('Clean!');
+      }
     }
 
-    print('Censored: ${profanityFilter.censor(input)}');
+    if (kDebugMode) {
+      print('Censored: ${profanityFilter.censor(input)}');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -139,7 +159,7 @@ class _FunSearchBarState extends State<FunSearchBar> {
           child: TextField(
             controller: _controller,
             decoration: InputDecoration(
-              hintText: 'Search...',
+              hintText: localizations.search,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
@@ -154,10 +174,11 @@ class _FunSearchBarState extends State<FunSearchBar> {
         ),
         const SizedBox(height: 6),
         Text(
-          '🔒 Safe search is ON',
+          localizations.safeSearchEnabled,
           style: TextStyle(fontSize: 12, color: Colors.grey[700]),
         ),
       ],
     );
   }
 }
+
