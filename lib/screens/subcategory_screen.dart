@@ -305,10 +305,11 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
               future: _subcategories,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child:SpinKitThreeInOut( 
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
-                          ));
+                  return const Center(
+                      child: SpinKitThreeInOut(
+                    color: Color.fromARGB(255, 8, 127, 148),
+                    size: 30.0,
+                  ));
                 }
                 if (snapshot.hasError || !snapshot.hasData) {
                   return _buildErrorState();
@@ -319,13 +320,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
           ),
         ],
       ),
-    )
-    
-    
-    
-        ;
+    );
   }
-
 
   Widget _buildErrorState() => Center(
         child: Column(
@@ -385,11 +381,12 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                     ),
                     child: CachedNetworkImage(
                       imageUrl: item['image'] ?? _fallbackImage,
-                      placeholder: (context, url) =>
-                          const Center(child: SpinKitThreeInOut( 
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
-                          )),
+                      placeholder: (context, url) => const Center(
+                        child: SpinKitThreeInOut(
+                          color: Color.fromARGB(255, 8, 127, 148),
+                          size: 30.0,
+                        ),
+                      ),
                       errorWidget: (context, url, error) => const Icon(
                         Icons.broken_image,
                         color: Colors.grey,
@@ -406,8 +403,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(16),
                       ),
-                      color: Colors.black.withValues(alpha: 0.2)
-                         , // Semi-transparent black overlay
+                      color: Colors.black.withValues(
+                          alpha: 0.2), // Semi-transparent black overlay
                     ),
                   ),
                   // The name text over the image
@@ -427,9 +424,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       ),
                     ),
                   ),
-                  
                 ],
-              )
+              ),
             ),
           );
         },
