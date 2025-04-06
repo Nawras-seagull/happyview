@@ -12,11 +12,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import localiza
 class DownloadButton extends StatefulWidget {
   final String imageUrl;
   final String? imageId; // Optional ID for filename
+  final String? location; // Optional location for Unsplash attribution
 
   const DownloadButton({
     super.key,
     required this.imageUrl,
     this.imageId,
+    this.location,
   });
 
   @override

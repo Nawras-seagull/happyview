@@ -23,6 +23,7 @@ class ImagePrefetcher {
   // Queue of prefetched image data
   final List<Map<String, dynamic>> _prefetchedImages = [];
   bool _isPrefetching = false;
+  List<String>? _availableTopics;
 
   // Get a prefetched image if available
   Map<String, dynamic>? getRandomPrefetchedImage() {
@@ -42,9 +43,14 @@ class ImagePrefetcher {
     return image;
   }
 
+  // Set available topics from categories
+  void setAvailableTopics(List<String> topics) {
+    _availableTopics = topics;
+  }
+
   // Prefetch more images in the background
   Future<void> _prefetchMoreImages() async {
-    if (_isPrefetching) return;
+    if (_isPrefetching || _availableTopics == null || _availableTopics!.isEmpty) return;
     
     _isPrefetching = true;
     try {
@@ -67,17 +73,26 @@ class ImagePrefetcher {
     final localizations = AppLocalizations.of(context)!;
     final categories = getCategories(localizations);
     
+    // Extract topics from categories
+    final topics = categories.map((category) => category['query'].toString()).toList();
+    setAvailableTopics(topics);
+    
     // Start prefetching
     _prefetchMoreImages();
   }
 
-  // Fetch a random image from the API
+  // Fetch a random image from the API using only topics from categories
   Future<Map<String, dynamic>?> _fetchRandomImage() async {
     try {
       final random = Random();
-      // Hard-coded topics to avoid dependency on context
-      final topics = ['nature', 'animals', 'happy', 'art', 'travel', 'food'];
-      final randomTopic = topics[random.nextInt(topics.length)];
+      
+      // Ensure we have topics available
+      if (_availableTopics == null || _availableTopics!.isEmpty) {
+        throw Exception('No topics available');
+      }
+      
+      // Select a random topic from available categories
+      final randomTopic = _availableTopics![random.nextInt(_availableTopics!.length)];
 
       final response = await http.get(
         Uri.parse(
@@ -128,9 +143,9 @@ Future<void> showRandomPicture(BuildContext context) async {
     if (imageData == null) {
       // Fetch categories dynamically
       final categories = getCategories(localizations);
-      final topics = categories.map((category) => category['query']).toList();
+      final topics = categories.map((category) => category['query'].toString()).toList();
 
-      // Select a random topic
+      // Select a random topic from our category list
       final randomTopic = topics[random.nextInt(topics.length)];
 
       // Make the API request
@@ -144,10 +159,12 @@ Future<void> showRandomPicture(BuildContext context) async {
         // Parse JSON off the main thread
         imageData = await compute(parseJson, response.body);
       } else {
-        throw Exception('Failed to load image');
+  if (kDebugMode) {
+    print('Failed to fetch data. Status code: ${response.statusCode}');
+  }
       }
     }
-
+/////////////
     if (!context.mounted) return;
     
     // Close loading dialog
@@ -161,6 +178,8 @@ Future<void> showRandomPicture(BuildContext context) async {
           imageUrl: imageData!['urls']['regular'],
           photographerName: imageData['user']['name'],
           photoLink: imageData['links']['html'],
+          // You could also show which category this image came from
+          // categoryName: randomCategoryName,
         ),
       ),
     );

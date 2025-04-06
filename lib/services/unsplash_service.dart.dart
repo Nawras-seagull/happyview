@@ -50,6 +50,7 @@ class UnsplashService {
           'photographer': photo['user']['name'],
           'photographerLink': photo['user']['links']['html'],
           'photoLink': photo['links']['html'],
+          'location': photo['location'] ?? ''
         };
       }).toList();
 

@@ -461,5 +461,17 @@
     "description": "ترجمة بواسطة"
   },
   "safeSearchEnabled": "🔒 تم تفعيل البحث الآمن",
-  "@safeSearchEnabled": {}
+  "@safeSearchEnabled": {},
+  "photoBy": "صورة بواسطة",
+  "@photoBy": {
+    "description": "نص حقوق الصورة"
+  },
+  "unknownPhotographer" : "مصور غير معروف",
+  "@unknownPhotographer": {
+    "description": "نص لمصور غير معروف"
+  },
+  "on": "في ",
+  "@on": {
+    "description": "تاريخ الصورة"
+  }
 }
