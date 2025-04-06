@@ -10,7 +10,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
 import 'package:flutter/foundation.dart';
-
+/////////////////////
+///
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
   return json.decode(responseBody);
@@ -130,7 +131,27 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
- 
+ @override
+  void initState() {
+    super.initState();
+    
+    // Initialize prefetching when the app starts
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initializeImagePrefetching(context);
+    });
+    // Set up audio player with initial source
+    _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
+    
+    // Set up listener to reset the player when sound finishes
+    _audioPlayer.onPlayerComplete.listen((event) {
+      _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
+    });
+    }
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,8 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           // Search Bar
-          
-       // In home.dart (HomeScreen)
 FunSearchBar(onSearch: (List<dynamic> results, String query) {
   // Navigate to the SearchScreen with both search results and the query
   Navigator.push(
@@ -176,7 +195,7 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
         query: query,  // Now passing the query from FunSearchBar
       ),
     ),
-  );
+  ); 
 }),
           
          // Grid of Categories
@@ -210,11 +229,12 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () async {
-                // Play sound
-                await _audioPlayer.play(AssetSource('sounds/yay.wav'));
-
-                // Then show the picture
+              onPressed: ()  {
+               // Reset to beginning and play sound
+                _audioPlayer.seek(Duration.zero);
+                _audioPlayer.resume();
+                
+                // Show random picture from our categories
                 showRandomPicture(context);
               },
               child: Text(
