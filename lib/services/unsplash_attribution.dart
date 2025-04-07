@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
+
 class UnsplashAttribution {
   /// Generates a styled text widget with photographer attribution
   ///
@@ -12,21 +13,18 @@ class UnsplashAttribution {
   /// - 'photoLink': Link to the specific photo
   static Widget buildAttribution(
     BuildContext context,
-    
     Map<String, dynamic> imageData, {
     Color? textColor,
     double fontSize = 14.0,
   }) {
-        final localizations = AppLocalizations.of(context)!;
-
+    final localizations = AppLocalizations.of(context)!;
     textColor ??= Colors.white;
 
     return RichText(
       text: TextSpan(
         style: TextStyle(color: textColor, fontSize: fontSize),
         children: [
-           TextSpan(text:localizations.photoBy,
-),
+          TextSpan(text: localizations.photoBy),
           TextSpan(
             text: imageData['photographer'] ?? localizations.unknownPhotographer,
             style: TextStyle(
@@ -37,7 +35,7 @@ class UnsplashAttribution {
             recognizer: TapGestureRecognizer()
               ..onTap = () => _launchUrl(imageData['photographerLink']),
           ),
-           TextSpan(text: localizations.on),
+          TextSpan(text: localizations.on),
           TextSpan(
             text: 'Unsplash',
             style: TextStyle(
@@ -51,6 +49,17 @@ class UnsplashAttribution {
         ],
       ),
     );
+  }
+
+  /// Extracts attribution information from Unsplash API response
+  static Map<String, String> extractAttributionData(Map<String, dynamic> apiResponse) {
+    return {
+      'photographer': apiResponse['user']['name'] ?? 'Unknown Photographer',
+      'photographerLink': apiResponse['user']['links']['html'] ?? '',
+      'photoLink': apiResponse['links']['html'] ?? '',
+      // Add download URL extraction (use either 'download' or 'download_location' depending on API version)
+      'downloadUrl': apiResponse['links']['download'] ?? apiResponse['links']['download_location'] ?? '',
+    };
   }
 
   /// Launch URL safely
@@ -74,14 +83,5 @@ class UnsplashAttribution {
         print('Error launching URL: $e');
       }
     }
-  }
-
-  /// Extracts attribution information from Unsplash API response
-  static Map<String, String> extractAttributionData(Map<String, dynamic> apiResponse) {
-    return {
-      'photographer': apiResponse['user']['name'] ?? 'Unknown Photographer',
-      'photographerLink': apiResponse['user']['links']['html'] ?? '',
-      'photoLink': apiResponse['links']['html'] ?? '',
-    };
   }
 }

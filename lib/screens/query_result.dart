@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
-import 'package:happy_view/services/unsplash_service.dart.dart';
+import 'package:happy_view/services/unsplash_service.dart';
 import 'package:happy_view/widgets/animated_panda.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -39,10 +39,12 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
 if (widget.initialResults != null) {
   // Convert search results to our image format
   _images.addAll(widget.initialResults!.map((result) => {
-        'url': result['urls']['regular'],
+         'url': result['urls']['regular'],
         'user': result['user'],
         'links': result['links'],
         'location': result['location'] ?? '',
+        'photographer': result['user']['name'],
+   
 
       }));
   
@@ -116,13 +118,15 @@ if (widget.initialResults != null) {
   }
 
   void _openFullScreenImage(int index) {
+    
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => FullScreenImageView(
           imageUrl: _images[index]['url'],
           photographerName: _images[index]['photographer'],
-          photoLink: _images[index]['photoLink']
+          photoLink: _images[index]['photoLink'],
+          downloadUrl: _images[index]['download'], // Pass the download URL
 
         ),
       ),
