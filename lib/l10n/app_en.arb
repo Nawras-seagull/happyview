@@ -515,5 +515,9 @@
   "on":" on ",
   "@on": {
     "description": "On label"
-  }
+  },
+  "download": "Download",
+  "downloadStarted": "Download started",
+  "downloadFailed": "Download failed"
+  
 }

@@ -1,1 +1,13 @@
-{}
+{
+  "ar": [
+    "download",
+    "downloadStarted",
+    "downloadFailed"
+  ],
+
+  "tr": [
+    "download",
+    "downloadStarted",
+    "downloadFailed"
+  ]
+}

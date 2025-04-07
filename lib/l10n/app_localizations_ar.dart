@@ -408,4 +408,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get on => 'في ';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get downloadStarted => 'Download started';
+
+  @override
+  String get downloadFailed => 'Download failed';
 }

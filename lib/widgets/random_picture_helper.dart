@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:happy_view/services/unsplash_service.dart.dart';
+import 'package:happy_view/services/unsplash_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/widgets/categories.dart';
@@ -143,6 +143,8 @@ Future<void> showRandomPicture(BuildContext context) async {
             imageUrl: imageData['urls']['regular'],
             photographerName: imageData['user']['name'],
             photoLink: imageData['links']['html'],
+            downloadUrl: imageData['links']['download'], 
+            // Pass the download URL
           ),
         ),
       );
@@ -175,6 +177,7 @@ Future<void> showRandomPicture(BuildContext context) async {
             imageUrl: data['urls']['regular'],
             photographerName: data['user']['name'],
             photoLink: data['links']['html'],
+            downloadUrl: data['links']['download'], // Pass the download URL
           ),
         ),
       );

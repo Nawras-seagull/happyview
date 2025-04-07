@@ -405,4 +405,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get on => 'üzerinde bulundu';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get downloadStarted => 'Download started';
+
+  @override
+  String get downloadFailed => 'Download failed';
 }

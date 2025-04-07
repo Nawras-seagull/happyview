@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:happy_view/services/profanity_filter.dart';
-import 'package:happy_view/services/unsplash_service.dart.dart';
+import 'package:happy_view/services/unsplash_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:translator/translator.dart'; // A popular Flutter translation package
 import '../l10n/app_localizations.dart';
