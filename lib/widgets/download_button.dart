@@ -7,8 +7,7 @@ import 'package:gal/gal.dart';
 import 'package:image/image.dart' as img; // For image conversion
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import localization
-
+import '../l10n/app_localizations.dart';
 class DownloadButton extends StatefulWidget {
   final String imageUrl;
   final String? imageId; // Optional ID for filename

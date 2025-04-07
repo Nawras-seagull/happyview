@@ -7,7 +7,7 @@ import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/widgets/categories.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 // Top-level function for parsing JSON off the main thread
