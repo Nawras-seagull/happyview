@@ -47,6 +47,7 @@ class SubcategoryService {
         if (data['results'].isNotEmpty) {
           final imageUrl = data['results'][0]['urls']['regular'] as String;
           _imageCache[topic] = NetworkImage(imageUrl);
+          
           return _createSubcategoryItem(context, topic, imageUrl);
         }
       }
