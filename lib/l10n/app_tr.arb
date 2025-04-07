@@ -163,8 +163,8 @@
   "@reptiles": {
     "description": "Sürüngenler kategorisinin adı"
   },
-  "seacCreatures": "Deniz canlıları",
-  "@seacCreatures": {
+  "seaCreatures": "Deniz canlıları",
+  "@seaCreatures": {
     "description": "Deniz canlıları kategorisinin adı"
   },
   "insects": "Böcekler",
@@ -415,9 +415,21 @@
   "@dinosaurs": {
     "description": "Dinozorlar kategorisinin adı"
   },
+  "serviceVehicles": "Acil araçları",
+  "@serviceVehicles": {
+    "description": "Hizmet araçları kategorisinin adı"
+  },
   "subcategories": "Alt kategoriler",
   "@subcategories": {
     "description": "Alt kategoriler başlığı"
+  },
+  "loadError": "Yükleme hatası",
+  "@loadError": {
+    "description": "Yükleme hatası mesajı"
+  },
+  "loadErrorRetry": "Yeniden dene",
+  "@loadErrorRetry": {
+    "description": "Yükleme hatası yeniden deneme düğmesi"
   },
   "search": "Ara",
   "@search": {

@@ -357,9 +357,21 @@
   "@dinosaurs": {
     "description": "اسم فئة الديناصورات"
   },
+  "serviceVehicles": "مركبات الطواريء ",
+  "@serviceVehicles": {
+    "description": "اسم فئة مركبات الخدمة"
+  },
   "subcategories": "فئات فرعية",
   "@subcategories": {
     "description": "عنوان الفئات الفرعية"
+  },
+  "loadError": "فشل تحميل البيانات",
+  "@loadError": {
+    "description": "خطأ في تحميل البيانات"
+  },
+  "loadErrorRetry": "فشل تحميل البيانات، اضغط لإعادة المحاولة",
+  "@loadErrorRetry": {
+    "description": "خطأ في تحميل البيانات، اضغط لإعادة المحاولة"
   },
   "suggestion_message": "شكراً لاقتراحاتك",
   "@suggestion_message": {},

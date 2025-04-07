@@ -147,7 +147,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
           'boats',
           'helicopters',
           'scooters',
-          'excavators'
+          'excavators',
+          'Emergency-Vehicles'
         ],
       };
 
@@ -262,6 +263,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
       'scooters': localizations?.scooters,
       'excavators': localizations?.excavators,
       'dinosaurs': localizations?.dinosaurs,
+      'service-vehicles': localizations?.serviceVehicles,
     };
   }
 
@@ -271,7 +273,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
       'animals': localizations?.category_animals,
       'nature': localizations?.category_nature,
       'space': localizations?.category_space,
-      'architecture': localizations?.architecture,
+      'architecture': localizations?.category_architecture,
       'food-drink': localizations?.category_food_drink,
       'shapes': localizations?.category_shapes,
       'vehicles': localizations?.category_vehicles,
@@ -378,6 +380,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(16),
+                      bottom: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
                       imageUrl: item['image'] ?? _fallbackImage,
@@ -402,6 +405,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(16),
+                        bottom: Radius.circular(16),
                       ),
                       color: Colors.black.withValues(
                           alpha: 0.2), // Semi-transparent black overlay

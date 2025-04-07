@@ -249,15 +249,8 @@
   "@forests": {
     "description": "Forests category name"
   },
-  "animals": "Animals",
-  "@animals": {
-    "description": "Animals category name"
-  },
+  
  
-  "nature": "Nature",
-  "@nature": {
-    "description": "Nature category name"
-  },
   "mountains": "Mountains",
   "@mountains": {
     "description": "Mountains category name"
@@ -290,10 +283,7 @@
   "@leaf": {
     "description": "Leaf category name"
   },
-  "space": "Space",
-  "@space": {
-    "description": "Space category name"
-  },
+  
   "planets": "Planets",
   "@planets": {
     "description": "Planets category name"
@@ -310,10 +300,7 @@
   "@astronauts": {
     "description": "Astronauts category name"
   },
-  "architecture": "Architecture",
-  "@architecture": {
-    "description": "Architecture category name"
-  },
+ 
   "buildings": "Buildings",
   "@buildings": {
     "description": "Buildings category name"
@@ -354,10 +341,7 @@
   "@castles": {
     "description": "Castles category name"
   },
-  "foodDrink": "Food & Drink",
-  "@foodDrink": {
-    "description": "Food and drink category name"
-  },
+ 
   "fruits": "Fruits",
   "@fruits": {
     "description": "Fruits category name"
@@ -398,10 +382,7 @@
   "@healthyFood": {
     "description": "Healthy Food category name"
   },
-  "shapes": "Shapes",
-  "@shapes": {
-    "description": "Shapes category name"
-  },
+ 
   "circles": "Circles",
   "@circles": {
     "description": "Circles category name"
@@ -438,10 +419,7 @@
   "@ovals": {
     "description": "Ovals category name"
   },
-  "vehicles": "Vehicles",
-  "@vehicles": {
-    "description": "Vehicles category name"
-  },
+
   "cars": "Cars",
   "@cars": {
     "description": "Cars category name"
@@ -489,6 +467,10 @@
   "dinosaurs": "Dinosaurs",
   "@dinosaurs": {
     "description": "Dinosaurs category name"
+  },
+  "serviceVehicles": "Emergency Vehicles",
+  "@serviceVehicles": {
+    "description": "Service Vehicles category name"
   },
   "subcategories": "Subcategories",
   "@subcategories": {
