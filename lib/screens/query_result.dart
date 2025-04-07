@@ -15,13 +15,13 @@ class UnifiedPictureScreen extends StatefulWidget {
     super.key,
     this.query,
     this.initialResults,
-  }) : assert(query != null || initialResults != null, 
-           'Either query or initialResults must be provided');
+  }) : assert(query != null || initialResults != null,
+            'Either query or initialResults must be provided');
 
   @override
   UnifiedPictureScreenState createState() => UnifiedPictureScreenState();
 }
-////////////////////////
+
 class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   final List<Map<String, dynamic>> _images = [];
   int _page = 1;
@@ -35,30 +35,15 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   void initState() {
     super.initState();
 
-    // In query_result.dart
-if (widget.initialResults != null) {
-  // Convert search results to our image format
-  _images.addAll(widget.initialResults!.map((result) => {
-         'url': result['urls']['regular'],
-        'user': result['user'],
-        'links': result['links'],
-        'location': result['location'] ?? '',
-        'photographer': result['user']['name'],
-   
-
-      }));
-  
-  // Set the current query
-  if (widget.query != null) {
-    _currentQuery = widget.query!;
-  }
-}
-    
-     else if (widget.query != null) {
+    // Set the current query if provided
+    if (widget.query != null) {
       _currentQuery = widget.query!;
-      _fetchImages();
     }
 
+    // Fetch images from the Unsplash API
+    _fetchImages();
+
+    // Add a listener to the scroll controller
     _scrollController.addListener(_onScroll);
   }
 
@@ -118,7 +103,6 @@ if (widget.initialResults != null) {
   }
 
   void _openFullScreenImage(int index) {
-    
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -127,7 +111,6 @@ if (widget.initialResults != null) {
           photographerName: _images[index]['photographer'],
           photoLink: _images[index]['photoLink'],
           downloadUrl: _images[index]['download'], // Pass the download URL
-
         ),
       ),
     );
@@ -139,74 +122,74 @@ if (widget.initialResults != null) {
       appBar: AppBar(
         title: Text(widget.query ?? 'Search Results'),
       ),
-       body: Stack(  // Changed from Column to Stack
-      children: [
-        Column(
+      body: Stack(
+        // Changed from Column to Stack
         children: [
-          Expanded(
-            child: _images.isEmpty && !_isLoading
-                ? Center(
-                    child: Text(
-                      'No images found',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  )
-                : GridView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(16.0),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16.0,
-                      mainAxisSpacing: 16.0,
-                      childAspectRatio: 0.7,
-                    ),
-                    itemCount: _images.length + (_hasMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index == _images.length) {
-                        return const Center(
-                          child: SpinKitThreeInOut(
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
+          Column(
+            children: [
+              Expanded(
+                child: _images.isEmpty && !_isLoading
+                    ? Center(
+                        child: Text(
+                          'No images found',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey[600],
                           ),
-                        );
-                      }
-                      final image = _images[index];
-                      return GestureDetector(
-                        onTap: () => _openFullScreenImage(index),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: CachedNetworkImage(
-                            imageUrl: image['url'],
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) =>
-                                const Center(child: SpinKitThreeInOut(
+                        ),
+                      )
+                    : GridView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.all(16.0),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16.0,
+                          mainAxisSpacing: 16.0,
+                          childAspectRatio: 0.7,
+                        ),
+                        itemCount: _images.length + (_hasMore ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index == _images.length) {
+                            return const Center(
+                              child: SpinKitThreeInOut(
+                                color: Color.fromARGB(255, 8, 127, 148),
+                                size: 30.0,
+                              ),
+                            );
+                          }
+                          final image = _images[index];
+                          return GestureDetector(
+                            onTap: () => _openFullScreenImage(index),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: CachedNetworkImage(
+                                imageUrl: image['url'],
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => const Center(
+                                    child: SpinKitThreeInOut(
                                   color: Color.fromARGB(255, 8, 127, 148),
                                   size: 30.0,
                                 )),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
           ),
-     
+          // Now the AnimatedPanda can be a direct child of Stack
+          const Positioned(
+            bottom: -1,
+            left: 0,
+            right: 0,
+            child: AnimatedPanda(),
+          ),
         ],
       ),
-    // Now the AnimatedPanda can be a direct child of Stack
-         const Positioned(
-          bottom: -1,
-          left: 0,
-          right: 0, 
-          child: AnimatedPanda(),
-        ),
-      ],
-    ),
-  );
-}
+    );
+  }
 }
