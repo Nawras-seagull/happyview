@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../l10n/app_localizations.dart';
 // Add this to your main.dart or where you initialize Firebase
 Future<void> initializeFirebase() async {
   await Firebase.initializeApp();
@@ -46,10 +46,14 @@ class SuggestionService {
       // Add the document to Firestore
       final docRef =
           await _firestore.collection('suggestions').add(suggestionData);
-      print("Suggestion submitted with ID: ${docRef.id}");
+      if (kDebugMode) {
+        print("Suggestion submitted with ID: ${docRef.id}");
+      }
       return docRef;
     } catch (error) {
-      print("Error submitting suggestion: $error");
+      if (kDebugMode) {
+        print("Error submitting suggestion: $error");
+      }
       throw Exception("Failed to submit suggestion: $error");
     }
   }
@@ -57,13 +61,13 @@ class SuggestionService {
 
 /// Example widget for submitting suggestions
 class SuggestionForm extends StatefulWidget {
-  const SuggestionForm({Key? key}) : super(key: key);
+  const SuggestionForm({super.key});
 
   @override
-  _SuggestionFormState createState() => _SuggestionFormState();
+  SuggestionFormState createState() => SuggestionFormState();
 }
 
-class _SuggestionFormState extends State<SuggestionForm> {
+class SuggestionFormState extends State<SuggestionForm> {
   final _formKey = GlobalKey<FormState>();
   final _contentController = TextEditingController();
   final _emailController = TextEditingController();
@@ -93,7 +97,7 @@ class _SuggestionFormState extends State<SuggestionForm> {
           email: _emailController.text,
           category: _categoryController.text,
         );
-
+if (!mounted) return; 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(localizations.suggestion_message)),
         );
@@ -182,7 +186,7 @@ class _SuggestionFormState extends State<SuggestionForm> {
 
 // Example usage in your app
 class SuggestionScreen extends StatelessWidget {
-  const SuggestionScreen({Key? key}) : super(key: key);
+  const SuggestionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

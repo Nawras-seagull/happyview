@@ -4,10 +4,10 @@ class AnimatedPanda extends StatefulWidget {
   const AnimatedPanda({super.key});
   
   @override
-  _AnimatedPandaState createState() => _AnimatedPandaState();
+  AnimatedPandaState createState() => AnimatedPandaState();
 }
 
-class _AnimatedPandaState extends State<AnimatedPanda>
+class AnimatedPandaState extends State<AnimatedPanda>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;

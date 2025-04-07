@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'package:happy_view/screens/query_result.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
 import 'package:happy_view/widgets/categories.dart';
@@ -37,10 +37,10 @@ class CategoryTile extends StatefulWidget {
   });
 
   @override
-  _CategoryTileState createState() => _CategoryTileState();
+  CategoryTileState createState() => CategoryTileState();
 }
 
-class _CategoryTileState extends State<CategoryTile>
+class CategoryTileState extends State<CategoryTile>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
@@ -124,11 +124,13 @@ class _CategoryTileState extends State<CategoryTile>
 }
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
  @override

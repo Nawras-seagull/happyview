@@ -6,8 +6,7 @@ import 'package:happy_view/services/profanity_filter.dart';
 import 'package:happy_view/services/unsplash_service.dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:translator/translator.dart'; // A popular Flutter translation package
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../l10n/app_localizations.dart';
 /////////////
 class FunSearchBar extends StatefulWidget {
   final Function(List<dynamic>, String) onSearch;
@@ -15,10 +14,10 @@ class FunSearchBar extends StatefulWidget {
   const FunSearchBar({super.key, required this.onSearch});
 
   @override
-  _FunSearchBarState createState() => _FunSearchBarState();
+  FunSearchBarState createState() => FunSearchBarState();
 }
 
-class _FunSearchBarState extends State<FunSearchBar> {
+class FunSearchBarState extends State<FunSearchBar> {
   final TextEditingController _controller = TextEditingController();
   //List<String> _blockedWords = [];
   final GoogleTranslator translator = GoogleTranslator();
@@ -72,6 +71,7 @@ class _FunSearchBarState extends State<FunSearchBar> {
 
         // Show translation notification
         if (englishQuery != query) {
+          if (!mounted) return; // Check if the widget is still mounted
           if (profanityFilter.containsBadWords(englishQuery)) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(localizations.safeSearch)),

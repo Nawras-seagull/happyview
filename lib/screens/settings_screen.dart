@@ -3,8 +3,7 @@ import 'package:happy_view/screens/suggestion_screen.dart';
 import 'package:happy_view/screens/privacy_policy_screen.dart'; // Import the new screen
 import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../l10n/app_localizations.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 

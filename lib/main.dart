@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:happy_view/firebase_options.dart';
 import 'package:happy_view/screens/home.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
 
 Future<void> main() async {
