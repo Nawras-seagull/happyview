@@ -131,7 +131,7 @@ Future<void> showRandomPicture(BuildContext context) async {
     // Try to get a prefetched image first
     Map<String, dynamic>? imageData = ImagePrefetcher().getRandomPrefetchedImage();
 
-    // If we have a prefetched image, use it
+  /*   // If we have a prefetched image, use it
     if (imageData != null) {
       if (!context.mounted) return;
       Navigator.pop(context); // Remove loading indicator
@@ -145,11 +145,14 @@ Future<void> showRandomPicture(BuildContext context) async {
             photoLink: imageData['links']['html'],
             downloadUrl: imageData['links']['download'], 
             // Pass the download URL
+            images: [imageData], // Pass the list of images
+            initialIndex: 0, // Start with the first image
+            query: imageData['slug'] ?? 'Random', // Pass the query
           ),
         ),
       );
       return;
-    }
+    } */
 
     // If no prefetched image, fetch a new one
     final categories = getCategories(localizations);
@@ -161,7 +164,12 @@ Future<void> showRandomPicture(BuildContext context) async {
         'https://api.unsplash.com/photos/random?query=$randomTopic&client_id=rymj4kWDUWfggopViVtniGBy1FV6alObBnbHlVeWw6g',
       ),
     );
+    final newImages = await UnsplashService.fetchImages(
+         randomTopic,
+        page: 1,
+      );
 
+    
     if (!context.mounted) return;
     Navigator.pop(context); // Remove loading indicator
 
@@ -174,10 +182,13 @@ Future<void> showRandomPicture(BuildContext context) async {
         context,
         MaterialPageRoute(
           builder: (context) => FullScreenImageView(
-            imageUrl: data['urls']['regular'],
-            photographerName: data['user']['name'],
-            photoLink: data['links']['html'],
-            downloadUrl: data['links']['download'], // Pass the download URL
+            imageUrl: newImages[0]['url'],
+          photographerName: newImages[0]['photographer'],
+          photoLink: newImages[0]['photoLink'],
+          downloadUrl: newImages[0]['download'], // Pass the download URL
+          images: newImages, // Pass the list of images
+          initialIndex: 0,
+          query: randomTopic // Pass the query
           ),
         ),
       );

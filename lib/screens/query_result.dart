@@ -118,6 +118,9 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
           photographerName: _images[index]['photographer'],
           photoLink: _images[index]['photoLink'],
           downloadUrl: _images[index]['download'], // Pass the download URL
+          images: _images, // Pass the list of images
+          initialIndex: index,
+          query: _currentQuery, // Pass the query
 
         ),
       ),

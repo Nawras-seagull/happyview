@@ -1,17 +1,21 @@
-// 1. Replace FullScreenImageView with an optimized version
-// File: fullscreen_image_viewer.dart
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:happy_view/services/unsplash_download_services.dart';
+import 'package:happy_view/services/unsplash_service.dart';
 import '../l10n/app_localizations.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-class FullScreenImageView extends StatelessWidget {
+class FullScreenImageView extends StatefulWidget {
   final String imageUrl;
   final String photographerName;
   final String photoLink;
-  final String downloadUrl; // Add download URL parameter
+  final String downloadUrl;
+    final int initialIndex;
+      final String query; // Add the query property
+  final List<Map<String, dynamic>> images;
 
 
 
@@ -20,15 +24,81 @@ class FullScreenImageView extends StatelessWidget {
     required this.imageUrl,
     required this.photographerName,
     required this.photoLink,
-        required this.downloadUrl, // Require download URL
-    
+    required this.initialIndex,
+    required this.downloadUrl,
+        required this.images,
+    required this.query, // Add the query parameter
+
   });
+
+  @override
+  _FullScreenImageViewState createState() => _FullScreenImageViewState();
+}
+
+class _FullScreenImageViewState extends State<FullScreenImageView> {
+    late PageController _pageController;
+  late int _currentIndex;
+  bool _isLoadingMore = false;
+
+   @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: widget.initialIndex);
+    _pageController.addListener(_onPageChanged);
+  }
+
+  @override
+  void dispose() {
+    _pageController.removeListener(_onPageChanged);
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged() {
+    setState(() {
+      _currentIndex = _pageController.page!.round();
+    });
+
+    // Fetch more images if the user reaches the end of the list
+    if (_currentIndex == widget.images.length - 1 && !_isLoadingMore) {
+      _fetchMoreImages();
+    }
+  }
+
+
+  Future<void> _fetchMoreImages() async {
+    setState(() {
+      _isLoadingMore = true;
+    });
+
+    try {
+      final newImages = await UnsplashService.fetchImages(
+        widget.query, // Use the query property
+        page: (_currentIndex ~/ 20) + 2, // Calculate the next page number
+      );
+
+      if (newImages.isNotEmpty) {
+        setState(() {
+          widget.images.addAll(newImages);
+        });
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error fetching more images: $e');
+      }
+    } finally {
+      setState(() {
+        _isLoadingMore = false;
+      });
+    }
+  }
 
   Future<void> _handleDownload(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     try {
-      await UnsplashDownloadService.triggerDownload(downloadUrl);
-      
+      await UnsplashDownloadService.triggerDownload(widget.downloadUrl);
+
       // Show a snackbar to confirm download
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -63,12 +133,28 @@ class FullScreenImageView extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          Center(
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.contain,
-            ),
-          ),
+           PageView.builder(
+          controller: _pageController,
+          itemCount: widget.images.length,
+          itemBuilder: (context, index) {
+            final image = widget.images[index];
+            return InteractiveViewer(
+              panEnabled: true,
+              minScale: 1.0,
+              maxScale: 3.0,
+              child: CachedNetworkImage(
+                imageUrl: image['url'],
+                fit: BoxFit.contain,
+                placeholder: (context, url) =>
+                    Center(child: SpinKitThreeInOut( 
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          )),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+            );
+          },
+        ),
           Positioned(
             bottom: 16.0,
             left: 16.0,
@@ -87,14 +173,13 @@ class FullScreenImageView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        final Uri photoUri = Uri.parse(photoLink);
+                        final Uri photoUri = Uri.parse(widget.photoLink);
                         if (await canLaunchUrl(photoUri)) {
                           await launchUrl(photoUri);
                         }
                       },
-                      child:
-                       Text(
-                        photographerName,
+                      child: Text(
+                        widget.photographerName,
                         style: const TextStyle(
                           color: Colors.blue,
                           fontSize: 16.0,
@@ -103,40 +188,31 @@ class FullScreenImageView extends StatelessWidget {
                         ),
                       ),
                     ),
-                     Text(localizations.on),
-          
-            GestureDetector(
-              onTap: () async {
-                final Uri photoUri = Uri.parse('https://unsplash.com');
-                if (await canLaunchUrl(photoUri)) {
-                  await launchUrl(photoUri);
-                }
-              },
-              child: Text(
-                'Unsplash',
-                style: TextStyle(
-                  color: Colors.blue[200],
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            )
-              
-             
-        
-          
+                    Text(localizations.on),
+                    GestureDetector(
+                      onTap: () async {
+                        final Uri photoUri = Uri.parse('https://unsplash.com');
+                        if (await canLaunchUrl(photoUri)) {
+                          await launchUrl(photoUri);
+                        }
+                      },
+                      child: Text(
+                        'Unsplash',
+                        style: TextStyle(
+                          color: Colors.blue[200],
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],
             ),
           ),
-          
         ],
       ),
-      
       backgroundColor: Colors.black,
     );
-    
   }
 }
-
