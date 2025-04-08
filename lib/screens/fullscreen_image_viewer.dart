@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:happy_view/services/unsplash_download_services.dart';
 import 'package:happy_view/services/unsplash_service.dart';
+import 'package:happy_view/widgets/download_button.dart';
 import '../l10n/app_localizations.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -90,18 +91,18 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
     }
   }
 
-  Future<void> _handleDownload(BuildContext context) async {
+/*   Future<void> _handleDownload(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     try {
       await UnsplashDownloadService.triggerDownload(widget.downloadUrl);
 
       // Show a snackbar to confirm download
-      ScaffoldMessenger.of(context).showSnackBar(
+      /*  ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(localizations.downloadStarted),
           duration: const Duration(seconds: 2),
         ),
-      );
+      ); */
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -110,22 +111,35 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
         ),
       );
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
+         title: Text(
+            localizations.imageIndex(_currentIndex + 1, widget.images.length)),
+        actions: [
+          
+          DownloadButton(imageUrl: widget.images[_currentIndex]['url'],
+            downloadUrl: widget.downloadUrl),
+        ],
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
+    /*     actions: [
           IconButton(
             icon: const Icon(Icons.download, color: Colors.white),
-            onPressed: () => _handleDownload(context),
+            onPressed: () async {
+              // Trigger the existing _handleDownload method
+             // await _handleDownload(context);
+
+              // Trigger the DownloadButton functionality
+              DownloadButton(imageUrl: widget.images[_currentIndex]['url']);
+            },
             tooltip: localizations.download,
           ),
-        ],
+        ], */
       ),
       body: Stack(
         children: [
@@ -134,8 +148,6 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
             itemCount: widget.images.length,
             itemBuilder: (context, index) {
               final image = widget.images[index];
-              final photographrName =
-                  image['photographer'] ?? 'Unknown Photographer';
               return InteractiveViewer(
                 panEnabled: true,
                 minScale: 1.0,
