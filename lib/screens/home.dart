@@ -45,10 +45,16 @@ class CategoryTileState extends State<CategoryTile>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
+    final AudioPlayer _audioPlayer2 = AudioPlayer();
+
+  //////////////////
+  ////////////
+  
 
   @override
   void initState() {
     super.initState();
+    _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
 
     // Initialize the animation controller
     _controller = AnimationController(
@@ -65,18 +71,28 @@ class CategoryTileState extends State<CategoryTile>
     _rotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
     );
+       // Set up listener to reset the player when sound finishes
+    _audioPlayer2.onPlayerComplete.listen((event) {
+      _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
+
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+    _audioPlayer2.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: ()  {   _audioPlayer2.seek(Duration.zero);
+                _audioPlayer2.resume();
+        widget.onTap(); // Call the onTap function passed from the parent
+  
+              },
       onLongPress: () {
         _controller.repeat(reverse: true); // Start the animation
       },
@@ -96,25 +112,28 @@ class CategoryTileState extends State<CategoryTile>
         },
         child: Column(
           children: [
+            Expanded(child:
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.asset(
                 widget.image,
-                height: 150,
-                width: 150,
+               
                 fit: BoxFit.cover,
-                cacheWidth: 150, // Match the widget's width
-                cacheHeight: 150,
+                  width: double.infinity,  // Take full width of parent
+
               ),
             ),
-            const SizedBox(height: 2),
+            ),
+            const SizedBox(height: 8),
             Text(
               widget.name,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 9, 45, 42),
               ),
+                  textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -147,7 +166,9 @@ class HomeScreenState extends State<HomeScreen> {
     // Set up listener to reset the player when sound finishes
     _audioPlayer.onPlayerComplete.listen((event) {
       _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
+
     });
+  
     }
   @override
   void dispose() {
@@ -208,6 +229,8 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
+                childAspectRatio: 0.85, // Adjust this value to control the height/width ratio
+
               ),
               itemCount: categories.length,
               itemBuilder: (context, index) {

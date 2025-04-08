@@ -33,11 +33,11 @@ List<Map<String, dynamic>> getCategories(AppLocalizations localizations) {
       'query': 'vehicles',
       'image': 'lib/assets/images/vehicles.png',
     },
-       {
+   /*     {
       'name': localizations.category_architecture,
       'query': 'architecture',
       'image': 'lib/assets/images/architecture.png',
-    }
+    } */
   ];
 }
 
