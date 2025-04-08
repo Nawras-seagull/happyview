@@ -1,23 +1,46 @@
-/* import 'dart:io';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gal/gal.dart';
+import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img; // For image conversion
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../l10n/app_localizations.dart';
+
+class UnsplashDownloadService {
+  static Future<void> triggerDownload(String downloadUrl) async {
+    try {
+      // According to Unsplash API guidelines, we should trigger the download
+      // by making a GET request to the download location
+      final response = await http.get(Uri.parse(downloadUrl));
+      // Check if the response is successful
+       
+      
+      if (response.statusCode == 200) {
+        // The download has been registered with Unsplash
+        // The actual download happens via the redirected URL
+        // Note: On mobile, we might want to handle the actual download differently
+      }
+    } catch (e) {
+      throw Exception('Failed to trigger download: $e');
+    }
+  }
+}
+
 class DownloadButton extends StatefulWidget {
   final String imageUrl;
   final String? imageId; // Optional ID for filename
   final String? location; // Optional location for Unsplash attribution
+  final String? downloadUrl; // Optional download URL for Unsplash tracking
 
   const DownloadButton({
     super.key,
     required this.imageUrl,
     this.imageId,
     this.location,
+    this.downloadUrl,
   });
 
   @override
@@ -32,13 +55,17 @@ class _DownloadButtonState extends State<DownloadButton> {
     setState(() => _isLoading = true);
 
     try {
+      // Trigger Unsplash download tracking if URL is provided
+      if (widget.downloadUrl != null) {
+        await UnsplashDownloadService.triggerDownload(widget.downloadUrl!);
+      }
+      
       // Check and request permissions
       if (Platform.isAndroid) {
         final status = await Permission.storage.request();
-        if (!status.isGranted) {      if (!mounted) return;
-
+        if (!status.isGranted) {
+          if (!mounted) return;
           throw Exception(
-            
               AppLocalizations.of(context)!.storagePermissionDenied);
         }
       }
@@ -114,10 +141,7 @@ class _DownloadButtonState extends State<DownloadButton> {
           ? const SizedBox(
               width: 20,
               height: 20,
-              child: SpinKitThreeInOut( 
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
-                          ),
+              
             )
           : const Icon(Icons.download),
       onPressed: _downloadAndSaveImage,
@@ -125,4 +149,3 @@ class _DownloadButtonState extends State<DownloadButton> {
     );
   }
 }
- */

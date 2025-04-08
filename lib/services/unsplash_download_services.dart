@@ -1,4 +1,4 @@
-// File: unsplash_download_service.dart
+/* // File: unsplash_download_service.dart
 import 'package:http/http.dart' as http;
 
 class UnsplashDownloadService {
@@ -12,9 +12,10 @@ class UnsplashDownloadService {
         // The download has been registered with Unsplash
         // The actual download happens via the redirected URL
         // Note: On mobile, we might want to handle the actual download differently
+        
       }
     } catch (e) {
       throw Exception('Failed to trigger download: $e');
     }
   }
-}
+} */
