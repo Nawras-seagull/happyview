@@ -188,7 +188,10 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
                         ),
                       ),
                     ),
-                    Text(localizations.on),
+                    Text(localizations.on,style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      )),
                     GestureDetector(
                       onTap: () async {
                         final Uri photoUri = Uri.parse('https://unsplash.com');
@@ -199,7 +202,7 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
                       child: Text(
                         'Unsplash',
                         style: TextStyle(
-                          color: Colors.blue[200],
+                          color: Colors.blue,
                           fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
                         ),

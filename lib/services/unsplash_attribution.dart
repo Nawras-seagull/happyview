@@ -28,18 +28,21 @@ class UnsplashAttribution {
           TextSpan(
             text: imageData['photographer'] ?? localizations.unknownPhotographer,
             style: TextStyle(
-              color: Colors.blue[200],
+              color: Colors.blue,
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.underline,
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () => _launchUrl(imageData['photographerLink']),
           ),
-          TextSpan(text: localizations.on),
+          TextSpan(text:localizations.on,style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      )),
           TextSpan(
             text: 'Unsplash',
             style: TextStyle(
-              color: Colors.blue[200],
+              color: Colors.blue,
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.underline,
             ),
@@ -54,8 +57,9 @@ class UnsplashAttribution {
   /// Extracts attribution information from Unsplash API response
   static Map<String, String> extractAttributionData(Map<String, dynamic> apiResponse) {
     return {
-      'photographer': apiResponse['user']['name'] ?? 'Unknown Photographer',
-      'photographerLink': apiResponse['user']['links']['html'] ?? '',
+'photographer': (apiResponse['user']['name']?.length ?? 0) > 20
+    ? '${apiResponse['user']['name']?.substring(0, 20)}...'
+    : apiResponse['user']['name'] ?? 'Unknown Photographer',      'photographerLink': apiResponse['user']['links']['html'] ?? '',
       'photoLink': apiResponse['links']['html'] ?? '',
       // Add download URL extraction (use either 'download' or 'download_location' depending on API version)
       'downloadUrl': apiResponse['links']['download'] ?? apiResponse['links']['download_location'] ?? '',
