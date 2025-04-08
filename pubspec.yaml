@@ -51,5 +51,6 @@ flutter:
     - lib/assets/images/
     - lib/l10n/
     - assets/sounds/yay.wav
+    - assets/sounds/click.mp3
     - assets/profanity/en.json
    

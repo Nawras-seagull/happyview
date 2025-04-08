@@ -13,11 +13,9 @@ class FullScreenImageView extends StatefulWidget {
   final String photographerName;
   final String photoLink;
   final String downloadUrl;
-    final int initialIndex;
-      final String query; // Add the query property
+  final int initialIndex;
+  final String query; // Add the query property
   final List<Map<String, dynamic>> images;
-
-
 
   const FullScreenImageView({
     super.key,
@@ -26,9 +24,8 @@ class FullScreenImageView extends StatefulWidget {
     required this.photoLink,
     required this.initialIndex,
     required this.downloadUrl,
-        required this.images,
+    required this.images,
     required this.query, // Add the query parameter
-
   });
 
   @override
@@ -36,11 +33,11 @@ class FullScreenImageView extends StatefulWidget {
 }
 
 class _FullScreenImageViewState extends State<FullScreenImageView> {
-    late PageController _pageController;
+  late PageController _pageController;
   late int _currentIndex;
   bool _isLoadingMore = false;
 
-   @override
+  @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
@@ -65,7 +62,6 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
       _fetchMoreImages();
     }
   }
-
 
   Future<void> _fetchMoreImages() async {
     setState(() {
@@ -133,28 +129,30 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
       ),
       body: Stack(
         children: [
-           PageView.builder(
-          controller: _pageController,
-          itemCount: widget.images.length,
-          itemBuilder: (context, index) {
-            final image = widget.images[index];
-            return InteractiveViewer(
-              panEnabled: true,
-              minScale: 1.0,
-              maxScale: 3.0,
-              child: CachedNetworkImage(
-                imageUrl: image['url'],
-                fit: BoxFit.contain,
-                placeholder: (context, url) =>
-                    Center(child: SpinKitThreeInOut( 
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
-                          )),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            );
-          },
-        ),
+          PageView.builder(
+            controller: _pageController,
+            itemCount: widget.images.length,
+            itemBuilder: (context, index) {
+              final image = widget.images[index];
+              final photographrName =
+                  image['photographer'] ?? 'Unknown Photographer';
+              return InteractiveViewer(
+                panEnabled: true,
+                minScale: 1.0,
+                maxScale: 3.0,
+                child: CachedNetworkImage(
+                  imageUrl: image['url'],
+                  fit: BoxFit.contain,
+                  placeholder: (context, url) => Center(
+                      child: SpinKitThreeInOut(
+                    color: Color.fromARGB(255, 8, 127, 148),
+                    size: 30.0,
+                  )),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              );
+            },
+          ),
           Positioned(
             bottom: 16.0,
             left: 16.0,
@@ -173,13 +171,16 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        final Uri photoUri = Uri.parse(widget.photoLink);
+                        final Uri photoUri = Uri.parse(
+                            widget.images[_currentIndex]['photographerLink'] ??
+                                '');
                         if (await canLaunchUrl(photoUri)) {
                           await launchUrl(photoUri);
                         }
                       },
                       child: Text(
-                        widget.photographerName,
+                        widget.images[_currentIndex]['photographer'] ??
+                            'Unknown Photographer',
                         style: const TextStyle(
                           color: Colors.blue,
                           fontSize: 16.0,
@@ -188,10 +189,13 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
                         ),
                       ),
                     ),
-                    Text(localizations.on,style: const TextStyle(
+                    Text(
+                      localizations.on,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
-                      )),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () async {
                         final Uri photoUri = Uri.parse('https://unsplash.com');
