@@ -117,7 +117,9 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( iconTheme: IconThemeData(
+    color: Colors.white, // Change to your desired color
+  ),
          title: Text(
             localizations.imageIndex(_currentIndex + 1, widget.images.length)),
         actions: [

@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
               centerTitle: true,
               elevation: 0,
             ),
+            
           ),
 
           home: HomeScreen(),
