@@ -12,4 +12,18 @@
     <!-- For backward compatibility -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false" />
 
+<queries>
+  <!-- For http/https URLs -->
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="https" />
+  </intent>
+  <!-- For custom URL schemes -->
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="http" />
+  </intent>
+</queries>
 </manifest>
+
+
