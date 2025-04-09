@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:happy_view/services/unsplash_download_services.dart';
+import 'package:happy_view/services/unsplash_attribution.dart';
 import 'package:happy_view/services/unsplash_service.dart';
 import 'package:happy_view/widgets/download_button.dart';
 import '../l10n/app_localizations.dart';
@@ -167,73 +167,28 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
               );
             },
           ),
-          Positioned(
+         Positioned(
             bottom: 16.0,
             left: 16.0,
             right: 16.0,
-            child: Column(
+            child: Column( 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      localizations.photoBy,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        final Uri photoUri = Uri.parse(
-                            widget.images[_currentIndex]['photographerLink'] ??
-                                '');
-                        if (await canLaunchUrl(photoUri)) {
-                          await launchUrl(photoUri);
-                        }
-                      },
-                      child: Text(
-                        widget.images[_currentIndex]['photographer'] ??
-                            'Unknown Photographer',
-                        style: const TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      localizations.on,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {
-                        final Uri photoUri = Uri.parse('https://unsplash.com');
-                        if (await canLaunchUrl(photoUri)) {
-                          await launchUrl(photoUri);
-                        }
-                      },
-                      child: Text(
-                        'Unsplash',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                UnsplashAttribution.buildAttribution(
+            context,
+            widget.images[_currentIndex],
+            textColor: Colors.white,
+            fontSize: 16.0,
           ),
+              ]
+            ),
+            
+            )
+
         ],
       ),
       backgroundColor: Colors.black,
     );
   }
+  
 }
