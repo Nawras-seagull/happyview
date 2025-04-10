@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:happy_view/widgets/sound_effect_handler.dart';
 import '../l10n/app_localizations.dart';
 import 'package:happy_view/screens/query_result.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
@@ -90,6 +91,8 @@ class CategoryTileState extends State<CategoryTile>
     return GestureDetector(
       onTap: ()  {  // _audioPlayer2.seek(Duration.zero);
               //  _audioPlayer2.resume();
+                 // Play click sound without blocking
+        SoundEffectHandler().playClick();
         widget.onTap(); // Call the onTap function passed from the parent
   
               },
@@ -258,7 +261,7 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
                // Reset to beginning and play sound
            //     _audioPlayer.seek(Duration.zero);
             //    _audioPlayer.resume();
-                
+                 SoundEffectHandler().playYay();
                 // Show random picture from our categories
                 showRandomPicture(context);
               },

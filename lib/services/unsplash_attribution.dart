@@ -26,7 +26,7 @@ class UnsplashAttribution {
         children: [
           TextSpan(text: localizations.photoBy),
           TextSpan(
-            text: imageData['photographer'] ?? localizations.unknownPhotographer,
+            text: imageData['photographer'] ?? imageData['user']['name']??  localizations.unknownPhotographer,
             style: TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
@@ -88,4 +88,4 @@ class UnsplashAttribution {
       }
     }
   }
-}
+} 
