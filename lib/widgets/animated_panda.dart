@@ -75,7 +75,7 @@ class AnimatedPandaState extends State<AnimatedPanda>
     )..repeat(reverse: true);
 
     _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.2),
+      begin: const Offset(0.0, 0.7),
       end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }

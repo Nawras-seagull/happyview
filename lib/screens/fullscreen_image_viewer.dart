@@ -143,7 +143,7 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       ),
       body: Stack(
         children: [
-          PageView.builder(
+           PageView.builder(
             controller: _pageController,
             itemCount: widget.images.length,
             itemBuilder: (context, index) {
@@ -153,7 +153,7 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
                 minScale: 1.0,
                 maxScale: 3.0,
                 child: CachedNetworkImage(
-                  imageUrl: image['urls']['regular'],
+                imageUrl: image['urls']?['regular'] ?? image['url'],
                   fit: BoxFit.contain,
                   placeholder: (context, url) => Center(
                       child: SpinKitThreeInOut(
@@ -164,8 +164,8 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
                 ),
               );
             },
-          ),
-         Positioned(
+          ), 
+          Positioned(
             bottom: 16.0,
             left: 16.0,
             right: 16.0,
@@ -177,11 +177,11 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
             widget.images[_currentIndex],
             textColor: Colors.white,
             fontSize: 16.0,
-          ),
+          ), 
               ]
             ),
             
-            )
+           )
 
         ],
       ),
