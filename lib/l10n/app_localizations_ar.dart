@@ -410,11 +410,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get on => 'في ';
 
   @override
-  String get download => 'Download';
+  String get download => 'تحميل';
 
   @override
-  String get downloadStarted => 'Download started';
+  String get downloadStarted => 'بدأ التحميل';
 
   @override
-  String get downloadFailed => 'Download failed';
+  String get downloadFailed => 'فشل التحميل';
 }

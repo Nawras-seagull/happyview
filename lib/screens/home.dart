@@ -6,12 +6,12 @@ import 'package:happy_view/screens/query_result.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
 import 'package:happy_view/widgets/categories.dart';
 import 'package:happy_view/widgets/random_picture_helper.dart';
-import 'package:audioplayers/audioplayers.dart';
+//import 'package:audioplayers/audioplayers.dart';
 import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
 import 'package:flutter/foundation.dart';
 /////////////////////
-///
+///////////////////
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
   return json.decode(responseBody);
@@ -45,7 +45,7 @@ class CategoryTileState extends State<CategoryTile>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
-    final AudioPlayer _audioPlayer2 = AudioPlayer();
+//    final AudioPlayer _audioPlayer2 = AudioPlayer();
 
   //////////////////
   ////////////
@@ -54,7 +54,7 @@ class CategoryTileState extends State<CategoryTile>
   @override
   void initState() {
     super.initState();
-    _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
+ //   _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
 
     // Initialize the animation controller
     _controller = AnimationController(
@@ -72,24 +72,24 @@ class CategoryTileState extends State<CategoryTile>
       CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
     );
        // Set up listener to reset the player when sound finishes
-    _audioPlayer2.onPlayerComplete.listen((event) {
-      _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
+  //  _audioPlayer2.onPlayerComplete.listen((event) {
+    //  _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
 
-    });
+  //  });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
-    _audioPlayer2.dispose();
+ //   _audioPlayer2.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()  {   _audioPlayer2.seek(Duration.zero);
-                _audioPlayer2.resume();
+      onTap: ()  {  // _audioPlayer2.seek(Duration.zero);
+              //  _audioPlayer2.resume();
         widget.onTap(); // Call the onTap function passed from the parent
   
               },
@@ -150,7 +150,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  final AudioPlayer _audioPlayer = AudioPlayer();
+ // final AudioPlayer _audioPlayer = AudioPlayer();
 
  @override
   void initState() {
@@ -161,18 +161,18 @@ class HomeScreenState extends State<HomeScreen> {
       initializeImagePrefetching(context);
     });
     // Set up audio player with initial source
-    _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
+   // _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
     
     // Set up listener to reset the player when sound finishes
-    _audioPlayer.onPlayerComplete.listen((event) {
-      _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
+   // _audioPlayer.onPlayerComplete.listen((event) {
+    //  _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
 
-    });
+   // });
   
     }
   @override
   void dispose() {
-    _audioPlayer.dispose();
+  //  _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -256,8 +256,8 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
             child: ElevatedButton(
               onPressed: ()  {
                // Reset to beginning and play sound
-                _audioPlayer.seek(Duration.zero);
-                _audioPlayer.resume();
+           //     _audioPlayer.seek(Duration.zero);
+            //    _audioPlayer.resume();
                 
                 // Show random picture from our categories
                 showRandomPicture(context);

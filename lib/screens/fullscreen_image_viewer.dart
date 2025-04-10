@@ -7,8 +7,6 @@ import 'package:happy_view/services/unsplash_service.dart';
 import 'package:happy_view/widgets/download_button.dart';
 import '../l10n/app_localizations.dart';
 
-import 'package:url_launcher/url_launcher.dart';
-
 class FullScreenImageView extends StatefulWidget {
   final String imageUrl;
   final String photographerName;
@@ -30,10 +28,10 @@ class FullScreenImageView extends StatefulWidget {
   });
 
   @override
-  _FullScreenImageViewState createState() => _FullScreenImageViewState();
+  FullScreenImageViewState createState() => FullScreenImageViewState();
 }
 
-class _FullScreenImageViewState extends State<FullScreenImageView> {
+class FullScreenImageViewState extends State<FullScreenImageView> {
   late PageController _pageController;
   late int _currentIndex;
   bool _isLoadingMore = false;
@@ -124,7 +122,7 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
             localizations.imageIndex(_currentIndex + 1, widget.images.length)),
         actions: [
           
-          DownloadButton(imageUrl: widget.images[_currentIndex]['url'],
+          DownloadButton(imageUrl: widget.imageUrl,
             downloadUrl: widget.downloadUrl),
         ],
         backgroundColor: Colors.transparent,
@@ -155,7 +153,7 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
                 minScale: 1.0,
                 maxScale: 3.0,
                 child: CachedNetworkImage(
-                  imageUrl: image['url'],
+                  imageUrl: image['urls']['regular'],
                   fit: BoxFit.contain,
                   placeholder: (context, url) => Center(
                       child: SpinKitThreeInOut(
