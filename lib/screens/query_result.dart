@@ -192,6 +192,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
      
         ],
       ),
+      SizedBox.expand( child:
     // Now the AnimatedPanda can be a direct child of Stack
          const Positioned(
           bottom: -1,
@@ -199,6 +200,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
           right: 0, 
           child: AnimatedPanda(),
         ),
+      ),
       ],
     ),
   );

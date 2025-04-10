@@ -517,7 +517,10 @@
     "description": "On label"
   },
   "download": "Download",
+  "@download": {},
   "downloadStarted": "Download started",
-  "downloadFailed": "Download failed"
+  "@downloadStarted": {},
+  "downloadFailed": "Download failed",
+  "@downloadFailed": {}
   
 }

@@ -407,11 +407,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get on => 'üzerinde bulundu';
 
   @override
-  String get download => 'Download';
+  String get download => 'İndir';
 
   @override
-  String get downloadStarted => 'Download started';
+  String get downloadStarted => 'İndirme başladı';
 
   @override
-  String get downloadFailed => 'Download failed';
+  String get downloadFailed => 'İndirme başarısız oldu';
 }

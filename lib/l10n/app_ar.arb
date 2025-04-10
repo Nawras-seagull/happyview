@@ -485,5 +485,17 @@
   "on": "في ",
   "@on": {
     "description": "تاريخ الصورة"
+  },
+  "download": "تحميل",
+  "@download": {
+    "description": "زر تحميل الصورة"
+  },
+  "downloadStarted": "بدأ التحميل",
+  "@downloadStarted": {
+    "description": "بدء تحميل الصورة"
+  },
+  "downloadFailed": "فشل التحميل",
+  "@downloadFailed": {
+    "description": "فشل تحميل الصورة"
   }
 }

@@ -462,5 +462,17 @@
   "on": "üzerinde bulundu",
   "@on": {
     "description": "Üzerinde durumu"
+  },
+  "download": "İndir",
+  "@download": {
+    "description": "İndirme düğmesi"
+  },
+  "downloadStarted": "İndirme başladı",
+  "@downloadStarted": {
+    "description": "İndirme başladığında gösterilecek mesaj"
+  },
+  "downloadFailed": "İndirme başarısız oldu",
+  "@downloadFailed": {
+    "description": "İndirme başarısız olduğunda gösterilecek mesaj"
   }
 }
