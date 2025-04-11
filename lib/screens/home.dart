@@ -192,7 +192,7 @@ class HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              'lib/assets/images/logo.png', // Path to your logo image
+              'lib/assets/images/panda_peek.png', // Path to your logo image
               height: 40.0,
             ),
             const SizedBox(width: 8.0),
