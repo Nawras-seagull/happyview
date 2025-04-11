@@ -55,3 +55,8 @@ android/app/build/
 **/android/app/build/
 **/ios/build/
 **/web/build/
+# Add to .gitignore
+android/app/build/
+**/build/
+*.apk
+*.bin
