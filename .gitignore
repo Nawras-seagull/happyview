@@ -48,4 +48,10 @@ app.*.map.json
 
 # Ignore specific file
 lib/widgets/draft.dart
-/android/app/build/
+android/app/build/outputs/apk/debug/app-debug.apk 
+android/app/build/
+# Flutter/Dart build-related
+**/build/
+**/android/app/build/
+**/ios/build/
+**/web/build/
