@@ -22,7 +22,7 @@ class FunSearchBarState extends State<FunSearchBar> {
   //List<String> _blockedWords = [];
   final GoogleTranslator translator = GoogleTranslator();
 
-  @override
+  @override 
   void initState() {
     super.initState();
 
@@ -86,12 +86,7 @@ class FunSearchBarState extends State<FunSearchBar> {
               ),
             );
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text('"$translatedtitle" "$query" → "$englishQuery"'),
-              duration: Duration(seconds: 2),
-            ),
-          );
+       
         }
       } catch (e) {
         if (kDebugMode) {
