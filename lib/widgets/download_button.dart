@@ -62,7 +62,7 @@ class _DownloadButtonState extends State<DownloadButton> {
       
       // Check and request permissions
       if (Platform.isAndroid) {
-        final status = await Permission.storage.request();
+        final status = await Permission.photos.request();
         if (!status.isGranted) {
           if (!mounted) return;
           throw Exception(
