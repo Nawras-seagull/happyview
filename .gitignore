@@ -60,3 +60,7 @@ android/app/build/
 **/build/
 *.apk
 *.bin
+key.properties
+android/key.properties
+**/*.keystore
+**/*.jks
