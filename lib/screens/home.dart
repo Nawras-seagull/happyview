@@ -160,9 +160,9 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     
     // Initialize prefetching when the app starts
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+ /*    WidgetsBinding.instance.addPostFrameCallback((_) {
       initializeImagePrefetching(context);
-    });
+    }); */
     // Set up audio player with initial source
    // _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
     

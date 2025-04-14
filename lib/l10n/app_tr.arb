@@ -435,6 +435,10 @@
   "@search": {
     "description": "Arama çubuğu"
   },
+  "searchResults": "Arama sonuçları",
+  "@searchResults": {
+    "description": "Arama sonuçları başlığı"
+  },
   "safeSearch": "Güvenli arama",
   "@safeSearch": {
     "description": "Güvenli arama seçeneği"

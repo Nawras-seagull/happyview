@@ -1,11 +1,10 @@
-// subcategory_service.dart
+ // subcategory_service.dart
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_view/services/pixabay_services.dart';
 import '../l10n/app_localizations.dart';
-import 'package:happy_view/services/unsplash_service.dart';
-
 import 'package:happy_view/widgets/subcategory_data.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,13 +38,13 @@ class SubcategoryService {
       }
 
       final response = await http.get(Uri.parse(
-          'https://api.unsplash.com/search/photos?query=$topic&client_id=${UnsplashService.accessKey}&per_page=1'));
-
+          'https://pixabay.com/api/?key=${PixabayService.accessKey}&q=$topic&image_type=photo&safesearch=true'));
+//https://pixabay.com/api/?key=49682872-0649c795fb759cec1a2ddb865&q=yellow+flowers&image_type=photo&pretty=true
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
         
-        if (data['results'].isNotEmpty) {
-          final imageUrl = data['results'][0]['urls']['regular'] as String;
+        if (data['hits'].isNotEmpty) {
+          final imageUrl = data['hits'][0]['webformatURL'] as String;
           _imageCache[topic] = NetworkImage(imageUrl);
           
           return _createSubcategoryItem(context, topic, imageUrl);
@@ -69,4 +68,4 @@ class SubcategoryService {
   void clearCache() {
     _categoryCache.clear();
   }
-}
+} 

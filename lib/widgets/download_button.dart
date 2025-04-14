@@ -3,13 +3,12 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gal/gal.dart';
-import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img; // For image conversion
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../l10n/app_localizations.dart';
 
-class UnsplashDownloadService {
+/* class UnsplashDownloadService {
   static Future<void> triggerDownload(String downloadUrl) async {
     try {
       // According to Unsplash API guidelines, we should trigger the download
@@ -28,7 +27,7 @@ class UnsplashDownloadService {
     }
   }
 }
-
+ */
 class DownloadButton extends StatefulWidget {
   final String imageUrl;
   final String? imageId; // Optional ID for filename
@@ -56,9 +55,9 @@ class _DownloadButtonState extends State<DownloadButton> {
 
     try {
       // Trigger Unsplash download tracking if URL is provided
-      if (widget.downloadUrl != null) {
+    /*   if (widget.downloadUrl != null) {
         await UnsplashDownloadService.triggerDownload(widget.downloadUrl!);
-      }
+      } */
       
       // Check and request permissions
       if (Platform.isAndroid) {

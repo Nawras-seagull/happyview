@@ -458,7 +458,10 @@
   "@search": {
     "description": "زر البحث"
   },
-  
+  "searchResults": "نتائج البحث",
+  "@searchResults": {
+    "description": "عنوان نتائج البحث"
+  },
 
 "safeSearch": "البحث الآمن",
   "@safeSearch": {

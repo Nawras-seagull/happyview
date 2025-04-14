@@ -2,8 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:happy_view/services/unsplash_attribution.dart';
-import 'package:happy_view/services/unsplash_service.dart';
+import 'package:happy_view/services/pixabay_services.dart';
 import 'package:happy_view/widgets/download_button.dart';
 import '../l10n/app_localizations.dart';
 
@@ -68,7 +67,7 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
     });
 
     try {
-      final newImages = await UnsplashService.fetchImages(
+      final newImages = await PixabayService.fetchImages(
         widget.query, // Use the query property
         page: (_currentIndex ~/ 20) + 2, // Calculate the next page number
       );
@@ -165,23 +164,12 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
               );
             },
           ), 
-          Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: Column( 
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                UnsplashAttribution.buildAttribution(
-            context,
-            widget.images[_currentIndex],
-            textColor: Colors.white,
-            fontSize: 16.0,
-          ), 
-              ]
-            ),
-            
-           )
+        Positioned(
+  bottom: 16.0,
+  left: 16.0,
+  right: 16.0,
+  child: _buildPixabayAttribution(context, widget.images[_currentIndex]),
+)
 
         ],
       ),
@@ -190,3 +178,24 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
   }
   
 }
+
+
+// Remove UnsplashAttribution import and add this method:
+Widget _buildPixabayAttribution(BuildContext context, Map<String, dynamic> image) {
+  return Container(
+    padding: const EdgeInsets.all(8.0),
+    decoration: BoxDecoration(
+      color: Colors.black.withOpacity(0.5),
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    child: Text(
+      'Photo by ${image['photographer']} on Pixabay',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 16.0,
+      ),
+    ),
+  );
+}
+
+// In the build method, replace UnsplashAttribution with:

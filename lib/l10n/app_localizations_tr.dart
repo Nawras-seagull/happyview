@@ -386,6 +386,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get search => 'Ara';
 
   @override
+  String get searchResults => 'Arama sonuçları';
+
+  @override
   String get safeSearch => 'Güvenli arama';
 
   @override
