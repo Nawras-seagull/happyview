@@ -389,6 +389,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get search => 'بحث';
 
   @override
+  String get searchResults => 'نتائج البحث';
+
+  @override
   String get safeSearch => 'البحث الآمن';
 
   @override

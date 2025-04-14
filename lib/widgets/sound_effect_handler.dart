@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
 // A singleton class to manage sound effects efficiently
@@ -28,7 +28,9 @@ class SoundEffectHandler {
       
       _initialized = true;
     } catch (e) {
-      print('Error initializing sound effects: $e');
+      if (kDebugMode) {
+        print('Error initializing sound effects: $e');
+      }
     }
   }
   
@@ -40,7 +42,9 @@ class SoundEffectHandler {
       await _clickPlayer.seek(Duration.zero);
       await _clickPlayer.play();
     } catch (e) {
-      print('Error playing click sound: $e');
+      if (kDebugMode) {
+        print('Error playing click sound: $e');
+      }
     }
   }
   
@@ -52,7 +56,9 @@ class SoundEffectHandler {
       await _yayPlayer.seek(Duration.zero);
       await _yayPlayer.play();
     } catch (e) {
-      print('Error playing yay sound: $e');
+      if (kDebugMode) {
+        print('Error playing yay sound: $e');
+      }
     }
   }
   

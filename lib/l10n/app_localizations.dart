@@ -811,6 +811,12 @@ abstract class AppLocalizations {
   /// **'Search...'**
   String get search;
 
+  /// Search results title
+  ///
+  /// In en, this message translates to:
+  /// **'Search results'**
+  String get searchResults;
+
   /// Safe search error message
   ///
   /// In en, this message translates to:

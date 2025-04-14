@@ -488,6 +488,10 @@
   "@search": {
     "description": "Search bar placeholder"
   },
+  "searchResults": "Search results",
+  "@searchResults": {
+    "description": "Search results title"
+  },
   "safeSearch":"Please enter a safe search term.",
   "@safeSearch": {
     "description": "Safe search error message"

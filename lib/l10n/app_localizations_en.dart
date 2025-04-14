@@ -386,6 +386,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search...';
 
   @override
+  String get searchResults => 'Search results';
+
+  @override
   String get safeSearch => 'Please enter a safe search term.';
 
   @override
