@@ -1,16 +1,22 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
-    // START: FlutterFire Configuration
     id("com.google.gms.google-services")
-    // END: FlutterFire Configuration
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
 android {
     namespace = "com.nawras.happyview"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -23,41 +29,50 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.nawras.happyview"
-   //     minSdkVersion(23) // Parentheses are required in Kotlin DSL
-     //   targetSdkVersion(34)
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-       // minSdk = flutter.minSdkVersion
-       // targetSdk = flutter.targetSdkVersion
-        versionCode = 4
-        versionName = "2.0.0"
-        minSdk=23
-        targetSdk=34
+        versionCode = 6
+        versionName = "2.1.1"
+        minSdk= 23
+        targetSdk = 34
+        proguardFiles("proguard-rules.pro", "proguard-android.txt")
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false     // Kotlin uses "isMinifyEnabled" instead of "minifyEnabled"
-            isShrinkResources = false   // Kotlin uses "isShrinkResources" instead of "shrinkResources"
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        release {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+
         }
     }
+    buildToolsVersion = "36.0.0"
 }
 
 flutter {
     source = "../.."
 }
-
-/* dependencies {
-    implementation("com.google.android.play:core:2.0.3") {
-        exclude(group = "com.google.android.play", module = "core-common")
-    }
-    implementation("com.google.android.play:core-ktx:2.0.3") {
-        exclude(group = "com.google.android.play", module = "core-common")
-    }
-} */
+repositories {
+    google()  // Must be declared to access Play Core libs
+    mavenCentral()
+}
+dependencies {
+    implementation("com.google.android.play:review:2.0.2") // Correct latest stable version
+    implementation("com.google.android.play:review-ktx:2.0.2") // Kotlin extensions (optional)
+    implementation("com.google.android.play:asset-delivery:2.3.0")
+    implementation("com.google.android.play:asset-delivery-ktx:2.3.0")
+    implementation ("com.google.android.play:app-update-ktx:2.1.0")
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
+    implementation("com.google.android.play:feature-delivery:2.1.0")
+    implementation("com.google.android.play:feature-delivery-ktx:2.1.0")
+    implementation("androidx.annotation:annotation:1.9.1")
+}
