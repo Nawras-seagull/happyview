@@ -11,6 +11,7 @@ import 'package:happy_view/widgets/random_picture_helper.dart';
 import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
 import 'package:flutter/foundation.dart';
+
 /////////////////////
 ///////////////////
 // Top-level function for parsing JSON off the main thread
@@ -50,12 +51,11 @@ class CategoryTileState extends State<CategoryTile>
 
   //////////////////
   ////////////
-  
 
   @override
   void initState() {
     super.initState();
- //   _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
+    //   _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
 
     // Initialize the animation controller
     _controller = AnimationController(
@@ -72,30 +72,30 @@ class CategoryTileState extends State<CategoryTile>
     _rotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
     );
-       // Set up listener to reset the player when sound finishes
-  //  _audioPlayer2.onPlayerComplete.listen((event) {
+    // Set up listener to reset the player when sound finishes
+    //  _audioPlayer2.onPlayerComplete.listen((event) {
     //  _audioPlayer2.setSource(AssetSource('sounds/click.mp3'));
 
-  //  });
+    //  });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
- //   _audioPlayer2.dispose();
+    //   _audioPlayer2.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()  {  // _audioPlayer2.seek(Duration.zero);
-              //  _audioPlayer2.resume();
-                 // Play click sound without blocking
+      onTap: () {
+        // _audioPlayer2.seek(Duration.zero);
+        //  _audioPlayer2.resume();
+        // Play click sound without blocking
         SoundEffectHandler().playClick();
         widget.onTap(); // Call the onTap function passed from the parent
-  
-              },
+      },
       onLongPress: () {
         _controller.repeat(reverse: true); // Start the animation
       },
@@ -115,17 +115,16 @@ class CategoryTileState extends State<CategoryTile>
         },
         child: Column(
           children: [
-            Expanded(child:
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                widget.image,
-               
-                fit: BoxFit.cover,
-                  width: double.infinity,  // Take full width of parent
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  widget.image,
 
+                  fit: BoxFit.cover,
+                  width: double.infinity, // Take full width of parent
+                ),
               ),
-            ),
             ),
             const SizedBox(height: 8),
             Text(
@@ -135,7 +134,7 @@ class CategoryTileState extends State<CategoryTile>
                 fontWeight: FontWeight.bold,
                 color: const Color.fromARGB(255, 9, 45, 42),
               ),
-                  textAlign: TextAlign.center,
+              textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
             ),
           ],
@@ -153,29 +152,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
- // final AudioPlayer _audioPlayer = AudioPlayer();
+  // final AudioPlayer _audioPlayer = AudioPlayer();
 
- @override
+  @override
   void initState() {
     super.initState();
-    
+
     // Initialize prefetching when the app starts
- /*    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*    WidgetsBinding.instance.addPostFrameCallback((_) {
       initializeImagePrefetching(context);
     }); */
     // Set up audio player with initial source
-   // _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
-    
+    // _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
+
     // Set up listener to reset the player when sound finishes
-   // _audioPlayer.onPlayerComplete.listen((event) {
+    // _audioPlayer.onPlayerComplete.listen((event) {
     //  _audioPlayer.setSource(AssetSource('sounds/yay.wav'));
 
-   // });
-  
-    }
+    // });
+  }
+
   @override
   void dispose() {
-  //  _audioPlayer.dispose();
+    //  _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -210,21 +209,22 @@ class HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          // Search Bar
-FunSearchBar(onSearch: (List<dynamic> results, String query) {
-  // Navigate to the SearchScreen with both search results and the query
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => UnifiedPictureScreen(
-        initialResults: results,
-        query: query,  // Now passing the query from FunSearchBar
-      ),
-    ),
-  ); 
-}),
-          
-         // Grid of Categories
+/////////////////// Search Bar////////////////////////
+          FunSearchBar(onSearch: (String query) {
+            // Navigate to the SearchScreen with both search results and the query
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UnifiedPictureScreen(
+                  
+                  query: query, // Now passing the query from FunSearchBar
+                ),
+              ),
+            );
+          }),
+ ///////////////////End of Search Bar////////////////////////
+
+          // Grid of Categories
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(16.0),
@@ -232,8 +232,8 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
                 crossAxisCount: 2,
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
-                childAspectRatio: 0.85, // Adjust this value to control the height/width ratio
-
+                childAspectRatio:
+                    0.85, // Adjust this value to control the height/width ratio
               ),
               itemCount: categories.length,
               itemBuilder: (context, index) {
@@ -257,11 +257,11 @@ FunSearchBar(onSearch: (List<dynamic> results, String query) {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: ()  {
-               // Reset to beginning and play sound
-           //     _audioPlayer.seek(Duration.zero);
-            //    _audioPlayer.resume();
-                 SoundEffectHandler().playYay();
+              onPressed: () {
+                // Reset to beginning and play sound
+                //     _audioPlayer.seek(Duration.zero);
+                //    _audioPlayer.resume();
+                SoundEffectHandler().playYay();
                 // Show random picture from our categories
                 showRandomPicture(context);
               },

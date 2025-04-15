@@ -79,7 +79,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
     }
     if (randomizePage) {
       final random = Random();
-      _page = random.nextInt(50) + 1; // Random page between 1 and 50
+      _page = random.nextInt(30) + 1; // Random page between 1 and 50
     }
     try {
       final newImages = await PixabayService.fetchImages(
@@ -133,9 +133,9 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => FullScreenImageView(
-          imageUrl: _images[index]['url'] ?? _images[index]['previewURL'],
+          imageUrl: _images[index]['url'] ?? _images[index]['webformatURL'],
           photographerName:
-              _images[index]['photographer'] ?? ['user'] ?? 'Unknown',
+              _images[index]['photographer'] ?? ['user']??'Unknown' ,
           photoLink: _images[index]['photoLink'],
           downloadUrl: _images[index]['download'], // Pass the download URL
           images: _images, // Pass the list of images

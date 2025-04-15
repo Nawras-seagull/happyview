@@ -136,7 +136,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       UnifiedPictureScreen(query: item['query'] ?? ''),
                 ),
               );
-            },
+            },//////////////////////////////
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
