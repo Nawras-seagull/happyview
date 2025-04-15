@@ -9,7 +9,7 @@ import 'package:translator/translator.dart'; // A popular Flutter translation pa
 import '../l10n/app_localizations.dart';
 /////////////
 class FunSearchBar extends StatefulWidget {
-  final Function(List<dynamic>, String) onSearch;
+  final Function( String) onSearch;
 
   const FunSearchBar({super.key, required this.onSearch});
 
@@ -122,9 +122,9 @@ final url = '$baseUrl$encodedQuery$suffixUrl';
           final data = await compute(parseJson, response.body);
 
        //   final data = json.decode(response.body) as Map<String, dynamic>;
-          final results = data['hits'] as List<dynamic>;
+        //  final results = data['hits'] as List<dynamic>;
 
-          widget.onSearch(results, englishQuery);
+          widget.onSearch( englishQuery);
           _controller.clear(); // Clear after search
         } else {
           if (kDebugMode) {
