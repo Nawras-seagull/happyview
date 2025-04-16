@@ -1,71 +1,86 @@
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
-// A singleton class to manage sound effects efficiently
 class SoundEffectHandler {
-  // Singleton instance
   static final SoundEffectHandler _instance = SoundEffectHandler._internal();
   factory SoundEffectHandler() => _instance;
   SoundEffectHandler._internal();
 
-  // Players for different sound effects
   final AudioPlayer _clickPlayer = AudioPlayer();
   final AudioPlayer _yayPlayer = AudioPlayer();
-  
-  // Track initialization state
   bool _initialized = false;
-  
-  // Preload all sound effects
+  bool _initializing = false;
+
   Future<void> initialize() async {
-    if (_initialized) return;
-    
+    if (_initialized || _initializing) return;
+    _initializing = true;
+
     try {
-      // Load sounds in parallel
+      // Load assets directly (no longer using compute)
       await Future.wait([
         _clickPlayer.setAsset('assets/sounds/click.mp3'),
         _yayPlayer.setAsset('assets/sounds/yay.wav'),
       ]);
-      
       _initialized = true;
     } catch (e) {
       if (kDebugMode) {
         print('Error initializing sound effects: $e');
       }
+    } finally {
+      _initializing = false;
     }
   }
-  
-  // Play click sound
+
   Future<void> playClick() async {
-    if (!_initialized) await initialize();
-    
+    if (!_initialized) {
+      // Initialize without awaiting, but ensure we don't miss the first play
+      unawaited(_initializeAndPlay(_clickPlayer));
+      return;
+    }
+
     try {
       await _clickPlayer.seek(Duration.zero);
-      await _clickPlayer.play();
+      unawaited(_clickPlayer.play());
     } catch (e) {
       if (kDebugMode) {
         print('Error playing click sound: $e');
       }
     }
   }
-  
-  // Play yay sound
+
   Future<void> playYay() async {
-    if (!_initialized) await initialize();
-    
+    if (!_initialized) {
+      unawaited(_initializeAndPlay(_yayPlayer));
+      return;
+    }
+
     try {
       await _yayPlayer.seek(Duration.zero);
-      await _yayPlayer.play();
+      unawaited(_yayPlayer.play());
     } catch (e) {
       if (kDebugMode) {
         print('Error playing yay sound: $e');
       }
     }
   }
-  
-  // Dispose resources
+
+  Future<void> _initializeAndPlay(AudioPlayer player) async {
+    await initialize();
+    try {
+      await player.seek(Duration.zero);
+      unawaited(player.play());
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error playing sound after initialization: $e');
+      }
+    }
+  }
+
   void dispose() {
     _clickPlayer.dispose();
     _yayPlayer.dispose();
     _initialized = false;
   }
 }
+
+void unawaited(Future<void> future) {}

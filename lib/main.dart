@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:happy_view/firebase_options.dart';
 import 'package:happy_view/screens/home.dart';
+import 'package:happy_view/screens/splash_screen.dart';
+import 'package:happy_view/widgets/sound_effect_handler.dart';
 import 'package:provider/provider.dart';
 import '../l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
@@ -10,6 +12,7 @@ import 'providers/language_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await SoundEffectHandler().initialize(); // Now this will work properly
 
   runApp(
     MultiProvider(
@@ -72,8 +75,12 @@ class MyApp extends StatelessWidget {
             ),
             
           ),
-
-          home: HomeScreen(),
+ initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/home': (context) => const  HomeScreen(), // Replace with your actual home page
+      },
+        //  home: HomeScreen(),
         );
       },
     );

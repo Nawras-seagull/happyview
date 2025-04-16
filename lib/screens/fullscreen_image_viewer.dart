@@ -185,7 +185,7 @@ Widget _buildPixabayAttribution(BuildContext context, Map<String, dynamic> image
   return Container(
     padding: const EdgeInsets.all(8.0),
     decoration: BoxDecoration(
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.black.withValues(alpha: 0.2),
       borderRadius: BorderRadius.circular(8.0),
     ),
     child: Text(
