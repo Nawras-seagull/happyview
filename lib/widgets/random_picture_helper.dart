@@ -61,6 +61,7 @@ Future<void> showRandomPicture(BuildContext context) async {
       ),
     );
   } catch (e) {
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Failed to load random image')),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:happy_view/screens/home.dart';
+//import 'package:happy_view/screens/home.dart';
 import 'package:happy_view/services/pixabay_services.dart';
 import 'package:happy_view/services/profanity_filter.dart';
 import 'package:http/http.dart' as http;
@@ -119,7 +119,7 @@ final url = '$baseUrl$encodedQuery$suffixUrl';
       try {
         final response = await http.get(Uri.parse(url));
         if (response.statusCode == 200) {
-          final data = await compute(parseJson, response.body);
+         // final data = await compute(parseJson, response.body);
 
        //   final data = json.decode(response.body) as Map<String, dynamic>;
         //  final results = data['hits'] as List<dynamic>;
