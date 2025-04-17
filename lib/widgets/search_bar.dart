@@ -97,7 +97,7 @@ class FunSearchBarState extends State<FunSearchBar> {
       // Properly encode the URL parameters
    //   final encodedQuery = Uri.encodeComponent(englishQuery);
     /*   final url =
-      //use pixbay api url
+      //use pixabay api url
        'https://pixabay.com/api/?key=${PixabayService.accessKey}&q=$encodedQuery&image_type=photo&safesearch=true&per_page=20';
           //'https://api.unsplash.com/search/photos?query=$encodedQuery&client_id=${UnsplashService.accessKey}&per_page=20';
  */
