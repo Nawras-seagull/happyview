@@ -5,10 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "happyview3",
+            "name": "happyview3 (debug mode)",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug"
         },
+
+      
         {
             "name": "happyview3 (profile mode)",
             "request": "launch",

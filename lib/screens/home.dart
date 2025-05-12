@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:happy_view/services/favorites_service.dart';
 import 'package:happy_view/widgets/sound_effect_handler.dart';
 import '../l10n/app_localizations.dart';
 import 'package:happy_view/screens/query_result.dart';
@@ -10,6 +11,8 @@ import 'package:happy_view/widgets/categories.dart';
 import 'package:happy_view/widgets/random_picture_helper.dart';
 import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
+import 'package:happy_view/screens/favorites_screen.dart';
+
 
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
@@ -147,6 +150,8 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
   // Categories will be loaded lazily
   late List<Map<String, dynamic>> _categories;
   bool _categoriesLoaded = false;
+ // For badge on favorites icon
+  final ValueNotifier<int> _favoritesCount = ValueNotifier<int>(0);
 
   @override
     bool get wantKeepAlive => true; // Keep state when navigating
@@ -156,11 +161,31 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
     super.initState();
   // Load categories in a deferred way
     _loadCategories();
-    
+     // Initialize favorites service
+    _initializeFavorites();
     // Preload assets in background
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _preloadAssets();
     });
+  }
+    @override
+  void dispose() {
+    _favoritesCount.dispose();
+    super.dispose();
+  }
+    Future<void> _initializeFavorites() async {
+    final favoritesService = FavoritesService();
+    await favoritesService.initialize();
+    
+    // Initial count
+    _updateFavoritesCount();
+    
+    // Listen for changes
+    favoritesService.favoritesNotifier.addListener(_updateFavoritesCount);
+  }
+    void _updateFavoritesCount() {
+    final count = FavoritesService().getAllFavorites().length;
+    _favoritesCount.value = count;
   }
     Future<void> _loadCategories() async {
     // Use compute to move this work off the main thread if necessary
@@ -172,28 +197,29 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       });
     }
   }
-Future<void> _preloadAssets() async {
+    Future<void> _preloadAssets() async {
     // Preload sound effects
     SoundEffectHandler().playYay();
     
     // We could also preload some initial images here
     // but be careful not to overload memory
-  }
-/*   @override
-  void dispose() {
-    //  _audioPlayer.dispose();
-    super.dispose();
-  } */
+   }
 
-  @override
-  Widget build(BuildContext context) {
+
+  void _navigateToFavorites() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FavoritesScreen(),
+      ),
+    );
+  }
+     @override
+     Widget build(BuildContext context) {
         super.build(context); // Required for AutomaticKeepAliveClientMixin
 
     final localizations = AppLocalizations.of(context)!;
 
-    // Define categories with translations
-/*     final categories = getCategories(AppLocalizations.of(context)!);
- */
 
     // Only load categories when needed
     if (!_categoriesLoaded) {
@@ -217,6 +243,46 @@ Future<void> _preloadAssets() async {
           ],
         ),
         actions: [
+          // Favorites button with badge
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.favorite),
+                onPressed: _navigateToFavorites,
+                tooltip: localizations.favorites,
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: ValueListenableBuilder<int>(
+                  valueListenable: _favoritesCount,
+                  builder: (context, count, _) {
+                    if (count == 0) return const SizedBox.shrink();
+                    return Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        count > 99 ? '99+' : count.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -227,7 +293,7 @@ Future<void> _preloadAssets() async {
       ),
       body: Column(
         children: [
-/////////////////// Search Bar////////////////////////
+           /////////////////// Search Bar////////////////////////
                    FunSearchBar(onSearch: _handleSearch),
 
           ///////////////////End of Search Bar////////////////////////

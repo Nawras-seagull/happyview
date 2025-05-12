@@ -876,6 +876,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download failed'**
   String get downloadFailed;
+
+  /// No description provided for @favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get favorites;
+
+  /// No description provided for @noFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'No favorites yet'**
+  String get noFavorites;
+
+  /// No description provided for @browseImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Images'**
+  String get browseImages;
+
+  /// No description provided for @clearFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Favorites'**
+  String get clearFavorites;
+
+  /// No description provided for @clearFavoritesConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove all favorites?'**
+  String get clearFavoritesConfirmation;
+
+  /// No description provided for @favoritesCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'All favorites have been removed'**
+  String get favoritesCleared;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @addToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Favorites'**
+  String get addToFavorites;
+
+  /// No description provided for @setAsWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Wallpaper'**
+  String get setAsWallpaper;
+
+  /// No description provided for @chooseWallpaperType.
+  ///
+  /// In en, this message translates to:
+  /// **'Where would you like to set this wallpaper?'**
+  String get chooseWallpaperType;
+
+  /// No description provided for @homeScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Screen'**
+  String get homeScreen;
+
+  /// No description provided for @lockScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Screen'**
+  String get lockScreen;
+
+  /// No description provided for @bothScreens.
+  ///
+  /// In en, this message translates to:
+  /// **'Both Screens'**
+  String get bothScreens;
+
+  /// No description provided for @wallpaperSetSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper set successfully!'**
+  String get wallpaperSetSuccessfully;
+
+  /// No description provided for @failedToSetWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to set wallpaper'**
+  String get failedToSetWallpaper;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
