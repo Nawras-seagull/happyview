@@ -52,7 +52,11 @@ class PixabayService {
         'photographer': hit['user'],
         'safesearch': hit['safesearch'],
         'photoLink': 'https://pixabay.com/users/${hit['user']}-${hit['user_id']}/',
-        'download': hit['webformatURL'], // Pixabay doesn't require tracking downloads
+        'download': hit['webformatURL'], // Pixabay doesn't require tracking downloads,
+         'title': hit['tags'], // Adding title (Pixabay uses tags as title)
+        'likes': hit['likes'], 
+      
+       
       };
     }).toList();
   }

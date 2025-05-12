@@ -8,7 +8,7 @@ import '../l10n/app_localizations.dart';
 
 class FullScreenImageView extends StatefulWidget {
   final String imageUrl;
-  final String photographerName;
+  final String photographerName;   
   final String photoLink;
   final String downloadUrl;
   final int initialIndex;
@@ -164,12 +164,27 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
               );
             },
           ), 
-        Positioned(
-  bottom: 16.0,
-  left: 16.0,
-  right: 16.0,
-  child: _buildPixabayAttribution(context, widget.images[_currentIndex]),
-)
+            // Title at the top of the image
+          Positioned(
+            top: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: _buildImageTitle(context, widget.images[_currentIndex]),
+          ),
+       // Photo credit and likes at the bottom
+          Positioned(
+            bottom: 16.0,
+            left: 16.0,
+            right: 16.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildLikesCounter(context, widget.images[_currentIndex]),
+                SizedBox(height: 8.0),
+                _buildPixabayAttribution(context, widget.images[_currentIndex]),
+              ],
+            ),
+          ),
 
         ],
       ),
@@ -178,24 +193,73 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
   }
   
 }
-
-
-// Remove UnsplashAttribution import and add this method:
-Widget _buildPixabayAttribution(BuildContext context, Map<String, dynamic> image) {
-  return Container(
-    padding: const EdgeInsets.all(8.0),
-    decoration: BoxDecoration(
-      color: Colors.black.withValues(alpha: 0.2),
-      borderRadius: BorderRadius.circular(8.0),
-    ),
-    child: Text(
-      'Photo by ${image['photographer']} on Pixabay',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 16.0,
+ // Build the title widget at the top
+  Widget _buildImageTitle(BuildContext context, Map<String, dynamic> image) {
+    final title = image['title'] ?? '';
+    if (title.isEmpty) return SizedBox.shrink();
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(8.0),
       ),
-    ),
-  );
-}
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+// Build the likes counter widget
+  Widget _buildLikesCounter(BuildContext context, Map<String, dynamic> image) {
+    final likes = image['likes'] ?? 0;
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.favorite,
+            color: Colors.red,
+            size: 20.0,
+          ),
+          SizedBox(width: 6.0),
+          Text(
+            '$likes',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-// In the build method, replace UnsplashAttribution with:
+  // Build the attribution widget at the bottom
+  Widget _buildPixabayAttribution(BuildContext context, Map<String, dynamic> image) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Text(
+        'Photo by ${image['photographer']} on Pixabay',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16.0,
+        ),
+      ),
+    );
+  }
