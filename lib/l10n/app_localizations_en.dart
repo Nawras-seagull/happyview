@@ -417,4 +417,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get downloadFailed => 'Download failed';
+
+  @override
+  String get favorites => 'Favorites';
+
+  @override
+  String get noFavorites => 'No favorites yet';
+
+  @override
+  String get browseImages => 'Browse Images';
+
+  @override
+  String get clearFavorites => 'Clear Favorites';
+
+  @override
+  String get clearFavoritesConfirmation => 'Are you sure you want to remove all favorites?';
+
+  @override
+  String get favoritesCleared => 'All favorites have been removed';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get addToFavorites => 'Add to Favorites';
+
+  @override
+  String get setAsWallpaper => 'Set as Wallpaper';
+
+  @override
+  String get chooseWallpaperType => 'Where would you like to set this wallpaper?';
+
+  @override
+  String get homeScreen => 'Home Screen';
+
+  @override
+  String get lockScreen => 'Lock Screen';
+
+  @override
+  String get bothScreens => 'Both Screens';
+
+  @override
+  String get wallpaperSetSuccessfully => 'Wallpaper set successfully!';
+
+  @override
+  String get failedToSetWallpaper => 'Failed to set wallpaper';
 }

@@ -525,6 +525,34 @@
   "downloadStarted": "Download started",
   "@downloadStarted": {},
   "downloadFailed": "Download failed",
-  "@downloadFailed": {}
+  "@downloadFailed": {},
+   "favorites": "Favorites",
+  "noFavorites": "No favorites yet",
+  "browseImages": "Browse Images",
+  "clearFavorites": "Clear Favorites",
+  "clearFavoritesConfirmation": "Are you sure you want to remove all favorites?",
+  "favoritesCleared": "All favorites have been removed",
+  "clear": "Clear",
+  "addToFavorites": "Add to Favorites",
+  "download":"Download",
+  "downloadStarted":"Download started",
+  "downloadFailed":"Download failed",
+  "favorites": "Favorites",
+  "noFavorites": "No favorites yet",
+  "browseImages": "Browse Images",
+  "clearFavorites": "Clear Favorites",
+  "clearFavoritesConfirmation": "Are you sure you want to remove all favorites?",
+  "favoritesCleared": "All favorites have been removed",
+  "clear": "Clear",
+  "addToFavorites": "Add to Favorites",
+ "setAsWallpaper" :"Set as Wallpaper",
+ "chooseWallpaperType" :"Where would you like to set this wallpaper?",
+ "homeScreen" :"Home Screen",
+"lockScreen" :"Lock Screen",
+"bothScreens" :"Both Screens",
+ "wallpaperSetSuccessfully" :"Wallpaper set successfully!",
+ "failedToSetWallpaper" :"Failed to set wallpaper"
+
+
   
 }

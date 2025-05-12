@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:happy_view/services/pixabay_services.dart';
 import 'package:happy_view/widgets/download_button.dart';
+import 'package:happy_view/widgets/favorite_button.dart';
 import '../l10n/app_localizations.dart';
 
 class FullScreenImageView extends StatefulWidget {
   final String imageUrl;
-  final String photographerName;   
+  final String photographerName;
   final String photoLink;
   final String downloadUrl;
   final int initialIndex;
@@ -88,61 +89,31 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
     }
   }
 
-/*   Future<void> _handleDownload(BuildContext context) async {
-    final localizations = AppLocalizations.of(context)!;
-    try {
-      await UnsplashDownloadService.triggerDownload(widget.downloadUrl);
-
-      // Show a snackbar to confirm download
-      /*  ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localizations.downloadStarted),
-          duration: const Duration(seconds: 2),
-        ),
-      ); */
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localizations.downloadFailed),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-    }
-  } */
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar( iconTheme: IconThemeData(
-    color: Colors.white, // Change to your desired color
-  ),
-         title: Text(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white, // Change to your desired color
+        ),
+        title: Text(
             localizations.imageIndex(_currentIndex + 1, widget.images.length)),
         actions: [
-          
-          DownloadButton(imageUrl: widget.imageUrl,
-            downloadUrl: widget.downloadUrl),
+          // Favorite button
+          FavoriteButton(
+            image: widget.images[_currentIndex],
+          ),
+          // Download button
+          DownloadButton(
+              imageUrl: widget.imageUrl, downloadUrl: widget.downloadUrl),
         ],
         backgroundColor: Colors.transparent,
         elevation: 0,
-    /*     actions: [
-          IconButton(
-            icon: const Icon(Icons.download, color: Colors.white),
-            onPressed: () async {
-              // Trigger the existing _handleDownload method
-             // await _handleDownload(context);
-
-              // Trigger the DownloadButton functionality
-              DownloadButton(imageUrl: widget.images[_currentIndex]['url']);
-            },
-            tooltip: localizations.download,
-          ),
-        ], */
       ),
       body: Stack(
         children: [
-           PageView.builder(
+          PageView.builder(
             controller: _pageController,
             itemCount: widget.images.length,
             itemBuilder: (context, index) {
@@ -152,7 +123,7 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
                 minScale: 1.0,
                 maxScale: 3.0,
                 child: CachedNetworkImage(
-                imageUrl: image['urls']?['regular'] ?? image['url'],
+                  imageUrl: image['urls']?['regular'] ?? image['url'],
                   fit: BoxFit.contain,
                   placeholder: (context, url) => Center(
                       child: SpinKitThreeInOut(
@@ -163,15 +134,8 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
                 ),
               );
             },
-          ), 
-            // Title at the top of the image
-          Positioned(
-            top: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: _buildImageTitle(context, widget.images[_currentIndex]),
           ),
-       // Photo credit and likes at the bottom
+          // Photo credit and info at the bottom
           Positioned(
             bottom: 16.0,
             left: 16.0,
@@ -179,24 +143,34 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildLikesCounter(context, widget.images[_currentIndex]),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildImageTitle(context, widget.images[_currentIndex]),
+                    ),
+                    SizedBox(width: 8.0),
+                    _buildLikesCounter(context, widget.images[_currentIndex]),
+                  ],
+                ),
                 SizedBox(height: 8.0),
                 _buildPixabayAttribution(context, widget.images[_currentIndex]),
               ],
             ),
           ),
-
         ],
       ),
       backgroundColor: Colors.black,
     );
   }
-  
-}
- // Build the title widget at the top
+
+  // Build the title widget showing first three tags
   Widget _buildImageTitle(BuildContext context, Map<String, dynamic> image) {
-    final title = image['title'] ?? '';
+    final String title = image['title'] ?? '';
     if (title.isEmpty) return SizedBox.shrink();
+    
+    // Split by commas and take first three tags
+    final List<String> allTags = title.split(',');
+    final String displayTags = allTags.take(3).join(', ').trim();
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -205,22 +179,24 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Text(
-        title,
+        displayTags,
         style: TextStyle(
           color: Colors.white,
           fontSize: 16.0,
           fontWeight: FontWeight.bold,
         ),
-        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }
-// Build the likes counter widget
+
+  // Build the likes counter widget
   Widget _buildLikesCounter(BuildContext context, Map<String, dynamic> image) {
     final likes = image['likes'] ?? 0;
     
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.5),
         borderRadius: BorderRadius.circular(8.0),
@@ -231,14 +207,14 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
           Icon(
             Icons.favorite,
             color: Colors.red,
-            size: 20.0,
+            size: 16.0,
           ),
-          SizedBox(width: 6.0),
+          SizedBox(width: 4.0),
           Text(
             '$likes',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16.0,
+              fontSize: 14.0,
             ),
           ),
         ],
@@ -263,3 +239,4 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       ),
     );
   }
+}
