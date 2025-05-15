@@ -8,12 +8,12 @@ class FavoriteButton extends StatefulWidget {
   final void Function(bool isFavorite)? onToggle;
 
   const FavoriteButton({
-    Key? key,
+    super.key,
     required this.image,
     this.color,
     this.size = 24.0,
     this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   FavoriteButtonState createState() => FavoriteButtonState();
