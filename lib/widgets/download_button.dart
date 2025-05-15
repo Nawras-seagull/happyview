@@ -241,7 +241,7 @@ Future<bool> checkAndRequestPermissions({required bool skipIfExists}) async {
       );
 
       if (!mounted) return;
-      if (result.isSuccess!) {
+      if (result.isSuccess) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

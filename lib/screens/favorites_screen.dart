@@ -7,7 +7,7 @@ import '../l10n/app_localizations.dart';
 import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 
 class FavoritesScreen extends StatefulWidget {
-  const FavoritesScreen({Key? key}) : super(key: key);
+  const FavoritesScreen({super.key});
 
   @override
   FavoritesScreenState createState() => FavoritesScreenState();
