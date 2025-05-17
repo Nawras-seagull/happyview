@@ -419,47 +419,53 @@ class AppLocalizationsTr extends AppLocalizations {
   String get downloadFailed => 'İndirme başarısız oldu';
 
   @override
-  String get favorites => 'Favorites';
+  String get favorites => 'Favoriler';
 
   @override
-  String get noFavorites => 'No favorites yet';
+  String get noFavorites => 'Favori yok';
 
   @override
-  String get browseImages => 'Browse Images';
+  String get browseImages => 'Resimleri gez';
 
   @override
-  String get clearFavorites => 'Clear Favorites';
+  String get clearFavorites => 'Favorileri temizle';
 
   @override
-  String get clearFavoritesConfirmation => 'Are you sure you want to remove all favorites?';
+  String get clearFavoritesConfirmation => 'Favorileri temizlemek istediğinize emin misiniz?';
 
   @override
-  String get favoritesCleared => 'All favorites have been removed';
+  String get clear => 'Temizle';
 
   @override
-  String get clear => 'Clear';
+  String get addToFavorites => 'Favorilere ekle';
 
   @override
-  String get addToFavorites => 'Add to Favorites';
+  String get setAsWallpaper => 'Duvar kağıdı olarak ayarla';
 
   @override
-  String get setAsWallpaper => 'Set as Wallpaper';
+  String get chooseWallpaperType => 'Duvar kağıdı türünü seçin';
 
   @override
-  String get chooseWallpaperType => 'Where would you like to set this wallpaper?';
+  String get homeScreen => 'Ana ekran';
 
   @override
-  String get homeScreen => 'Home Screen';
+  String get lockScreen => 'Kilitleme ekranı';
 
   @override
-  String get lockScreen => 'Lock Screen';
+  String get bothScreens => 'Her iki ekran';
 
   @override
-  String get bothScreens => 'Both Screens';
+  String get wallpaperSetSuccessfully => 'Duvar kağıdı başarıyla ayarlandı';
 
   @override
-  String get wallpaperSetSuccessfully => 'Wallpaper set successfully!';
+  String get failedToSetWallpaper => 'Duvar kağıdı ayarlanamadı';
 
   @override
-  String get failedToSetWallpaper => 'Failed to set wallpaper';
+  String get noImagesFound => 'Hiçbir resim bulunamadı';
+
+  @override
+  String get endOfResults => 'Sonuçların sonu';
+
+  @override
+  String get exploreMore => 'Daha fazla keşfet';
 }

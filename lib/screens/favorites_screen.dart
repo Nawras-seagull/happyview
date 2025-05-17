@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:happy_view/services/favorites_service.dart';
@@ -61,7 +60,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
       await _favoritesService.clearAllFavorites();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.favoritesCleared),
+          content: Text(AppLocalizations.of(context)!.clear),
         ),
       );
     }

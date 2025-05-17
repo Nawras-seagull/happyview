@@ -98,7 +98,7 @@
   "@suggestionValidationEmpty": {
     "description": "Suggestion validation error message"
   },
-  "suggestionValidationLength": "Suggestion must be less than 10 characters",
+  "suggestionValidationLength": "Suggestion content must be between 1 and 200 characters",
   "@suggestionValidationLength": {
     "description": "Suggestion validation length error message"
   },
@@ -569,5 +569,17 @@
  "wallpaperSetSuccessfully" :"Wallpaper set successfully!",
  "@wallpaperSetSuccessfully": {},
  "failedToSetWallpaper" :"Failed to set wallpaper",
- "@failedToSetWallpaper": {}
+ "@failedToSetWallpaper": {},
+ "noImagesFound": "No images found",
+ "@noImagesFound": {
+   "description": "Shown when no images are found for a query"
+ },
+ "endOfResults": "End of results",
+ "@endOfResults": {
+   "description": "Shown when there are no more images to load"
+ },
+ "exploreMore": "Explore more",
+ "@exploreMore": {
+   "description": "Button to load more images"
+ }
 }

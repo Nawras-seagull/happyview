@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 class SubcategoryService {
   static final Map<String, List<Map<String, String>>> _categoryCache = {};
   final Map<String, ImageProvider> _imageCache = {};
-  static const String _fallbackImage = 'https://via.placeholder.com/300';
+  static const String _fallbackImage = 'lib/assets/images/logo.png';
 
   Future<List<Map<String, String>>> getSubcategories(
       BuildContext context, String category) async {

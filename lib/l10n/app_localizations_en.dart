@@ -94,7 +94,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get suggestionValidationEmpty => 'Please enter a suggestion';
 
   @override
-  String get suggestionValidationLength => 'Suggestion must be less than 10 characters';
+  String get suggestionValidationLength => 'Suggestion content must be between 1 and 200 characters';
 
   @override
   String get emailLabel => 'Email (optional)';
@@ -434,9 +434,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearFavoritesConfirmation => 'Are you sure you want to remove all favorites?';
 
   @override
-  String get favoritesCleared => 'All favorites have been removed';
-
-  @override
   String get clear => 'Clear';
 
   @override
@@ -462,4 +459,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToSetWallpaper => 'Failed to set wallpaper';
+
+  @override
+  String get noImagesFound => 'No images found';
+
+  @override
+  String get endOfResults => 'End of results';
+
+  @override
+  String get exploreMore => 'Explore more';
 }

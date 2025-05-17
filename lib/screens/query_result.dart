@@ -8,6 +8,7 @@ import 'package:happy_view/screens/fullscreen_image_viewer.dart';
 import 'package:happy_view/services/pixabay_services.dart';
 import 'package:happy_view/widgets/animated_panda.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:happy_view/widgets/subcategory_data.dart';
 
 class UnifiedPictureScreen extends StatefulWidget {
   final String? query; // For subcategory display
@@ -121,7 +122,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
       SnackBar(
         content: Text(message),
         action: SnackBarAction(
-          label: 'Retry',
+          label: AppLocalizations.of(context)!.loadErrorRetry,
           onPressed: _fetchImages,
         ),
       ),
@@ -149,9 +150,11 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+        final translatedQuery = SubcategoryData.getTranslatedTopic(localizations, widget.query ?? localizations.searchResults);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.query ?? localizations.searchResults),
+        title: Text(translatedQuery),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -176,7 +179,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
                 child: _images.isEmpty && !_isLoading
                     ? Center(
                         child: Text(
-                          'No images found',
+                          localizations.noImagesFound, // <-- Use localization
                           style: TextStyle(
                             fontSize: 18,
                             color: Colors.grey[600],
@@ -218,7 +221,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'End of results',
+                    localizations.endOfResults, // <-- Use localization
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[600],
@@ -232,7 +235,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
                       });
                       _fetchImages(randomizePage: true);
                     },
-                    child: const Text('Explore more'),
+                    child: Text(localizations.exploreMore), // <-- Use localization
                   ),
                 ],
               ),

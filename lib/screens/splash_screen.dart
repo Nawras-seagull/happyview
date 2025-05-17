@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:happy_view/l10n/app_localizations.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -51,9 +53,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 height: 150,
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Happy View',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.appTitle,
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.teal,

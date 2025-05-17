@@ -534,5 +534,17 @@
    "failedToSetWallpaper" : "Duvar kağıdı ayarlanamadı",
   "@failedToSetWallpaper" : {
     "description": "Duvar kağıdı ayarlanamadığında gösterilecek mesaj"
+  },
+  "noImagesFound": "Hiçbir resim bulunamadı",
+  "@noImagesFound": {
+    "description": "Hiçbir resim bulunamadığında gösterilecek mesaj"
+  },
+  "endOfResults": "Sonuçların sonu",
+  "@endOfResults": {
+    "description": "Sonuçların sonu mesajı"
+  },
+  "exploreMore": "Daha fazla keşfet",
+  "@exploreMore": {
+    "description": "Daha fazla keşfet düğmesi"
   }
 }
