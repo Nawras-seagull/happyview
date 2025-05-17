@@ -478,5 +478,61 @@
   "downloadFailed": "İndirme başarısız oldu",
   "@downloadFailed": {
     "description": "İndirme başarısız olduğunda gösterilecek mesaj"
+  },
+    "favorites": "Favoriler",
+  "@favorites": {
+    "description": "Favoriler kategorisinin adı"
+  },
+   "noFavorites": "Favori yok",
+  "@noFavorites": {
+    "description": "Favori yok mesajı"
+  },
+   "browseImages": "Resimleri gez",
+  "@browseImages": {
+    "description": "Resimleri gez düğmesi"
+  },
+  "clearFavorites": "Favorileri temizle",
+  "@clearFavorites": {
+    "description": "Favorileri temizle düğmesi"
+  },
+  "clearFavoritesConfirmation": "Favorileri temizlemek istediğinize emin misiniz?",
+  "@clearFavoritesConfirmation": {
+    "description": "Favorileri temizleme onayı"
+  },
+"clear": "Temizle",
+  "@clear": {
+    "description": "Temizleme düğmesi"
+  },
+  "addToFavorites": "Favorilere ekle",
+  "@addToFavorites": {
+    "description": "Favorilere ekleme düğmesi"
+  },
+   "setAsWallpaper" : "Duvar kağıdı olarak ayarla",
+  "@setAsWallpaper" : {
+    "description": "Duvar kağıdı olarak ayarlama düğmesi"
+  },
+  "chooseWallpaperType" : "Duvar kağıdı türünü seçin",
+  "@chooseWallpaperType" : {
+    "description": "Duvar kağıdı türünü seçme mesajı"
+  },
+  "homeScreen" : "Ana ekran",
+  "@homeScreen" : {
+    "description": "Ana ekran duvar kağıdı seçeneği"
+  },
+  "lockScreen" : "Kilitleme ekranı",
+  "@lockScreen" : {
+    "description": "Kilitleme ekranı duvar kağıdı seçeneği"
+  },
+   "bothScreens": "Her iki ekran",
+  "@bothScreens": {
+    "description": "Her iki ekran duvar kağıdı seçeneği"
+  },
+  "wallpaperSetSuccessfully" : "Duvar kağıdı başarıyla ayarlandı",
+  "@wallpaperSetSuccessfully" : {
+    "description": "Duvar kağıdı başarıyla ayarlandığında gösterilecek mesaj"
+  },
+   "failedToSetWallpaper" : "Duvar kağıdı ayarlanamadı",
+  "@failedToSetWallpaper" : {
+    "description": "Duvar kağıdı ayarlanamadığında gösterilecek mesaj"
   }
 }
