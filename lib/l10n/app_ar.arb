@@ -485,7 +485,7 @@
   "@unknownPhotographer": {
     "description": "نص لمصور غير معروف"
   },
-  "on": "في ",
+  "on": "من ",
   "@on": {
     "description": "تاريخ الصورة"
   },
@@ -556,5 +556,17 @@
    "failedToSetWallpaper" :"فشل تعيين الخلفية",
   "@failedToSetWallpaper": {
     "description": "فشل تعيين الخلفية"
+  },
+  "noImagesFound": "لا توجد صور",
+  "@noImagesFound": {
+    "description": "لا توجد صور"
+  },
+  "endOfResults": "نهاية النتائج",
+  "@endOfResults": {
+    "description": "نهاية النتائج"
+  },
+  "exploreMore": "استكشاف المزيد",
+  "@exploreMore": {
+    "description": "استكشاف المزيد من الصور"
   }
 }

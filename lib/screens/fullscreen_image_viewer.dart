@@ -119,15 +119,15 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Wallpaper set successfully!")),
+        SnackBar(content: Text( AppLocalizations.of(context)!.wallpaperSetSuccessfully)),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to set wallpaper: $e")),
+        SnackBar(content: Text( AppLocalizations.of(context)!.failedToSetWallpaper + e.toString())),
       );
     }
   }
-/* 
+/* "Failed to set wallpaper: $e")),
 Future<void> setWallpaper(String imageUrl) async {
   // Request permissions
   var status = await Permission.storage.request();
@@ -178,7 +178,10 @@ Future<void> setWallpaper(String imageUrl) async {
    String imageUrl = widget.images[_currentIndex]['urls']?['regular'] ?? widget.images[_currentIndex]['url'];
     await setWallpaper(imageUrl); // Replace with your actual image URL or path
   },
-  child: Text("Set as Wallpaper"),
+  child: Text(
+    AppLocalizations.of(context)!.setAsWallpaper,
+    style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+  ),
 ),
         ],
         
@@ -305,7 +308,7 @@ Future<void> setWallpaper(String imageUrl) async {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Text(
-        'Photo by ${image['photographer']} on Pixabay',
+        '${AppLocalizations.of(context)!.photoBy}${image['photographer'] ?? widget.photographerName} ${AppLocalizations.of(context)!.on} Pixabay',
         style: TextStyle(
           color: Colors.white,
           fontSize: 16.0,

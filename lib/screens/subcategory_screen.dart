@@ -31,7 +31,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
   late final SubcategoryService _service = SubcategoryService();
   late Future<List<Map<String, String>>> _subcategories;
   String? _selectedTopic;
-  static const String _fallbackImage = 'https://via.placeholder.com/300';
+  static const String _fallbackImage = 'lib/assets/images/logo.png';
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(translatedCategory),
+        title: Text(translatedCategory),    
         backgroundColor: Colors.orangeAccent,
       ),
       body: Column(

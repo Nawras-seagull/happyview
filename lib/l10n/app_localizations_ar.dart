@@ -410,7 +410,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unknownPhotographer => 'مصور غير معروف';
 
   @override
-  String get on => 'في ';
+  String get on => 'من ';
 
   @override
   String get download => 'تحميل';
@@ -422,47 +422,53 @@ class AppLocalizationsAr extends AppLocalizations {
   String get downloadFailed => 'فشل التحميل';
 
   @override
-  String get favorites => 'Favorites';
+  String get favorites => 'المفضلة';
 
   @override
-  String get noFavorites => 'No favorites yet';
+  String get noFavorites => 'لا توجد صور مفضلة';
 
   @override
-  String get browseImages => 'Browse Images';
+  String get browseImages => 'تصفح الصور';
 
   @override
-  String get clearFavorites => 'Clear Favorites';
+  String get clearFavorites => 'مسح المفضلة';
 
   @override
-  String get clearFavoritesConfirmation => 'Are you sure you want to remove all favorites?';
+  String get clearFavoritesConfirmation => 'هل أنت متأكد أنك تريد مسح المفضلة؟';
 
   @override
-  String get favoritesCleared => 'All favorites have been removed';
+  String get clear => 'مسح';
 
   @override
-  String get clear => 'Clear';
+  String get addToFavorites => 'إضافة إلى المفضلة';
 
   @override
-  String get addToFavorites => 'Add to Favorites';
+  String get setAsWallpaper => 'تعيين كخلفية';
 
   @override
-  String get setAsWallpaper => 'Set as Wallpaper';
+  String get chooseWallpaperType => 'اختر نوع الخلفية';
 
   @override
-  String get chooseWallpaperType => 'Where would you like to set this wallpaper?';
+  String get homeScreen => 'شاشة البداية';
 
   @override
-  String get homeScreen => 'Home Screen';
+  String get lockScreen => 'شاشة القفل';
 
   @override
-  String get lockScreen => 'Lock Screen';
+  String get bothScreens => 'كلاهما';
 
   @override
-  String get bothScreens => 'Both Screens';
+  String get wallpaperSetSuccessfully => 'تم تعيين الخلفية بنجاح';
 
   @override
-  String get wallpaperSetSuccessfully => 'Wallpaper set successfully!';
+  String get failedToSetWallpaper => 'فشل تعيين الخلفية';
 
   @override
-  String get failedToSetWallpaper => 'Failed to set wallpaper';
+  String get noImagesFound => 'لا توجد صور';
+
+  @override
+  String get endOfResults => 'نهاية النتائج';
+
+  @override
+  String get exploreMore => 'استكشاف المزيد';
 }

@@ -238,7 +238,7 @@ abstract class AppLocalizations {
   /// Suggestion validation length error message
   ///
   /// In en, this message translates to:
-  /// **'Suggestion must be less than 10 characters'**
+  /// **'Suggestion content must be between 1 and 200 characters'**
   String get suggestionValidationLength;
 
   /// Email label
@@ -859,59 +859,53 @@ abstract class AppLocalizations {
   /// **' on '**
   String get on;
 
-  /// No description provided for @download.
+  /// Download button label
   ///
   /// In en, this message translates to:
   /// **'Download'**
   String get download;
 
-  /// No description provided for @downloadStarted.
+  /// Message shown when download starts
   ///
   /// In en, this message translates to:
   /// **'Download started'**
   String get downloadStarted;
 
-  /// No description provided for @downloadFailed.
+  /// Message shown when download fails
   ///
   /// In en, this message translates to:
   /// **'Download failed'**
   String get downloadFailed;
 
-  /// No description provided for @favorites.
+  /// Favorites section title
   ///
   /// In en, this message translates to:
   /// **'Favorites'**
   String get favorites;
 
-  /// No description provided for @noFavorites.
+  /// Message shown when there are no favorites
   ///
   /// In en, this message translates to:
   /// **'No favorites yet'**
   String get noFavorites;
 
-  /// No description provided for @browseImages.
+  /// Browse images button label
   ///
   /// In en, this message translates to:
   /// **'Browse Images'**
   String get browseImages;
 
-  /// No description provided for @clearFavorites.
+  /// Clear favorites button label
   ///
   /// In en, this message translates to:
   /// **'Clear Favorites'**
   String get clearFavorites;
 
-  /// No description provided for @clearFavoritesConfirmation.
+  /// Confirmation message for clearing all favorites
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to remove all favorites?'**
   String get clearFavoritesConfirmation;
-
-  /// No description provided for @favoritesCleared.
-  ///
-  /// In en, this message translates to:
-  /// **'All favorites have been removed'**
-  String get favoritesCleared;
 
   /// No description provided for @clear.
   ///
@@ -966,6 +960,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to set wallpaper'**
   String get failedToSetWallpaper;
+
+  /// Shown when no images are found for a query
+  ///
+  /// In en, this message translates to:
+  /// **'No images found'**
+  String get noImagesFound;
+
+  /// Shown when there are no more images to load
+  ///
+  /// In en, this message translates to:
+  /// **'End of results'**
+  String get endOfResults;
+
+  /// Button to load more images
+  ///
+  /// In en, this message translates to:
+  /// **'Explore more'**
+  String get exploreMore;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

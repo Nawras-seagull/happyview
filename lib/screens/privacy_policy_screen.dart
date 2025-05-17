@@ -56,7 +56,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 }
 
-// Example of adding to app settings or drawer
+/* // Example of adding to app settings or drawer
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -115,3 +115,4 @@ class AnalyticsOptOutState extends State<AnalyticsOptOut> {
     );
   }
 }
+ */
