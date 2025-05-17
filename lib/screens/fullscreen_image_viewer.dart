@@ -252,7 +252,7 @@ Future<void> setWallpaper(String imageUrl) async {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Text(
@@ -275,7 +275,7 @@ Future<void> setWallpaper(String imageUrl) async {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
@@ -304,7 +304,7 @@ Future<void> setWallpaper(String imageUrl) async {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.5),
+        color: Colors.black.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Text(
