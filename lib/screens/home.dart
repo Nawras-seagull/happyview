@@ -104,16 +104,28 @@ class CategoryTileState extends State<CategoryTile>
         child: Column(
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  widget.image,
-                  fit: BoxFit.cover,
-                  width: double.infinity, // Take full width of parent
-                    // Preload and cache images
-                  cacheWidth: 300, // Add reasonable cache width
-                  gaplessPlayback: true, // Prevent flickering on reload
-               ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.12),
+                      blurRadius: 12,
+                      spreadRadius: 1,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    widget.image,
+                    fit: BoxFit.cover,
+                    width: double.infinity, // Take full width of parent
+                    cacheWidth: 300, // Add reasonable cache width
+                    gaplessPlayback: true, // Prevent flickering on reload
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 8),
@@ -152,6 +164,8 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
   bool _categoriesLoaded = false;
  // For badge on favorites icon
   final ValueNotifier<int> _favoritesCount = ValueNotifier<int>(0);
+ // Add a boolean to track if the surprise button is enabled
+  bool _isSurpriseButtonEnabled = true;
 
   @override
     bool get wantKeepAlive => true; // Keep state when navigating
@@ -304,14 +318,28 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
                 ? _buildCategoriesGrid()
                 : const Center(child: CircularProgressIndicator()),
           ),
-           // Surprise Me! Button
+            // Surprise Me! Button with debounce
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () => _handleSurpriseMe(context),
+              onPressed: _isSurpriseButtonEnabled 
+                ? () => _debouncedSurpriseMe(context) 
+                : null, // Disable the button when not enabled
+              style: ElevatedButton.styleFrom(
+                // Visual feedback - button appears grayed out when disabled
+                backgroundColor: _isSurpriseButtonEnabled 
+                  ? Theme.of(context).primaryColor 
+                  : Colors.grey,
+              ),
               child: Text(
                 localizations.suprise,
-                style: const TextStyle(fontSize: 20.0),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  // Adjust text color based on button state
+                  color: _isSurpriseButtonEnabled 
+                    ? Colors.white 
+                    : Colors.white70,
+                ),
               ),
             ),
           ),
@@ -319,6 +347,7 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       ),
     );
   }
+
 // Extracted methods to make build method cleaner
   Widget _buildCategoriesGrid() {
     return GridView.builder(
@@ -369,13 +398,36 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
   }
   
   // Surprise me handler
-  void _handleSurpriseMe(BuildContext context) {
+/*   void _handleSurpriseMe(BuildContext context) {
     // Play sound in a non-blocking way
     SoundEffectHandler().playYay();
     
     // Show random picture
     showRandomPicture(context);
+  } */
+  // New debounced surprise me handler
+  void _debouncedSurpriseMe(BuildContext context) {
+    // Disable the button immediately
+    setState(() {
+      _isSurpriseButtonEnabled = false;
+    });
+    
+    // Play sound in a non-blocking way
+    SoundEffectHandler().playYay();
+    
+    // Show random picture
+    showRandomPicture(context);
+    
+    // Re-enable the button after a delay
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _isSurpriseButtonEnabled = true;
+        });
+      }
+    });
   }
+
 
   // Verification dialog function
   void _showVerificationDialog(BuildContext context) {

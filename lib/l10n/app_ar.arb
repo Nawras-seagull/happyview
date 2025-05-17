@@ -500,5 +500,61 @@
   "downloadFailed": "فشل التحميل",
   "@downloadFailed": {
     "description": "فشل تحميل الصورة"
+  },
+  "favorites": "المفضلة",
+  "@favorites": {
+    "description": "زر المفضلة"
+  },
+  "noFavorites": "لا توجد صور مفضلة",
+  "@noFavorites": {
+    "description": "لا توجد صور مفضلة"
+  },
+   "browseImages": "تصفح الصور",
+  "@browseImages": {
+    "description": "تصفح الصور"
+  },
+  "clearFavorites": "مسح المفضلة",
+  "@clearFavorites": {
+    "description": "زر لمسح المفضلة"
+  },
+  "clearFavoritesConfirmation": "هل أنت متأكد أنك تريد مسح المفضلة؟",
+  "@clearFavoritesConfirmation": {
+    "description": "تأكيد مسح المفضلة"
+  },
+  "clear": "مسح",
+  "@clear": {
+    "description": "زر لمسح المفضلة"
+  },
+  "addToFavorites": "إضافة إلى المفضلة",
+  "@addToFavorites": {
+    "description": "زر لإضافة الصورة إلى المفضلة"
+  },
+  "setAsWallpaper" :"تعيين كخلفية",
+  "@setAsWallpaper": {
+    "description": "زر لتعيين الصورة كخلفية"
+  },
+"chooseWallpaperType" :"اختر نوع الخلفية",
+  "@chooseWallpaperType": {
+    "description": "اختر نوع الخلفية"
+  },
+  "homeScreen": "شاشة البداية",
+  "@homeScreen": {
+    "description": "تعيين كخلفية شاشة البداية"
+  },
+  "lockScreen": "شاشة القفل",
+  "@lockScreen": {
+    "description": "تعيين كخلفية شاشة القفل"
+  },
+  "bothScreens": "كلاهما",
+  "@bothScreens": {
+    "description": "تعيين كخلفية للشاشة الرئيسية وشاشة القفل"
+  },
+   "wallpaperSetSuccessfully" :"تم تعيين الخلفية بنجاح",
+  "@wallpaperSetSuccessfully": {
+    "description": "تم تعيين الخلفية بنجاح"
+  },
+   "failedToSetWallpaper" :"فشل تعيين الخلفية",
+  "@failedToSetWallpaper": {
+    "description": "فشل تعيين الخلفية"
   }
 }

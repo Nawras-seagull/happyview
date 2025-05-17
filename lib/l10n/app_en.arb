@@ -521,38 +521,53 @@
     "description": "On label"
   },
   "download": "Download",
-  "@download": {},
+  "@download": {
+    "description": "Download button label"
+  },
   "downloadStarted": "Download started",
-  "@downloadStarted": {},
+  "@downloadStarted": {
+    "description": "Message shown when download starts"
+  },
   "downloadFailed": "Download failed",
-  "@downloadFailed": {},
-   "favorites": "Favorites",
-  "noFavorites": "No favorites yet",
-  "browseImages": "Browse Images",
-  "clearFavorites": "Clear Favorites",
-  "clearFavoritesConfirmation": "Are you sure you want to remove all favorites?",
-  "favoritesCleared": "All favorites have been removed",
-  "clear": "Clear",
-  "addToFavorites": "Add to Favorites",
-  "download":"Download",
-  "downloadStarted":"Download started",
-  "downloadFailed":"Download failed",
+  "@downloadFailed": {
+    "description": "Message shown when download fails"
+  },
   "favorites": "Favorites",
+  "@favorites": {
+    "description": "Favorites section title"
+  },
   "noFavorites": "No favorites yet",
+  "@noFavorites": {
+    "description": "Message shown when there are no favorites"
+  },
   "browseImages": "Browse Images",
+  "@browseImages": {
+    "description": "Browse images button label"
+  },
   "clearFavorites": "Clear Favorites",
+  "@clearFavorites": {
+    "description": "Clear favorites button label"
+  },
   "clearFavoritesConfirmation": "Are you sure you want to remove all favorites?",
-  "favoritesCleared": "All favorites have been removed",
+  "@clearFavoritesConfirmation": {
+    "description": "Confirmation message for clearing all favorites"
+  },
   "clear": "Clear",
+ "@clear": {},
   "addToFavorites": "Add to Favorites",
+ "@addToFavorites": {},
  "setAsWallpaper" :"Set as Wallpaper",
+ "@setAsWallpaper": {},
  "chooseWallpaperType" :"Where would you like to set this wallpaper?",
+ "@chooseWallpaperType": {},
  "homeScreen" :"Home Screen",
+ "@homeScreen": {},
 "lockScreen" :"Lock Screen",
+ "@lockScreen": {},
 "bothScreens" :"Both Screens",
+ "@bothScreens": {},
  "wallpaperSetSuccessfully" :"Wallpaper set successfully!",
- "failedToSetWallpaper" :"Failed to set wallpaper"
-
-
-  
+ "@wallpaperSetSuccessfully": {},
+ "failedToSetWallpaper" :"Failed to set wallpaper",
+ "@failedToSetWallpaper": {}
 }
