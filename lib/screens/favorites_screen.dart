@@ -178,7 +178,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
               right: 0,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.7),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
