@@ -13,7 +13,7 @@ import 'package:happy_view/widgets/subcategory_data.dart';
 final _customCacheManager = CacheManager(
   Config(
     'happyViewCache',
-    stalePeriod: const Duration(days: 7),
+    stalePeriod: const Duration(seconds: 7),
     maxNrOfCacheObjects: 200,
   ),
 );
@@ -150,7 +150,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       bottom: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: item['image'] ?? _fallbackImage,
+                     // imageUrl: 'lib/assets/images/birds.jpg',
+                     imageUrl: item['image'] ?? _fallbackImage,
                       placeholder: (context, url) => const Center(
                         child: SpinKitThreeInOut(
                           color: Color.fromARGB(255, 8, 127, 148),

@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 class ProfanityFilter {
   List<String> _badWords = [];
 
+  ProfanityFilter(String lowerCase);
+
   Future<void> loadBadWords(String path) async {
     final String jsonString = await rootBundle.loadString(path);
     final List<dynamic> decoded = json.decode(jsonString);

@@ -144,7 +144,7 @@ final url = '$baseUrl$encodedQuery$suffixUrl';
     return !_blockedWords.any((word) => lowerQuery.contains(word));
   } */
 
-  final profanityFilter = ProfanityFilter();
+  final profanityFilter = ProfanityFilter('' );
 
   void checkMessage(String input) {
     if (profanityFilter.containsBadWords(input)) {

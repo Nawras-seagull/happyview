@@ -42,15 +42,19 @@ class SubcategoryData {
         ],
         'food-drink': [
           'fruits',
+          
           'vegetables',
           'desserts',
           'beverages',
           'fast-food',
           'seafood',
-          'meat',
           'dairy',
           'baked-goods',
           'healthy-food'
+
+
+
+
         ],
         'shapes': [
           'circles',
