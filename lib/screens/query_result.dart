@@ -136,7 +136,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
         builder: (context) => FullScreenImageView(
           imageUrl: _images[index]['url'] ?? _images[index]['webformatURL'],
           photographerName:
-              _images[index]['photographer'] ?? ['user']??'Unknown' ,
+              _images[index]['photographer'] ?? ['user'] ?? 'Unknown',
           photoLink: _images[index]['photoLink'],
           downloadUrl: _images[index]['download'], // Pass the download URL
           images: _images, // Pass the list of images
@@ -150,7 +150,8 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-        final translatedQuery = SubcategoryData.getTranslatedTopic(localizations, widget.query ?? localizations.searchResults);
+    final translatedQuery = SubcategoryData.getTranslatedTopic(
+        localizations, widget.query ?? localizations.searchResults);
 
     return Scaffold(
       appBar: AppBar(
@@ -170,111 +171,110 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
           ),
         ],
       ),
-      body: Stack(
-        // Changed from Column to Stack
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: _images.isEmpty && !_isLoading
-                    ? Center(
-                        child: Text(
-                          localizations.noImagesFound, // <-- Use localization
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      )
-                    : GridView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.all(16.0),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16.0,
-                          mainAxisSpacing: 16.0,
-                          childAspectRatio: 0.7,
-                        ),
-                        itemCount: _images.length + (_hasMore ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          if (index == _images.length) {
-                             return _hasMore
-        // Show loading spinner if more data can be loaded
-        ? const Center(
-            child: SpinKitThreeInOut(
-              color: Color.fromARGB(255, 8, 127, 148),
-              size: 30.0,
-            ),
-          )
-        // Show "end of results" message
-        : Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.photo_library_outlined,
-                    color: Colors.grey,
-                    size: 40,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    localizations.endOfResults, // <-- Use localization
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _page = 1;
-                        _hasMore = true;
-                      });
-                      _fetchImages(randomizePage: true);
-                    },
-                    child: Text(localizations.exploreMore), // <-- Use localization
-                  ),
-                ],
-              ),
-            ),
-          );
-                          }
-                          final image = _images[index];
-                          return GestureDetector(
-                            onTap: () => _openFullScreenImage(index),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: CachedNetworkImage(
-                                imageUrl: image['url'] ?? image['previewURL'],
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const Center(
-                                    child: SpinKitThreeInOut(
-                                  color: Color.fromARGB(255, 8, 127, 148),
-                                  size: 30.0,
-                                )),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
+      body: SafeArea(
+        // <-- Add SafeArea here
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: _images.isEmpty && !_isLoading
+                      ? Center(
+                          child: Text(
+                            localizations.noImagesFound,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.grey[600],
                             ),
-                          );
-                        },
-                      ),
-              ),
-            ],
-          ),
-
-          // Now the AnimatedPanda can be a direct child of Stack
-          const Positioned(
-            /*  bottom: -100,
-          left: 0,
-          right: 0,  */
-            child: AnimatedPanda(),
-          ),
-        ],
-      ),
+                          ),
+                        )
+                      : GridView.builder(
+                          controller: _scrollController,
+                          padding: const EdgeInsets.all(16.0),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 16.0,
+                            mainAxisSpacing: 16.0,
+                            childAspectRatio: 0.7,
+                          ),
+                          itemCount: _images.length + (_hasMore ? 1 : 0),
+                          itemBuilder: (context, index) {
+                            if (index == _images.length) {
+                              return _hasMore
+                                  ? const Center(
+                                      child: SpinKitThreeInOut(
+                                        color: Color.fromARGB(255, 8, 127, 148),
+                                        size: 30.0,
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 16.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons.photo_library_outlined,
+                                              color: Colors.grey,
+                                              size: 40,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              localizations.endOfResults,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey[600],
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _page = 1;
+                                                  _hasMore = true;
+                                                });
+                                                _fetchImages(
+                                                    randomizePage: true);
+                                              },
+                                              child: Text(
+                                                  localizations.exploreMore),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                            }
+                            final image = _images[index];
+                            return GestureDetector(
+                              onTap: () => _openFullScreenImage(index),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: image['url'] ?? image['previewURL'],
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const Center(
+                                      child: SpinKitThreeInOut(
+                                    color: Color.fromARGB(255, 8, 127, 148),
+                                    size: 30.0,
+                                  )),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                ),
+              ],
+            ),
+            const Positioned(
+              child: AnimatedPanda(),
+            ),
+          ],
+        ),
+      ), // <-- End SafeArea
     );
   }
 }

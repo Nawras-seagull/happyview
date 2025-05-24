@@ -20,7 +20,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
   void initState() {
     super.initState();
     _loadFavorites();
-    
+
     // Listen to changes in favorites
     _favoritesService.favoritesNotifier.addListener(_loadFavorites);
   }
@@ -68,9 +68,9 @@ class FavoritesScreenState extends State<FavoritesScreen> {
 
   void _navigateToFullScreen(int index) {
     if (_favorites.isEmpty) return;
-    
+
     final image = _favorites[index];
-    
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -81,7 +81,8 @@ class FavoritesScreenState extends State<FavoritesScreen> {
           initialIndex: index,
           downloadUrl: image['download'] ?? '',
           images: _favorites,
-          query: 'favorites', // Not used for actual search but needed by the widget
+          query:
+              'favorites', // Not used for actual search but needed by the widget
         ),
       ),
     );
@@ -90,7 +91,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.favorites),
@@ -103,46 +104,49 @@ class FavoritesScreenState extends State<FavoritesScreen> {
             ),
         ],
       ),
-      body: _favorites.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.favorite_border,
-                    size: 80,
-                    color: Colors.grey[400],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    localizations.noFavorites,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey[600],
+      body: SafeArea(
+        // <-- Add SafeArea here
+        child: _favorites.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite_border,
+                      size: 80,
+                      color: Colors.grey[400],
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.search),
-                    label: Text(localizations.browseImages),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    Text(
+                      localizations.noFavorites,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.search),
+                      label: Text(localizations.browseImages),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              )
+            : GridView.builder(
+                padding: const EdgeInsets.all(8.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                ),
+                itemCount: _favorites.length,
+                itemBuilder: (context, index) {
+                  final image = _favorites[index];
+                  return _buildImageCard(image, index);
+                },
               ),
-            )
-          : GridView.builder(
-              padding: const EdgeInsets.all(8.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-              ),
-              itemCount: _favorites.length,
-              itemBuilder: (context, index) {
-                final image = _favorites[index];
-                return _buildImageCard(image, index);
-              },
-            ),
+      ), // <-- End SafeArea
     );
   }
 
@@ -170,14 +174,15 @@ class FavoritesScreenState extends State<FavoritesScreen> {
               ),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            
+
             // Image title overlay at bottom
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 color: Colors.black.withValues(alpha: 0.7),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,7 +191,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
                     Expanded(
                       child: _buildImageTitle(image),
                     ),
-                    
+
                     // Likes count
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -219,11 +224,11 @@ class FavoritesScreenState extends State<FavoritesScreen> {
   Widget _buildImageTitle(Map<String, dynamic> image) {
     final String title = image['title'] ?? '';
     if (title.isEmpty) return const SizedBox.shrink();
-    
+
     // Split by commas and take first three tags
     final List<String> allTags = title.split(',');
     final String displayTags = allTags.take(3).join(', ').trim();
-    
+
     return Text(
       displayTags,
       style: const TextStyle(
