@@ -13,7 +13,6 @@ import 'package:happy_view/widgets/search_bar.dart';
 import 'settings_screen.dart';
 import 'package:happy_view/screens/favorites_screen.dart';
 
-
 // Top-level function for parsing JSON off the main thread
 Map<String, dynamic> parseJson(String responseBody) {
   return json.decode(responseBody);
@@ -67,7 +66,6 @@ class CategoryTileState extends State<CategoryTile>
     _rotationAnimation = Tween<double>(begin: 0.0, end: 0.1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.elasticIn),
     );
-
   }
 
   @override
@@ -144,7 +142,8 @@ class CategoryTileState extends State<CategoryTile>
       ),
     );
   }
-    // Move sound playing to a separate method to keep build method clean
+
+  // Move sound playing to a separate method to keep build method clean
   void _playSound() {
     // Use a non-blocking approach to play sounds
     SoundEffectHandler().playClick();
@@ -158,67 +157,71 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixin {
+class HomeScreenState extends State<HomeScreen>
+    with AutomaticKeepAliveClientMixin {
   // Categories will be loaded lazily
   late List<Map<String, dynamic>> _categories;
   bool _categoriesLoaded = false;
- // For badge on favorites icon
+  // For badge on favorites icon
   final ValueNotifier<int> _favoritesCount = ValueNotifier<int>(0);
- // Add a boolean to track if the surprise button is enabled
+  // Add a boolean to track if the surprise button is enabled
   bool _isSurpriseButtonEnabled = true;
 
   @override
-    bool get wantKeepAlive => true; // Keep state when navigating
+  bool get wantKeepAlive => true; // Keep state when navigating
   @override
-
   void initState() {
     super.initState();
-  // Load categories in a deferred way
+    // Load categories in a deferred way
     _loadCategories();
-     // Initialize favorites service
+    // Initialize favorites service
     _initializeFavorites();
     // Preload assets in background
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _preloadAssets();
     });
   }
-    @override
+
+  @override
   void dispose() {
     _favoritesCount.dispose();
     super.dispose();
   }
-    Future<void> _initializeFavorites() async {
+
+  Future<void> _initializeFavorites() async {
     final favoritesService = FavoritesService();
     await favoritesService.initialize();
-    
+
     // Initial count
     _updateFavoritesCount();
-    
+
     // Listen for changes
     favoritesService.favoritesNotifier.addListener(_updateFavoritesCount);
   }
-    void _updateFavoritesCount() {
+
+  void _updateFavoritesCount() {
     final count = FavoritesService().getAllFavorites().length;
     _favoritesCount.value = count;
   }
-    Future<void> _loadCategories() async {
+
+  Future<void> _loadCategories() async {
     // Use compute to move this work off the main thread if necessary
     await Future.delayed(Duration.zero); // Yield to the main thread
-    
+
     if (mounted) {
       setState(() {
         _categoriesLoaded = true;
       });
     }
   }
-    Future<void> _preloadAssets() async {
+
+  Future<void> _preloadAssets() async {
     // Preload sound effects
     SoundEffectHandler().playYay();
-    
+
     // We could also preload some initial images here
     // but be careful not to overload memory
-   }
-
+  }
 
   void _navigateToFavorites() {
     Navigator.push(
@@ -228,12 +231,12 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       ),
     );
   }
-     @override
-     Widget build(BuildContext context) {
-        super.build(context); // Required for AutomaticKeepAliveClientMixin
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
 
     final localizations = AppLocalizations.of(context)!;
-
 
     // Only load categories when needed
     if (!_categoriesLoaded) {
@@ -249,7 +252,7 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
             Image.asset(
               'lib/assets/images/panda_peek.png', // Path to your logo image
               height: 40.0,
-                width: 40.0, // Specify width to avoid layout shifts
+              width: 40.0, // Specify width to avoid layout shifts
               cacheWidth: 80, // 2x for high-DPI displays
             ),
             const SizedBox(width: 8.0),
@@ -305,46 +308,49 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
           ),
         ],
       ),
-      body: Column(
-        children: [
-           /////////////////// Search Bar////////////////////////
-                   FunSearchBar(onSearch: _handleSearch),
+      body: SafeArea(
+        // <-- Add this line
+        child: Column(
+          children: [
+            /////////////////// Search Bar////////////////////////
+            FunSearchBar(onSearch: _handleSearch),
 
-          ///////////////////End of Search Bar////////////////////////
+            ///////////////////End of Search Bar////////////////////////
 
             // Grid of Categories - Using lazy loading
-          Expanded(
-            child: _categoriesLoaded 
-                ? _buildCategoriesGrid()
-                : const Center(child: CircularProgressIndicator()),
-          ),
+            Expanded(
+              child: _categoriesLoaded
+                  ? _buildCategoriesGrid()
+                  : const Center(child: CircularProgressIndicator()),
+            ),
             // Surprise Me! Button with debounce
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: _isSurpriseButtonEnabled 
-                ? () => _debouncedSurpriseMe(context) 
-                : null, // Disable the button when not enabled
-              style: ElevatedButton.styleFrom(
-                // Visual feedback - button appears grayed out when disabled
-                backgroundColor: _isSurpriseButtonEnabled 
-                  ? Theme.of(context).primaryColor 
-                  : Colors.grey,
-              ),
-              child: Text(
-                localizations.suprise,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  // Adjust text color based on button state
-                  color: _isSurpriseButtonEnabled 
-                    ? Colors.white 
-                    : Colors.white70,
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: _isSurpriseButtonEnabled
+                    ? () => _debouncedSurpriseMe(context)
+                    : null, // Disable the button when not enabled
+                style: ElevatedButton.styleFrom(
+                  // Visual feedback - button appears grayed out when disabled
+                  backgroundColor: _isSurpriseButtonEnabled
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey,
+                ),
+                child: Text(
+                  localizations.suprise,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    // Adjust text color based on button state
+                    color: _isSurpriseButtonEnabled
+                        ? Colors.white
+                        : Colors.white70,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ), // <-- End SafeArea
     );
   }
 
@@ -374,9 +380,10 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       },
     );
   }
-  
+
   // Navigation handler extracted to a method
-  void _navigateToSubcategory(BuildContext context, Map<String, dynamic> category) {
+  void _navigateToSubcategory(
+      BuildContext context, Map<String, dynamic> category) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -384,7 +391,7 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       ),
     );
   }
-  
+
   // Search handler extracted to a method
   void _handleSearch(String query) {
     Navigator.push(
@@ -396,7 +403,7 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       ),
     );
   }
-  
+
   // Surprise me handler
 /*   void _handleSurpriseMe(BuildContext context) {
     // Play sound in a non-blocking way
@@ -411,13 +418,13 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
     setState(() {
       _isSurpriseButtonEnabled = false;
     });
-    
+
     // Play sound in a non-blocking way
     SoundEffectHandler().playYay();
-    
+
     // Show random picture
     showRandomPicture(context);
-    
+
     // Re-enable the button after a delay
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
@@ -427,7 +434,6 @@ class HomeScreenState extends State<HomeScreen>with AutomaticKeepAliveClientMixi
       }
     });
   }
-
 
   // Verification dialog function
   void _showVerificationDialog(BuildContext context) {

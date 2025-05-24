@@ -94,8 +94,9 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       });
     }
   }
-    Future<void> setWallpaper(String imageUrl) async {
-   /*   final status = await Permission.storage.request();
+
+  Future<void> setWallpaper(String imageUrl) async {
+    /*   final status = await Permission.storage.request();
 
    if (!status.isGranted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -105,10 +106,10 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       return;
     } */
 
-        var status = await Permission.storage.status;
+    var status = await Permission.storage.status;
     if (status.isDenied) {
       status = await Permission.storage.request();
-    } 
+    }
 
     try {
       final response = await http.get(Uri.parse(imageUrl));
@@ -125,14 +126,19 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text( AppLocalizations.of(context)!.wallpaperSetSuccessfully)),
+        SnackBar(
+            content:
+                Text(AppLocalizations.of(context)!.wallpaperSetSuccessfully)),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text( AppLocalizations.of(context)!.failedToSetWallpaper + e.toString())),
+        SnackBar(
+            content: Text(AppLocalizations.of(context)!.failedToSetWallpaper +
+                e.toString())),
       );
     }
   }
+
   /////////////////
 /* "Failed to set wallpaper: $e")),
 Future<void> setWallpaper(String imageUrl) async {
@@ -180,68 +186,74 @@ Future<void> setWallpaper(String imageUrl) async {
           // Download button
           DownloadButton(
               imageUrl: widget.imageUrl, downloadUrl: widget.downloadUrl),
-              ElevatedButton(
-  onPressed: () async {
-   String imageUrl = widget.images[_currentIndex]['urls']?['regular'] ?? widget.images[_currentIndex]['url'];
-    await setWallpaper(imageUrl); // Replace with your actual image URL or path
-  },
-  child: Text(
-    AppLocalizations.of(context)!.setAsWallpaper,
-    style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
-  ),
-),
-        ],
-        
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Stack(
-        children: [
-          PageView.builder(
-            controller: _pageController,
-            itemCount: widget.images.length,
-            itemBuilder: (context, index) {
-              final image = widget.images[index];
-              return InteractiveViewer(
-                panEnabled: true,
-                minScale: 1.0,
-                maxScale: 3.0,
-                child: CachedNetworkImage(
-                  imageUrl: image['urls']?['regular'] ?? image['url'],
-                  fit: BoxFit.contain,
-                  placeholder: (context, url) => Center(
-                      child: SpinKitThreeInOut(
-                    color: Color.fromARGB(255, 8, 127, 148),
-                    size: 30.0,
-                  )),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
-              );
+          ElevatedButton(
+            onPressed: () async {
+              String imageUrl = widget.images[_currentIndex]['urls']
+                      ?['regular'] ??
+                  widget.images[_currentIndex]['url'];
+              await setWallpaper(
+                  imageUrl); // Replace with your actual image URL or path
             },
-          ),
-          // Photo credit and info at the bottom
-          Positioned(
-            bottom: 16.0,
-            left: 16.0,
-            right: 16.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildImageTitle(context, widget.images[_currentIndex]),
-                    ),
-                    SizedBox(width: 8.0),
-                    _buildLikesCounter(context, widget.images[_currentIndex]),
-                  ],
-                ),
-                SizedBox(height: 8.0),
-                _buildPixabayAttribution(context, widget.images[_currentIndex]),
-              ],
+            child: Text(
+              AppLocalizations.of(context)!.setAsWallpaper,
+              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
         ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              itemCount: widget.images.length,
+              itemBuilder: (context, index) {
+                final image = widget.images[index];
+                return InteractiveViewer(
+                  panEnabled: true,
+                  minScale: 1.0,
+                  maxScale: 3.0,
+                  child: CachedNetworkImage(
+                    imageUrl: image['urls']?['regular'] ?? image['url'],
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => Center(
+                        child: SpinKitThreeInOut(
+                      color: Color.fromARGB(255, 8, 127, 148),
+                      size: 30.0,
+                    )),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
+                );
+              },
+            ),
+            // Photo credit and info at the bottom
+            Positioned(
+              bottom: 16.0,
+              left: 16.0,
+              right: 16.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildImageTitle(
+                            context, widget.images[_currentIndex]),
+                      ),
+                      SizedBox(width: 8.0),
+                      _buildLikesCounter(context, widget.images[_currentIndex]),
+                    ],
+                  ),
+                  SizedBox(height: 8.0),
+                  _buildPixabayAttribution(
+                      context, widget.images[_currentIndex]),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       backgroundColor: Colors.black,
     );
@@ -251,11 +263,11 @@ Future<void> setWallpaper(String imageUrl) async {
   Widget _buildImageTitle(BuildContext context, Map<String, dynamic> image) {
     final String title = image['title'] ?? '';
     if (title.isEmpty) return SizedBox.shrink();
-    
+
     // Split by commas and take first three tags
     final List<String> allTags = title.split(',');
     final String displayTags = allTags.take(3).join(', ').trim();
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -278,7 +290,7 @@ Future<void> setWallpaper(String imageUrl) async {
   // Build the likes counter widget
   Widget _buildLikesCounter(BuildContext context, Map<String, dynamic> image) {
     final likes = image['likes'] ?? 0;
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       decoration: BoxDecoration(
@@ -307,7 +319,8 @@ Future<void> setWallpaper(String imageUrl) async {
   }
 
   // Build the attribution widget at the bottom
-  Widget _buildPixabayAttribution(BuildContext context, Map<String, dynamic> image) {
+  Widget _buildPixabayAttribution(
+      BuildContext context, Map<String, dynamic> image) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(

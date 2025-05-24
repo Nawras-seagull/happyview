@@ -9,7 +9,6 @@ import 'package:happy_view/screens/query_result.dart';
 import '../l10n/app_localizations.dart';
 import 'package:happy_view/widgets/subcategory_data.dart';
 
-
 final _customCacheManager = CacheManager(
   Config(
     'happyViewCache',
@@ -48,7 +47,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
 
   void _loadSubcategories() {
     setState(() {
-      _subcategories = _service.getSubcategories(context, widget.category)
+      _subcategories = _service
+          .getSubcategories(context, widget.category)
           .catchError((error) {
         if (kDebugMode) print('Error loading subcategories: $error');
         return <Map<String, String>>[];
@@ -60,36 +60,40 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final category = widget.category;
-    final translatedCategory = SubcategoryData.getTranslatedCategory(localizations, category);
+    final translatedCategory =
+        SubcategoryData.getTranslatedCategory(localizations, category);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(translatedCategory),    
+        title: Text(translatedCategory),
         backgroundColor: Colors.orangeAccent,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: FutureBuilder<List<Map<String, String>>>(
-              future: _subcategories,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: SpinKitThreeInOut(
-                    color: Color.fromARGB(255, 8, 127, 148),
-                    size: 30.0,
-                  ));
-                }
-                if (snapshot.hasError || !snapshot.hasData) {
-                  return _buildErrorState();
-                }
-                return _buildGrid(snapshot.data!);
-              },
+      body: SafeArea(
+        // <-- Add SafeArea here
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: FutureBuilder<List<Map<String, String>>>(
+                future: _subcategories,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                        child: SpinKitThreeInOut(
+                      color: Color.fromARGB(255, 8, 127, 148),
+                      size: 30.0,
+                    ));
+                  }
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    return _buildErrorState();
+                  }
+                  return _buildGrid(snapshot.data!);
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ), // <-- End SafeArea
     );
   }
 
@@ -136,7 +140,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       UnifiedPictureScreen(query: item['query'] ?? ''),
                 ),
               );
-            },//////////////////////////////
+            }, //////////////////////////////
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -150,8 +154,8 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       bottom: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                     // imageUrl: 'lib/assets/images/birds.jpg',
-                     imageUrl: item['image'] ?? _fallbackImage,
+                      // imageUrl: 'lib/assets/images/birds.jpg',
+                      imageUrl: item['image'] ?? _fallbackImage,
                       placeholder: (context, url) => const Center(
                         child: SpinKitThreeInOut(
                           color: Color.fromARGB(255, 8, 127, 148),
@@ -201,4 +205,4 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
       ),
     );
   }
-} 
+}

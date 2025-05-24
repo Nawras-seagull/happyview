@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../l10n/app_localizations.dart';
+
 // Add this to your main.dart or where you initialize Firebase
 Future<void> initializeFirebase() async {
   await Firebase.initializeApp();
@@ -84,7 +85,7 @@ class SuggestionFormState extends State<SuggestionForm> {
   }
 
   Future<void> _submitForm() async {
-        final localizations = AppLocalizations.of(context)!;
+    final localizations = AppLocalizations.of(context)!;
 
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -97,7 +98,7 @@ class SuggestionFormState extends State<SuggestionForm> {
           email: _emailController.text,
           category: _categoryController.text,
         );
-if (!mounted) return; 
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(localizations.suggestion_message)),
         );
@@ -137,7 +138,8 @@ if (!mounted) return;
               decoration: InputDecoration(
                 labelText: localizations.suggestionTitle, // Localized label
                 border: const OutlineInputBorder(),
-                hintText: localizations.suggestion_placeholder, // Localized hint
+                hintText:
+                    localizations.suggestion_placeholder, // Localized hint
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -196,9 +198,12 @@ class SuggestionScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(localizations.suggestionTitle), // Localized title
       ),
-      body: const SingleChildScrollView(
-        child: SuggestionForm(),
-      ),
+      body: SafeArea(
+        // <-- Add SafeArea here
+        child: const SingleChildScrollView(
+          child: SuggestionForm(),
+        ),
+      ), // <-- End SafeArea
     );
   }
 }

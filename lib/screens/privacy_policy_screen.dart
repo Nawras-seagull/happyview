@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
+
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
-
 
   void _showPrivacyPolicyDialog(BuildContext context) {
     showDialog(
@@ -35,23 +35,26 @@ class PrivacyPolicyScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.privacyPolicyTitle),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => _showPrivacyPolicyDialog(context),
-              child: Text(AppLocalizations.of(context)!.viewPrivacyPolicy),
-            ),
-            SizedBox(height: 20),
-          /*   ElevatedButton(
-              onPressed: _launchPrivacyPolicy,
-              child:
-                  Text(AppLocalizations.of(context)!.openPrivacyPolicyOnline),
-            ), */
-          ],
+      body: SafeArea(
+        // <-- Add SafeArea here
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => _showPrivacyPolicyDialog(context),
+                child: Text(AppLocalizations.of(context)!.viewPrivacyPolicy),
+              ),
+              SizedBox(height: 20),
+              /*   ElevatedButton(
+                onPressed: _launchPrivacyPolicy,
+                child:
+                    Text(AppLocalizations.of(context)!.openPrivacyPolicyOnline),
+              ), */
+            ],
+          ),
         ),
-      ),
+      ), // <-- End SafeArea
     );
   }
 }
