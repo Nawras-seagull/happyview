@@ -95,14 +95,20 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
     }
   }
     Future<void> setWallpaper(String imageUrl) async {
-    final status = await Permission.storage.request();
+   /*   final status = await Permission.storage.request();
 
-    if (!status.isGranted) {
+   if (!status.isGranted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Permission denied")),
+      
       );
       return;
-    }
+    } */
+
+        var status = await Permission.storage.status;
+    if (status.isDenied) {
+      status = await Permission.storage.request();
+    } 
 
     try {
       final response = await http.get(Uri.parse(imageUrl));
@@ -127,6 +133,7 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
       );
     }
   }
+  /////////////////
 /* "Failed to set wallpaper: $e")),
 Future<void> setWallpaper(String imageUrl) async {
   // Request permissions
