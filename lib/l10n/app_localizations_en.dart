@@ -94,7 +94,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get suggestionValidationEmpty => 'Please enter a suggestion';
 
   @override
-  String get suggestionValidationLength => 'Suggestion content must be between 1 and 200 characters';
+  String get suggestionValidationLength =>
+      'Suggestion content must be between 1 and 200 characters';
 
   @override
   String get emailLabel => 'Email (optional)';
@@ -161,7 +162,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyPolicyTitle => 'Privacy Policy';
 
   @override
-  String get privacyPolicySubTitle => 'View our data collection and usage policy';
+  String get privacyPolicySubTitle =>
+      'View our data collection and usage policy';
 
   @override
   String get viewPrivacyPolicy => 'View Privacy Policy';
@@ -170,7 +172,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openPrivacyPolicyOnline => 'Open Privacy Policy Online';
 
   @override
-  String get privacyPolicyContent => 'Privacy Policy for Happy View\n\n1. No User Registration\n- Our app does not require user registration\n- No personal identifying information is collected\n\n2. Data Collection\n- Minimal, anonymized data collection via Firebase\n- Optional analytics and performance tracking\n- No mandatory user information required\n\n3. Third-Party Services\n- Unsplash API for images\n- Firebase for analytics\n- No personal data sold or shared\n\n4. User Consent\n- By using the app, you agree to optional data collection\n- You can disable analytics in device settings\n\n5. Contact\nFor privacy inquiries:developer@nawras.pro';
+  String get privacyPolicyContent =>
+      'Privacy Policy for Happy View\n\n1. No User Registration\n- Our app does not require user registration\n- No personal identifying information is collected\n\n2. Data Collection\n- Minimal, anonymized data collection via Firebase\n- Optional analytics and performance tracking\n- No mandatory user information required\n\n3. Third-Party Services\n- Unsplash API for images\n- Firebase for analytics\n- No personal data sold or shared\n\n4. User Consent\n- By using the app, you agree to optional data collection\n- You can disable analytics in device settings\n\n5. Contact\nFor privacy inquiries:developer@nawras.pro';
 
   @override
   String get mammals => 'Mammals';
@@ -431,7 +434,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearFavorites => 'Clear Favorites';
 
   @override
-  String get clearFavoritesConfirmation => 'Are you sure you want to remove all favorites?';
+  String get clearFavoritesConfirmation =>
+      'Are you sure you want to remove all favorites?';
 
   @override
   String get clear => 'Clear';
@@ -443,7 +447,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setAsWallpaper => 'Set as Wallpaper';
 
   @override
-  String get chooseWallpaperType => 'Where would you like to set this wallpaper?';
+  String get chooseWallpaperType =>
+      'Where would you like to set this wallpaper?';
 
   @override
   String get homeScreen => 'Home Screen';

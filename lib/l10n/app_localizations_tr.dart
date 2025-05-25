@@ -94,19 +94,22 @@ class AppLocalizationsTr extends AppLocalizations {
   String get suggestionValidationEmpty => 'Lütfen bir öneri yazın';
 
   @override
-  String get suggestionValidationLength => 'Öneriniz en az 10 karakter olmalıdır';
+  String get suggestionValidationLength =>
+      'Öneriniz en az 10 karakter olmalıdır';
 
   @override
   String get emailLabel => 'E-posta adresiniz (isteğe bağlı)';
 
   @override
-  String get emailHint => 'Cevabınızı almak için e-posta adresinizi bırakabilirsiniz';
+  String get emailHint =>
+      'Cevabınızı almak için e-posta adresinizi bırakabilirsiniz';
 
   @override
   String get categoryLabel => 'Kategori seçin (isteğe bağlı)';
 
   @override
-  String get categoryHint => 'Önerinizin hangi kategoriye ait olduğunu belirtin';
+  String get categoryHint =>
+      'Önerinizin hangi kategoriye ait olduğunu belirtin';
 
   @override
   String get submit => 'öneri gönder';
@@ -124,7 +127,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get suggestion_error => 'Lütfen bir öneri yazın';
 
   @override
-  String get suggestion_subtitle => 'Bize önerilerinizi ve sorularınızı gönderin';
+  String get suggestion_subtitle =>
+      'Bize önerilerinizi ve sorularınızı gönderin';
 
   @override
   String get verification => 'Sadece ebeveynler için';
@@ -161,7 +165,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get privacyPolicyTitle => 'Gizlilik Politikası';
 
   @override
-  String get privacyPolicySubTitle => 'Gizlilik politikamızı görüntüleyin ve veri paylaşımı';
+  String get privacyPolicySubTitle =>
+      'Gizlilik politikamızı görüntüleyin ve veri paylaşımı';
 
   @override
   String get viewPrivacyPolicy => 'Gizlilik Politikasını Görüntüle';
@@ -170,7 +175,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get openPrivacyPolicyOnline => 'Gizlilik Politikasını Çevrimiçi Aç';
 
   @override
-  String get privacyPolicyContent => 'Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Firebase aracılığıyla minimum, anonim veri toplama\n- İsteğe bağlı analiz ve performans takibi\n- Zorunlu kullanıcı bilgisi gerekmez\n\n3. Üçüncü Taraf Hizmetler\n- Görseller için Unsplash API\n- Analiz için Firebase\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Uygulamayı kullanarak, isteğe bağlı veri toplamayı kabul etmiş olursunuz\n- Cihaz ayarlarından analizleri devre dışı bırakabilirsiniz\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.pro';
+  String get privacyPolicyContent =>
+      'Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Firebase aracılığıyla minimum, anonim veri toplama\n- İsteğe bağlı analiz ve performans takibi\n- Zorunlu kullanıcı bilgisi gerekmez\n\n3. Üçüncü Taraf Hizmetler\n- Görseller için Unsplash API\n- Analiz için Firebase\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Uygulamayı kullanarak, isteğe bağlı veri toplamayı kabul etmiş olursunuz\n- Cihaz ayarlarından analizleri devre dışı bırakabilirsiniz\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.pro';
 
   @override
   String get mammals => 'Memeliler';
@@ -431,7 +437,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get clearFavorites => 'Favorileri temizle';
 
   @override
-  String get clearFavoritesConfirmation => 'Favorileri temizlemek istediğinize emin misiniz?';
+  String get clearFavoritesConfirmation =>
+      'Favorileri temizlemek istediğinize emin misiniz?';
 
   @override
   String get clear => 'Temizle';
