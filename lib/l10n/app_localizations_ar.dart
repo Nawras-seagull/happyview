@@ -97,7 +97,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get suggestionValidationEmpty => 'الرجاء إدخال اقتراح';
 
   @override
-  String get suggestionValidationLength => 'الرجاء إدخال اقتراح لا يقل عن 10 أحرف';
+  String get suggestionValidationLength =>
+      'الرجاء إدخال اقتراح لا يقل عن 10 أحرف';
 
   @override
   String get emailLabel => 'البريد الإلكتروني (اختياري)';
@@ -173,7 +174,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openPrivacyPolicyOnline => 'فتح سياسة الخصوصية عبر الإنترنت';
 
   @override
-  String get privacyPolicyContent => 'سياسة الخصوصية لتطبيق Happy View\n\n1. لا يوجد تسجيل مستخدم\n- تطبيقنا لا يتطلب تسجيل المستخدم\n- لا يتم جمع أي معلومات تعريف شخصية\n\n2. جمع البيانات\n- جمع بيانات مجهولة الهوية عبر Firebase\n- تتبع الأداء والتحليلات اختياري\n- لا توجد معلومات مستخدم إلزامية مطلوبة\n\n3. خدمات الطرف الثالث\n- واجهة برمجة التطبيقات Unsplash للصور\n- Firebase للتحليلات\n- لا يتم بيع أو مشاركة البيانات الشخصية\n\n4. موافقة المستخدم\n- باستخدام التطبيق، فإنك توافق على جمع البيانات الاختياري\n- يمكنك تعطيل التحليلات في إعدادات الجهاز\n\n5. الاتصال\nللاستفسارات المتعلقة بالخصوصية: developer@nawras.pro';
+  String get privacyPolicyContent =>
+      'سياسة الخصوصية لتطبيق Happy View\n\n1. لا يوجد تسجيل مستخدم\n- تطبيقنا لا يتطلب تسجيل المستخدم\n- لا يتم جمع أي معلومات تعريف شخصية\n\n2. جمع البيانات\n- جمع بيانات مجهولة الهوية عبر Firebase\n- تتبع الأداء والتحليلات اختياري\n- لا توجد معلومات مستخدم إلزامية مطلوبة\n\n3. خدمات الطرف الثالث\n- واجهة برمجة التطبيقات Unsplash للصور\n- Firebase للتحليلات\n- لا يتم بيع أو مشاركة البيانات الشخصية\n\n4. موافقة المستخدم\n- باستخدام التطبيق، فإنك توافق على جمع البيانات الاختياري\n- يمكنك تعطيل التحليلات في إعدادات الجهاز\n\n5. الاتصال\nللاستفسارات المتعلقة بالخصوصية: developer@nawras.pro';
 
   @override
   String get mammals => 'ثدييات';
