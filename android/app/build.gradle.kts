@@ -23,24 +23,17 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.nawras.happyview"
-   //     minSdkVersion(23) // Parentheses are required in Kotlin DSL
-     //   targetSdkVersion(34)
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-       // minSdk = flutter.minSdkVersion
-       // targetSdk = flutter.targetSdkVersion
-        versionCode = 13
-        versionName = "1.0.0"
-        minSdk=24
-        targetSdk=34
+        minSdk = 24
+        targetSdk = 35
+        versionCode = 16
+        versionName = "1.0.1"
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false     // Kotlin uses "isMinifyEnabled" instead of "minifyEnabled"
-            isShrinkResources = false   // Kotlin uses "isShrinkResources" instead of "shrinkResources"
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -53,11 +46,8 @@ flutter {
     source = "../.."
 }
 
-/* dependencies {
-    implementation("com.google.android.play:core:2.0.3") {
-        exclude(group = "com.google.android.play", module = "core-common")
-    }
-    implementation("com.google.android.play:core-ktx:2.0.3") {
-        exclude(group = "com.google.android.play", module = "core-common")
-    }
-} */
+dependencies {
+    // Uncomment if you need Play Core services
+    // implementation("com.google.android.play:core:1.10.3")
+    // implementation("com.google.android.play:core-ktx:1.8.1")
+}
