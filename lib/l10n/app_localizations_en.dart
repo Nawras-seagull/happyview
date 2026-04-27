@@ -173,7 +173,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'Privacy Policy for Happy View\n\n1. No User Registration\n- Our app does not require user registration\n- No personal identifying information is collected\n\n2. Data Collection\n- Minimal, anonymized data collection via Firebase\n- Optional analytics and performance tracking\n- No mandatory user information required\n\n3. Third-Party Services\n- Unsplash API for images\n- Firebase for analytics\n- No personal data sold or shared\n\n4. User Consent\n- By using the app, you agree to optional data collection\n- You can disable analytics in device settings\n\n5. Contact\nFor privacy inquiries:developer@nawras.pro';
+      'Privacy Policy for Happy View\n\n1. No User Registration\n- Our app does not require user registration\n- No personal identifying information is collected\n\n2. Data Collection\n- Minimal, anonymized data collection via Firebase\n- Optional analytics and performance tracking\n- No mandatory user information required\n\n3. Third-Party Services\n- Pixabay API for images\n- Firebase for analytics\n- No personal data sold or shared\n\n4. User Consent\n- By using the app, you agree to optional data collection\n- You can disable analytics in device settings\n\n5. Contact\nFor privacy inquiries:developer@nawras.pro';
 
   @override
   String get mammals => 'Mammals';

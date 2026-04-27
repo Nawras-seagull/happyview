@@ -26,8 +26,17 @@ android {
         applicationId = "com.nawras.happyview"
         minSdk = 24
         targetSdk = 35
-        versionCode = 16
-        versionName = "1.0.1"
+        versionCode = 18
+        versionName = "1.0.3"
+    }
+
+    signingConfigs {
+        create("release") {
+            storePassword = "201141"
+            keyPassword = "201141"
+            keyAlias = "happyview"
+            storeFile = file("/Users/nawrasalabbas/Desktop/happyview-keystore.jks")
+        }
     }
 
     buildTypes {
@@ -38,6 +47,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
