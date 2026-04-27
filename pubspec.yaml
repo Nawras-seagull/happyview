@@ -1,6 +1,6 @@
 name: happy_view
 description: A Flutter app for kids to view pictures without parents concern.
-version: 1.0.0+14
+version: 1.0.0+15
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

@@ -176,7 +176,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Firebase aracılığıyla minimum, anonim veri toplama\n- İsteğe bağlı analiz ve performans takibi\n- Zorunlu kullanıcı bilgisi gerekmez\n\n3. Üçüncü Taraf Hizmetler\n- Görseller için Unsplash API\n- Analiz için Firebase\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Uygulamayı kullanarak, isteğe bağlı veri toplamayı kabul etmiş olursunuz\n- Cihaz ayarlarından analizleri devre dışı bırakabilirsiniz\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.pro';
+      'Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Firebase aracılığıyla minimum, anonim veri toplama\n- İsteğe bağlı analiz ve performans takibi\n- Zorunlu kullanıcı bilgisi gerekmez\n\n3. Üçüncü Taraf Hizmetler\n- Görseller için Pixabay API\n- Analiz için Firebase\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Uygulamayı kullanarak, isteğe bağlı veri toplamayı kabul etmiş olursunuz\n- Cihaz ayarlarından analizleri devre dışı bırakabilirsiniz\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.pro';
 
   @override
   String get mammals => 'Memeliler';
