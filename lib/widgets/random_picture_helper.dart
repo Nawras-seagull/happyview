@@ -14,6 +14,11 @@ Future<void> showRandomPicture(BuildContext context) async {
     // Get all available categories
     final localizations = AppLocalizations.of(context);
     final categories = getCategories(localizations!);
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    
+    // Check if widget is still mounted before proceeding
+    if (!context.mounted) return;
     
     // Select a random category
     final random = Random();
@@ -36,7 +41,8 @@ Future<void> showRandomPicture(BuildContext context) async {
     );
     
     if (images.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      
+      scaffoldMessenger.showSnackBar(
         SnackBar(content: Text('No images found for $randomQuery')),
       );
       return;
@@ -46,8 +52,7 @@ Future<void> showRandomPicture(BuildContext context) async {
     final randomImage = images[random.nextInt(images.length)];
     
     // Navigate to show the image
-    Navigator.push(
-      context,
+    navigator.push(
       MaterialPageRoute(
         builder: (context) => FullScreenImageView(
           imageUrl: randomImage['largeUrl'] ?? randomImage['url'],
@@ -61,10 +66,11 @@ Future<void> showRandomPicture(BuildContext context) async {
       ),
     );
   } catch (e) {
-    
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to load random image')),
-    );
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load random image')),
+      );
+    }
     if (kDebugMode) print('Error loading random image: $e');
   }
 }

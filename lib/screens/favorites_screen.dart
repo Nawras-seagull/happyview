@@ -58,6 +58,7 @@ class FavoritesScreenState extends State<FavoritesScreen> {
 
     if (confirmed == true) {
       await _favoritesService.clearAllFavorites();
+       if (!mounted) return; // guard here
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(AppLocalizations.of(context)!.clear),

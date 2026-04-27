@@ -6,12 +6,7 @@
   },
   "client": [
     {
-      "client_info": {
-        "mobilesdk_app_id": "1:375472596129:android:e3d0f7d58f858e7e7b3ce0",
-        "android_client_info": {
-          "package_name": "Nawras.pro.happyview"
-        }
-      },
+      
       "oauth_client": [],
       "api_key": [
         {
