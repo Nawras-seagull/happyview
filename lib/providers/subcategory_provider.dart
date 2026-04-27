@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,12 @@ class SubcategoryService {
 
   Future<List<Map<String, String>>> getSubcategories(
       BuildContext context, String category) async {
+    // Capture AppLocalizations before async gap
+    final localizations = AppLocalizations.of(context);
+    if (localizations == null) {
+      return [];
+    }
+
     if (!_isFilterLoaded) {
       await _filter.loadBadWords('assets/profanity/en.json');
       _isFilterLoaded = true;
@@ -35,7 +40,7 @@ class SubcategoryService {
         topics.where((topic) => !_filter.containsBadWords(topic)).toList();
 
     final results = await Future.wait(
-      cleanTopics.map((topic) => _fetchTopic(context, topic)),
+      cleanTopics.map((topic) => _fetchTopic(localizations, topic)),
     );
 
     final subcategories = results.whereType<Map<String, String>>().toList();
@@ -44,10 +49,10 @@ class SubcategoryService {
   }
 
   Future<Map<String, String>?> _fetchTopic(
-      BuildContext context, String topic) async {
+      AppLocalizations localizations, String topic) async {
     try {
       if (_imageCache.containsKey(topic)) {
-        return _createSubcategoryItem(context, topic, topic);
+        return _createSubcategoryItem(localizations, topic, topic);
       }
 
       final response = await http.get(Uri.parse(
@@ -70,7 +75,7 @@ class SubcategoryService {
             if (!_filter.containsBadWords(tags)) {
               final imageUrl = hit['webformatURL'] as String;
               _imageCache[topic] = NetworkImage(imageUrl);
-              return _createSubcategoryItem(context, topic, imageUrl);
+              return _createSubcategoryItem(localizations, topic, imageUrl);
             }
           }
           // If all images have profane tags, fall back
@@ -79,14 +84,13 @@ class SubcategoryService {
     } catch (e) {
       if (kDebugMode) print('Error fetching topic $topic: $e');
     }
-    return _createSubcategoryItem(context, topic, _fallbackImage);
+    return _createSubcategoryItem(localizations, topic, _fallbackImage);
   }
 
   Map<String, String> _createSubcategoryItem(
-      BuildContext context, String topic, String image) {
+      AppLocalizations localizations, String topic, String image) {
     return {
-      'name': SubcategoryData.getTranslatedTopic(
-          AppLocalizations.of(context), topic),
+      'name': SubcategoryData.getTranslatedTopic(localizations, topic),
       'query': topic,
       'image': image,
     };

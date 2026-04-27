@@ -125,12 +125,18 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
         WallpaperManagerFlutter.homeScreen,
       );
 
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
+        
         SnackBar(
+          
             content:
+            
                 Text(AppLocalizations.of(context)!.wallpaperSetSuccessfully)),
       );
+      
     } catch (e) {
+       if (!mounted) return; // guard here
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(AppLocalizations.of(context)!.failedToSetWallpaper +
