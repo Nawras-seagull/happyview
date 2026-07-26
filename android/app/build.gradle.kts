@@ -25,9 +25,9 @@ android {
     defaultConfig {
         applicationId = "com.nawras.happyview"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 18
-        versionName = "1.0.3"
+        targetSdk = 36
+        versionCode = 19
+        versionName = "1.0.4"
     }
 
     signingConfigs {

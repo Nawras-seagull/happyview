@@ -1,6 +1,6 @@
 name: happy_view
 description: A Flutter app for kids to view pictures without parents concern.
-version: 1.0.0+15
+version: 1.0.4+19
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -32,14 +32,14 @@ dependencies:
   translator: ^1.0.3+1
   wallpaper_manager_flutter: ^1.0.1
   just_audio: ^0.10.3
+  integration_test:
+    sdk: flutter
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  integration_test:
-    sdk: flutter
   mockito: ^5.4.5
   build_runner: ^2.4.15
 
