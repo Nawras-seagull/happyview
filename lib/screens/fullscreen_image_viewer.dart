@@ -1,17 +1,15 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:happy_view/services/pixabay_services.dart';
 import 'package:happy_view/widgets/download_button.dart';
 import 'package:happy_view/widgets/favorite_button.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 import '../l10n/app_localizations.dart';
+
+const MethodChannel _wallpaperChannel = MethodChannel('happy_view/wallpaper');
 
 class FullScreenImageView extends StatefulWidget {
   final String imageUrl;
@@ -96,84 +94,40 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
   }
 
   Future<void> setWallpaper(String imageUrl) async {
-    /*   final status = await Permission.storage.request();
-
-   if (!status.isGranted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Permission denied")),
-      
-      );
-      return;
-    } */
-
-    var status = await Permission.storage.status;
-    if (status.isDenied) {
-      status = await Permission.storage.request();
-    }
-
     try {
       final response = await http.get(Uri.parse(imageUrl));
-      final Uint8List bytes = response.bodyBytes;
+      if (response.statusCode != 200) {
+        throw Exception('Failed to download wallpaper image');
+      }
 
-      final directory = await getTemporaryDirectory();
-      final filePath = '${directory.path}/temp_wallpaper.jpg';
-      final file = File(filePath);
-      await file.writeAsBytes(bytes);
-
-      await WallpaperManagerFlutter().setWallpaper(
-        file,
-        WallpaperManagerFlutter.homeScreen,
+      final imageBytes = response.bodyBytes;
+      final success = await _wallpaperChannel.invokeMethod<bool>(
+        'setWallpaper',
+        {'imageBytes': imageBytes},
       );
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        
-        SnackBar(
-          
-            content:
-            
-                Text(AppLocalizations.of(context)!.wallpaperSetSuccessfully)),
-      );
-      
+      if (success == true) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.wallpaperSetSuccessfully),
+          ),
+        );
+      } else {
+        throw Exception('Native wallpaper call returned false');
+      }
     } catch (e) {
-       if (!mounted) return; // guard here
+      if (!mounted) return;
+      final message = e is PlatformException
+          ? e.message ?? e.code
+          : e.toString();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text(AppLocalizations.of(context)!.failedToSetWallpaper +
-                e.toString())),
+          content: Text('${AppLocalizations.of(context)!.failedToSetWallpaper}: $message'),
+        ),
       );
     }
   }
-
-  /////////////////
-/* "Failed to set wallpaper: $e")),
-Future<void> setWallpaper(String imageUrl) async {
-  // Request permissions
-  var status = await Permission.storage.request();
-  if (!status.isGranted) {
-    return;
-  }
-
-  try {
-    // Download image
-    final response = await http.get(Uri.parse(imageUrl));
-    final Uint8List bytes = response.bodyBytes;
-
-    // Save to temporary file
-    final directory = await getTemporaryDirectory();
-    final filePath = '${directory.path}/temp_wallpaper.jpg';
-    final file = File(filePath);
-    await file.writeAsBytes(bytes);
-
-    // Set wallpaper
-    await WallpaperManagerFlutter().setWallpaper(
-      file,
-      WallpaperManagerFlutter.homeScreen,
-    );
-  } catch (e) {
-    print("Error setting wallpaper: $e");
-  }
-} */
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
