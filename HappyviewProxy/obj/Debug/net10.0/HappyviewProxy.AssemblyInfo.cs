@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HappyviewProxy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+472d2b2b299a2abd003190acc74be436515709c7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+64b255e4a529f7e41bb7504b4f70be77d0eba8fd")]
 [assembly: System.Reflection.AssemblyProductAttribute("HappyviewProxy")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HappyviewProxy")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
