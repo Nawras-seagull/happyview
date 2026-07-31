@@ -1,0 +1,9 @@
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/HappyviewProxy
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/appsettings.Development.json
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/appsettings.json
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/HappyviewProxy.dll
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/HappyviewProxy.deps.json
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/HappyviewProxy.runtimeconfig.json
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/HappyviewProxy.pdb
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/Microsoft.AspNetCore.OpenApi.dll
+/Users/nawrasalabbas/happyview/HappyviewProxy/publish/Microsoft.OpenApi.dll
