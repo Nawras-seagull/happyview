@@ -1,0 +1,6 @@
+@HappyviewProxy_HostAddress = http://localhost:5161
+
+GET {{HappyviewProxy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
