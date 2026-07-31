@@ -12,7 +12,7 @@ import 'providers/language_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await SoundEffectHandler().initialize(); // Now this will work properly
+  await SoundEffectHandler().initialize();
 
   runApp(
     MultiProvider(
