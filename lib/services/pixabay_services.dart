@@ -2,11 +2,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
+import 'backend_config.dart';
 import 'profanity_filter.dart';
 
+/// Fetches images via the HappyView backend proxy — never calls Pixabay directly
+/// (the API key lives server-side only).
 class PixabayService {
-  static const String accessKey = '49682872-0649c795fb759cec1a2ddb865';
-  static const String baseUrl = 'https://pixabay.com/api/';
+  static const String baseUrl = '${BackendConfig.baseUrl}/api/images';
 
   static final ProfanityFilter _filter = ProfanityFilter('');
   static bool _isFilterLoaded = false;
@@ -26,13 +28,11 @@ class PixabayService {
       }
 
       final url = Uri.parse(
-        '$baseUrl?key=$accessKey'
-        '&q=${Uri.encodeQueryComponent(query)}'
+        '$baseUrl?q=${Uri.encodeQueryComponent(query)}'
         '&page=$page'
-        '&per_page=$perPage'
-        '&image_type=photo'
+        '&perPage=$perPage'
         '&safesearch=${safesearch ? "true" : "false"}'
-        '${category != null ? '&category=$category' : ''}',
+        '${category != null ? '&category=${Uri.encodeQueryComponent(category)}' : ''}',
       );
 
       final response = await http.get(url);
@@ -54,22 +54,9 @@ class PixabayService {
     }
   }
 
+  // Backend already projects hits into this shape, so just decode the list.
   static List<Map<String, dynamic>> _parseResponse(String responseBody) {
-    final jsonData = json.decode(responseBody);
-    final List<dynamic> hits = jsonData['hits'];
-
-    return hits.map((hit) {
-      return {
-        'id': hit['id'],
-        'url': hit['webformatURL'],
-        'largeUrl': hit['largeImageURL'],
-        'photographer': hit['user'],
-        'safesearch': hit['safesearch'],
-        'photoLink': 'https://pixabay.com/users/${hit['user']}-${hit['user_id']}/',
-        'download': hit['webformatURL'],
-        'title': hit['tags'],
-        'likes': hit['likes'],
-      };
-    }).toList();
+    final List<dynamic> data = json.decode(responseBody);
+    return data.cast<Map<String, dynamic>>();
   }
 }

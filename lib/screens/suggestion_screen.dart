@@ -1,61 +1,44 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 import '../l10n/app_localizations.dart';
+import '../services/backend_config.dart';
 
-// Add this to your main.dart or where you initialize Firebase
-Future<void> initializeFirebase() async {
-  await Firebase.initializeApp();
-}
-
-/// Service class to handle Firestore operations
+/// Service class to relay a suggestion to the backend, which forwards it to Telegram.
 class SuggestionService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  /// Submit a suggestion to Firestore as an anonymous user
+  /// Submit a suggestion via the backend's /api/suggestions relay.
   ///
-  /// [content] is required and must be 1-1000 characters
+  /// [content] is required and must be 1-200 characters (enforced server-side too).
   /// [email] is optional for contact information
   /// [category] is optional for categorizing the suggestion
-  Future<DocumentReference> submitSuggestion({
+  Future<void> submitSuggestion({
     required String content,
     String? email,
     String? category,
   }) async {
-    // Validate content length client-side to match security rules
+    // Validate content length client-side to match the backend's validation
     if (content.isEmpty || content.length > 200) {
       throw Exception(
           "Suggestion content must be between 1 and 200 characters");
     }
 
-    // Create suggestion data
-    final Map<String, dynamic> suggestionData = {
-      'content': content,
-      'timestamp': FieldValue.serverTimestamp(),
-    };
+    final response = await http.post(
+      Uri.parse('${BackendConfig.baseUrl}/api/suggestions'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'content': content,
+        if (email != null && email.isNotEmpty) 'email': email,
+        if (category != null && category.isNotEmpty) 'category': category,
+      }),
+    );
 
-    // Add optional fields if they exist
-    if (email != null && email.isNotEmpty) {
-      suggestionData['email'] = email;
-    }
-    if (category != null && category.isNotEmpty) {
-      suggestionData['category'] = category;
-    }
-
-    try {
-      // Add the document to Firestore
-      final docRef =
-          await _firestore.collection('suggestions').add(suggestionData);
+    if (response.statusCode != 200) {
       if (kDebugMode) {
-        print("Suggestion submitted with ID: ${docRef.id}");
+        print(
+            "Error submitting suggestion: ${response.statusCode} ${response.body}");
       }
-      return docRef;
-    } catch (error) {
-      if (kDebugMode) {
-        print("Error submitting suggestion: $error");
-      }
-      throw Exception("Failed to submit suggestion: $error");
+      throw Exception("Failed to submit suggestion (${response.statusCode})");
     }
   }
 }
@@ -146,7 +129,7 @@ class SuggestionFormState extends State<SuggestionForm> {
                   return localizations
                       .suggestionValidationEmpty; // Localized validation
                 }
-                if (value.length > 1000) {
+                if (value.length > 200) {
                   return localizations
                       .suggestionValidationLength; // Localized validation
                 }
