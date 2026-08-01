@@ -1,8 +1,14 @@
+import java.io.FileInputStream
+import java.util.Properties
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 plugins {
     id("com.android.application")
-    // START: FlutterFire Configuration
-    id("com.google.gms.google-services")
-    // END: FlutterFire Configuration
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
@@ -32,10 +38,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storePassword = "201141"
-            keyPassword = "201141"
-            keyAlias = "happyview"
-            storeFile = file("/Users/nawrasalabbas/Desktop/happyview-keystore.jks")
+            storePassword = keystoreProperties.getProperty("storePassword") ?: ""
+            keyPassword = keystoreProperties.getProperty("keyPassword") ?: ""
+            keyAlias = keystoreProperties.getProperty("keyAlias") ?: "happyview"
+            storeFile = rootProject.file(keystoreProperties.getProperty("storeFile") ?: "")
         }
     }
 

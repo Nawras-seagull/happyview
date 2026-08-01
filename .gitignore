@@ -50,6 +50,7 @@ app.*.map.json
 lib/widgets/draft.dart
 android/app/build/outputs/apk/debug/app-debug.apk 
 android/app/build/
+android/key.properties
 # Flutter/Dart build-related
 **/build/
 **/android/app/build/
