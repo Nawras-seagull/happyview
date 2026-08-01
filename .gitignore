@@ -58,5 +58,16 @@ android/app/build/
 # Add to .gitignore
 android/app/build/
 **/build/
+
+# Backend production secrets - never commit (upload directly to the host instead)
+HappyviewProxy/appsettings.Production.json
+**/appsettings.Production.json
 *.apk
 *.bin
+
+# .NET build artifacts (HappyviewProxy backend) - never commit, regenerate via dotnet build/publish
+HappyviewProxy/bin/
+HappyviewProxy/obj/
+HappyviewProxy/publish/
+HappyviewProxy/Library/
+HappyviewProxy/app_offline.htm

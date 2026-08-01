@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_view/services/pixabay_services.dart';
 import '../l10n/app_localizations.dart';
 import 'package:happy_view/widgets/subcategory_data.dart';
-import 'package:http/http.dart' as http;
 import 'package:happy_view/services/profanity_filter.dart'; // 👈 Import the profanity filter
 
 class SubcategoryService {
@@ -55,31 +53,25 @@ class SubcategoryService {
         return _createSubcategoryItem(localizations, topic, topic);
       }
 
-      final response = await http.get(Uri.parse(
-          'https://pixabay.com/api/?key=${PixabayService.accessKey}&q=$topic&image_type=photo&safesearch=true'));
+      final images = await PixabayService.fetchImages(topic, perPage: 20);
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body) as Map<String, dynamic>;
+      if (images.isNotEmpty) {
+        // Pick a different image every 3 days, but check for profanity in tags
+        final now = DateTime.now();
+        final dayGroup = now.difference(DateTime(2020, 1, 1)).inDays ~/ 3;
 
-        if (data['hits'].isNotEmpty) {
-          // Pick a different image every 3 days, but check for profanity in tags
-          final hits = data['hits'] as List;
-          final now = DateTime.now();
-          final dayGroup = now.difference(DateTime(2020, 1, 1)).inDays ~/ 3;
-
-          // Try to find a non-profane image, cycling through hits
-          for (int i = 0; i < hits.length; i++) {
-            final index = (dayGroup + i) % hits.length;
-            final hit = hits[index];
-            final tags = (hit['tags'] as String?) ?? '';
-            if (!_filter.containsBadWords(tags)) {
-              final imageUrl = hit['webformatURL'] as String;
-              _imageCache[topic] = NetworkImage(imageUrl);
-              return _createSubcategoryItem(localizations, topic, imageUrl);
-            }
+        // Try to find a non-profane image, cycling through hits
+        for (int i = 0; i < images.length; i++) {
+          final index = (dayGroup + i) % images.length;
+          final image = images[index];
+          final tags = (image['title'] as String?) ?? '';
+          if (!_filter.containsBadWords(tags)) {
+            final imageUrl = image['url'] as String;
+            _imageCache[topic] = NetworkImage(imageUrl);
+            return _createSubcategoryItem(localizations, topic, imageUrl);
           }
-          // If all images have profane tags, fall back
         }
+        // If all images have profane tags, fall back
       }
     } catch (e) {
       if (kDebugMode) print('Error fetching topic $topic: $e');

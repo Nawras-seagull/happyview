@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:happy_view/services/backend_config.dart';
 import 'package:happy_view/services/profanity_filter.dart';
 import 'package:http/http.dart' as http;
-import 'package:translator/translator.dart';
 import '../l10n/app_localizations.dart';
 
 class FunSearchBar extends StatefulWidget {
@@ -17,7 +19,6 @@ class FunSearchBar extends StatefulWidget {
 
 class FunSearchBarState extends State<FunSearchBar> {
   final TextEditingController _controller = TextEditingController();
-  final GoogleTranslator translator = GoogleTranslator();
 
   @override 
   void initState() {
@@ -43,11 +44,17 @@ class FunSearchBarState extends State<FunSearchBar> {
 
       HapticFeedback.lightImpact(); // Small vibration effect
 
-      // Translate query to English if needed
+      // Translate query to English if needed, via the backend proxy
       String englishQuery = query;
       try {
-        var translation = await translator.translate(query, to: 'en');
-        englishQuery = translation.text;
+        final translateUrl = Uri.parse(
+            '${BackendConfig.baseUrl}/api/translate?q=${Uri.encodeQueryComponent(query)}&to=en');
+        final translateResponse = await http.get(translateUrl);
+        if (translateResponse.statusCode == 200) {
+          final decoded =
+              json.decode(translateResponse.body) as Map<String, dynamic>;
+          englishQuery = decoded['translatedText'] as String? ?? query;
+        }
 
         if (kDebugMode) {
           print('Original query: "$query"');
@@ -84,7 +91,7 @@ class FunSearchBarState extends State<FunSearchBar> {
 
       // Construct your new backend proxy URL
       final encodedQuery = Uri.encodeComponent(cleanQuery);
-      final url = 'http://happyview.runasp.net/api/search?query=$encodedQuery&lang=en';
+      final url = '${BackendConfig.baseUrl}/api/search?query=$encodedQuery&lang=en';
 
       try {
         final response = await http.get(Uri.parse(url));
