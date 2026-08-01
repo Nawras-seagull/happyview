@@ -252,8 +252,14 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: CachedNetworkImage(
-                                  imageUrl: image['url'] ?? image['previewURL'],
+                                  imageUrl: image['previewURL'] ??
+                                      image['webformatURL'] ??
+                                      image['largeImageURL'] ??
+                                      image['url'] ??
+                                      '',
                                   fit: BoxFit.cover,
+                                  memCacheWidth: 300,
+                                  memCacheHeight: 300,
                                   placeholder: (context, url) => const Center(
                                       child: SpinKitThreeInOut(
                                     color: Color.fromARGB(255, 8, 127, 148),

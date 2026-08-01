@@ -55,7 +55,11 @@ Future<void> showRandomPicture(BuildContext context) async {
     navigator.push(
       MaterialPageRoute(
         builder: (context) => FullScreenImageView(
-          imageUrl: randomImage['largeUrl'] ?? randomImage['url'],
+          imageUrl: randomImage['largeImageURL'] ??
+              randomImage['webformatURL'] ??
+              randomImage['previewURL'] ??
+              randomImage['url'] ??
+              '',
           photographerName: randomImage['photographer'],
           photoLink: randomImage['photoLink'],
           downloadUrl: randomImage['download'],
