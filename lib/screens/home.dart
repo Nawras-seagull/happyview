@@ -440,7 +440,7 @@ class HomeScreenState extends State<HomeScreen>
     final random = Random();
     final num1 = random.nextInt(10);
     final num2 = random.nextInt(10);
-    final correctAnswer = num1 + num2;
+    final correctAnswer = num1 * num2;
     final localizations = AppLocalizations.of(context)!;
     final TextEditingController controller = TextEditingController();
 
@@ -452,7 +452,7 @@ class HomeScreenState extends State<HomeScreen>
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(localizations.whatIsSum(num1, num2)),
+              Text(localizations.whatIsProduct(num1, num2)),
               TextField(
                 controller: controller,
                 keyboardType: TextInputType.number,

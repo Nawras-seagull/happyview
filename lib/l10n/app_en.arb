@@ -146,16 +146,13 @@
   "@verification": {
     "description": "Verification title"
   },
-  "whatIsSum": "What is {num1} + {num2}?",
-  "@whatIsSum": {
+  "whatIsProduct": "What is {num1} × {num2}?",
+  "@whatIsProduct": {
     "description": "Math question to verify human",
-      
     "placeholders": {
       "num1": {},
       "num2": {}
-
     }
-
   },
   "incorrect": "Incorrect answer. Try again.",
   "@incorrect": {
@@ -194,7 +191,7 @@
   "@viewPrivacyPolicy": {},
   "openPrivacyPolicyOnline": "Open Privacy Policy Online",
   "@openPrivacyPolicyOnline": {},
-"privacyPolicyContent": "Privacy Policy for Happy View\n\n1. No User Registration\n- Our app does not require user registration\n- No personal identifying information is collected from children\n\n2. Data Collection\n- We use Firebase (Cloud Firestore) to store suggestions submitted through a parent-gated feedback form\n- Submitted suggestions may include an optional email address, provided only if a parent chooses to include one, used solely to respond to the inquiry\n- We do not use analytics or advertising SDKs, and we do not collect device advertising identifiers (AAID/IDFA) or precise location data\n\n3. Third-Party Services\n- The app communicates securely with our own backend service to retrieve safe images; no user data is sent during this process\n- Firebase (Cloud Firestore) for storing parent-submitted suggestions\n- No personal data sold or shared\n\n4. User Consent\n- The suggestion form is only accessible behind a parental gate\n- By submitting a suggestion, a parent agrees to the optional data described above\n\n5. Contact\nFor privacy inquiries: developer@nawras.tech",
+"privacyPolicyContent": "Privacy Policy for Happy View\n\n1. No User Registration\n- Our app does not require user registration.\n- We do not collect personal identifying information from children.\n\n2. Data We Process\n- The app uses our own backend service to fetch safe images and to relay parent-submitted suggestions.\n- If a parent chooses to submit feedback through the parental gate, the message content and optional email address are sent to our backend and then relayed to our Telegram inbox for review. This is used only to respond to the message or improve the app.\n- We do not use analytics or advertising SDKs, and we do not collect device advertising identifiers (AAID/IDFA), precise location data, or other tracking identifiers.\n\n3. Third-Party Services\n- Images are requested through our backend service rather than directly from third-party providers.\n- Suggestions are transmitted to our backend and then relayed to our Telegram bot for handling.\n- We do not sell or share personal data with advertisers.\n\n4. Parent Consent\n- The suggestion form is only available behind a parental gate.\n- By submitting feedback, a parent agrees to the limited information described above.\n\n5. Contact\nFor privacy questions: developer@nawras.tech",
   "@privacyPolicyContent": {},
   "mammals": "Mammals",
   "@mammals": {

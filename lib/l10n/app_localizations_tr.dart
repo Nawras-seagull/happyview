@@ -134,8 +134,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get verification => 'Sadece ebeveynler için';
 
   @override
-  String whatIsSum(Object num1, Object num2) {
-    return 'Toplamı ne kadar $num1 + $num2?';
+  String whatIsProduct(Object num1, Object num2) {
+    return 'Çarpımı ne kadar $num1 × $num2?';
   }
 
   @override
@@ -176,7 +176,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get privacyPolicyContent =>
-      'Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez\n- Çocuklardan hiçbir kişisel tanımlayıcı bilgi toplanmaz\n\n2. Veri Toplama\n- Ebeveyn kapısıyla korunan bir geri bildirim formu aracılığıyla gönderilen önerileri saklamak için Firebase (Cloud Firestore) kullanıyoruz\n- Gönderilen öneriler, yalnızca bir ebeveynin eklemeyi tercih etmesi durumunda isteğe bağlı bir e-posta adresi içerebilir; bu adres yalnızca talebe yanıt vermek için kullanılır\n- Analiz veya reklam SDK\'ları kullanmıyoruz; cihaz reklam kimliklerini (AAID/IDFA) veya hassas konum verilerini toplamıyoruz\n\n3. Üçüncü Taraf Hizmetler\n- Uygulama, güvenli görseller almak için kendi arka uç (backend) hizmetimizle güvenli şekilde iletişim kurar; bu süreçte hiçbir kullanıcı verisi gönderilmez\n- Ebeveynler tarafından gönderilen önerileri saklamak için Firebase (Cloud Firestore)\n- Kişisel veriler satılmaz veya paylaşılmaz\n\n4. Kullanıcı Onayı\n- Öneri formuna yalnızca ebeveyn kapısı arkasından erişilebilir\n- Bir öneri göndererek, ebeveyn yukarıda açıklanan isteğe bağlı verileri kabul etmiş olur\n\n5. İletişim\nGizlilik ile ilgili sorular için: developer@nawras.tech';
+      'Happy View için Gizlilik Politikası\n\n1. Kullanıcı Kaydı Yok\n- Uygulamamız kullanıcı kaydı gerektirmez.\n- Çocuklardan hiçbir kişisel tanımlayıcı bilgi toplanmaz.\n\n2. İşlenen Veriler\n- Uygulama, güvenli görselleri getirmek ve ebeveynler tarafından gönderilen önerileri iletmek için kendi arka uç hizmetimizi kullanır.\n- Bir ebeveyn, ebeveyn kapısı üzerinden geri bildirim göndermeyi seçerse, mesaj içeriği ve isteğe bağlı e-posta adresi sunucumuza gönderilir ve inceleme için Telegram gelen kutumuza iletilir. Bu yalnızca mesajı yanıtlamak veya uygulamayı geliştirmek için kullanılır.\n- Analiz veya reklam SDK\'ları kullanmıyoruz; cihaz reklam kimliklerini (AAID/IDFA), hassas konum verilerini veya diğer izleme kimliklerini toplamıyoruz.\n\n3. Üçüncü Taraf Hizmetler\n- Görseller, doğrudan üçüncü taraf sağlayıcılara bağlanmak yerine arka uç hizmetimiz üzerinden istenir.\n- Öneriler sunucumuza gönderilir ve işlenmek üzere Telegram botumuza iletilir.\n- Kişisel verileri reklamcılara satmaz veya paylaşmayız.\n\n4. Ebeveyn Onayı\n- Öneri formuna yalnızca ebeveyn kapısı arkasından erişilebilir.\n- Geri bildirim göndererek, ebeveyn yukarıda açıklanan sınırlı bilgiyle ilgili onay vermiş olur.\n\n5. İletişim\nGizlilik soruları için: developer@nawras.tech';
 
   @override
   String get mammals => 'Memeliler';

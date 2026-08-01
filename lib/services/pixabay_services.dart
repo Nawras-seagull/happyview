@@ -16,7 +16,7 @@ class PixabayService {
   static Future<List<Map<String, dynamic>>> fetchImages(
     String query, {
     int page = 1,
-    int perPage = 20,
+    int perPage = 12,
     String? category,
     bool safesearch = true,
   }) async {

@@ -176,7 +176,11 @@ class FullScreenImageViewState extends State<FullScreenImageView> {
                   minScale: 1.0,
                   maxScale: 3.0,
                   child: CachedNetworkImage(
-                    imageUrl: image['urls']?['regular'] ?? image['url'],
+                    imageUrl: image['largeImageURL'] ??
+                        image['webformatURL'] ??
+                        image['previewURL'] ??
+                        image['url'] ??
+                        '',
                     fit: BoxFit.contain,
                     placeholder: (context, url) => Center(
                         child: SpinKitThreeInOut(

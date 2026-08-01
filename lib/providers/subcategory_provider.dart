@@ -8,7 +8,7 @@ import 'package:happy_view/services/profanity_filter.dart'; // 👈 Import the p
 class SubcategoryService {
   static final Map<String, List<Map<String, String>>> _categoryCache = {};
   final Map<String, ImageProvider> _imageCache = {};
-  static const String _fallbackImage = 'lib/assets/images/logo.png';
+  static const String _fallbackImage = 'lib/assets/images/panda_peek.png';
 
   // 👇 Add ProfanityFilter instance
   static final ProfanityFilter _filter = ProfanityFilter('');
@@ -66,7 +66,13 @@ class SubcategoryService {
           final image = images[index];
           final tags = (image['title'] as String?) ?? '';
           if (!_filter.containsBadWords(tags)) {
-            final imageUrl = image['url'] as String;
+            final imageUrl = (image['previewURL'] ??
+                    image['webformatURL'] ??
+                    image['largeImageURL'] ??
+                    image['url']) as String?;
+            if (imageUrl == null || imageUrl.isEmpty) {
+              return _createSubcategoryItem(localizations, topic, _fallbackImage);
+            }
             _imageCache[topic] = NetworkImage(imageUrl);
             return _createSubcategoryItem(localizations, topic, imageUrl);
           }

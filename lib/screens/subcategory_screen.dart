@@ -30,7 +30,7 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
   late final SubcategoryService _service = SubcategoryService();
   late Future<List<Map<String, String>>> _subcategories;
   String? _selectedTopic;
-  static const String _fallbackImage = 'lib/assets/images/logo.png';
+  static const String _fallbackImage = 'lib/assets/images/panda_peek.png';
 
   @override
   void initState() {
@@ -154,7 +154,6 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       bottom: Radius.circular(16),
                     ),
                     child: CachedNetworkImage(
-                      // imageUrl: 'lib/assets/images/birds.jpg',
                       imageUrl: item['image'] ?? _fallbackImage,
                       placeholder: (context, url) => const Center(
                         child: SpinKitThreeInOut(
