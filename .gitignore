@@ -50,6 +50,7 @@ app.*.map.json
 lib/widgets/draft.dart
 android/app/build/outputs/apk/debug/app-debug.apk 
 android/app/build/
+android/key.properties
 # Flutter/Dart build-related
 **/build/
 **/android/app/build/
@@ -58,5 +59,21 @@ android/app/build/
 # Add to .gitignore
 android/app/build/
 **/build/
+
+# Backend production secrets - never commit (upload directly to the host instead)
+HappyviewProxy/appsettings.Production.json
+**/appsettings.Production.json
 *.apk
 *.bin
+
+# Roadmap and QA notes kept local to the workspace
+/docs/ROADMAP.md
+/docs/QA_CHECKLIST.md
+/docs/STORE_METADATA.md
+
+# .NET build artifacts (HappyviewProxy backend) - never commit, regenerate via dotnet build/publish
+HappyviewProxy/bin/
+HappyviewProxy/obj/
+HappyviewProxy/publish/
+HappyviewProxy/Library/
+HappyviewProxy/app_offline.htm

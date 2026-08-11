@@ -88,34 +88,4 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-// Firebase Analytics Opt-Out Example
-class AnalyticsOptOut extends StatefulWidget {
-  const AnalyticsOptOut({super.key});
-
-  @override
-  AnalyticsOptOutState createState() => AnalyticsOptOutState();
-}
-
-class AnalyticsOptOutState extends State<AnalyticsOptOut> {
-  bool _analyticsEnabled = true;
-
-  void _toggleAnalytics(bool value) {
-    setState(() {
-      _analyticsEnabled = value;
-      // Implement Firebase analytics enable/disable logic
-      // Example:
-      // FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(value);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: Text('Enable Analytics'),
-      subtitle: Text('Optional data collection for app improvement'),
-      value: _analyticsEnabled,
-      onChanged: _toggleAnalytics,
-    );
-  }
-}
  */
