@@ -30,9 +30,12 @@ var app = builder.Build();
 
 app.UseRateLimiter();
 
-// NOTE: HTTPS redirection/HSTS intentionally omitted for now — the deployed host
-// (happyview.runasp.net) does not currently terminate HTTPS, so forcing a redirect
-// here would break every client. Re-enable once TLS is confirmed working on the host.
+if (app.Environment.IsProduction())
+{
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
 
 // 2. Define the proxy endpoint
 app.MapGet("/api/search", async (
