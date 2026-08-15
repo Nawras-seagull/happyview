@@ -53,7 +53,7 @@ class AnimatedPandaState extends State<AnimatedPanda>
                   });
                 },
                 child: Image.asset(
-                  'lib/assets/images/panda_normal.png',
+                  'lib/assets/images/panda_normal.webp',
                   width: 120,
                 ),
               ),
@@ -75,7 +75,7 @@ class AnimatedPandaState extends State<AnimatedPanda>
                 });
               },
               child: Image.asset(
-                'lib/assets/images/panda_hold.png',
+                'lib/assets/images/panda_hold.webp',
                 width: 120,
               ),
             ),

@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'lib/assets/images/panda_normal.png',
+                  'lib/assets/images/panda_normal.webp',
                   width: 150,
                   height: 150,
                 ),

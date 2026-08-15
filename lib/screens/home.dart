@@ -250,7 +250,7 @@ class HomeScreenState extends State<HomeScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              'lib/assets/images/panda_peek.png', // Path to your logo image
+              'lib/assets/images/panda_peek.webp', // Path to your logo image
               height: 40.0,
               width: 40.0, // Specify width to avoid layout shifts
               cacheWidth: 80, // 2x for high-DPI displays

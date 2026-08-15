@@ -74,14 +74,14 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
     if (_isLoading || !_hasMore) return;
 
     setState(() => _isLoading = true);
-// Consider adding a debug print here to verify the query
     if (kDebugMode) {
       print('Fetching images for query: $_currentQuery (Page: $_page)');
     }
-    if (randomizePage) {
+   /*  if (randomizePage) {
       final random = Random();
-      _page = random.nextInt(30) + 1; // Random page between 1 and 50
-    }
+      _page = random.nextInt(30) + 1;
+    } */
+
     try {
       final newImages = await PixabayService.fetchImages(
         _currentQuery,
@@ -90,6 +90,7 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
 
       if (newImages.isEmpty) {
         setState(() => _hasMore = false);
+
         if (_images.isEmpty) {
           _showErrorSnackbar(
               'No images found for "$_currentQuery". Try another search.');
@@ -101,7 +102,9 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
         });
       }
     } catch (e) {
-      _showErrorSnackbar('Failed to load images. Please try again.');
+      if (_images.isEmpty) {
+        _showErrorSnackbar('Failed to load images. Please try again.');
+      }
       if (kDebugMode) print('Error fetching images: $e');
     } finally {
       setState(() => _isLoading = false);
@@ -161,7 +164,6 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
             icon: const Icon(Icons.refresh),
             onPressed: () {
               setState(() {
-                _images.clear();
                 _page = 1;
                 _hasMore = true;
               });
