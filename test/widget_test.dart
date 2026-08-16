@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:happy_view/main.dart';
+import 'package:happy_view/l10n/app_localizations.dart';
 import 'package:happy_view/providers/language_provider.dart';
+import 'package:happy_view/screens/subcategory_screen.dart';
 
 void main() {
   testWidgets('App initializes without crashing', (WidgetTester tester) async {
@@ -16,6 +19,33 @@ void main() {
     );
 
     expect(find.byType(MaterialApp), findsOneWidget);
+  });
+
+  testWidgets('SubcategoryScreen initializes without localization context errors',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ],
+        child: MaterialApp(
+          locale: const Locale('en'),
+          supportedLocales: const [Locale('en'), Locale('ar'), Locale('tr')],
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: const SubcategoryScreen(category: 'animals'),
+        ),
+      ),
+    );
+
+    await tester.pump();
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
   });
 
  /*  testWidgets('HomeScreen displays all categories',

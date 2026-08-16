@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
  initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/home': (context) => const  HomeScreen(), // Replace with your actual home page
+        '/home': (context) => const  HomeScreen(), //  home page
       },
         //  home: HomeScreen(),
         );

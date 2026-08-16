@@ -12,7 +12,7 @@ import 'package:happy_view/widgets/subcategory_data.dart';
 final _customCacheManager = CacheManager(
   Config(
     'happyViewCache',
-    stalePeriod: const Duration(seconds: 7),
+    stalePeriod: const Duration(days: 7),
     maxNrOfCacheObjects: 200,
   ),
 );
@@ -30,20 +30,29 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
   late final SubcategoryService _service = SubcategoryService();
   late Future<List<Map<String, String>>> _subcategories;
   String? _selectedTopic;
-  static const String _fallbackImage = 'lib/assets/images/panda_peek.png';
+  Locale? _lastLocale;
+  static const String _fallbackImage = 'lib/assets/images/panda_peek.webp';
 
   @override
   void initState() {
     super.initState();
-    _loadSubcategories();
+    // no fetch here — didChangeDependencies handles the first load
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _service.clearCache();
-    _loadSubcategories();
+    final currentLocale = Localizations.localeOf(context);
+    if (_lastLocale != currentLocale) {
+      _lastLocale = currentLocale;
+      if (_lastLocale != null) {
+        _service.clearCache(); // only clear when locale actually changed
+      }
+      _loadSubcategories();
+    }
   }
+
+ 
 
   void _loadSubcategories() {
     setState(() {
@@ -153,23 +162,44 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       top: Radius.circular(16),
                       bottom: Radius.circular(16),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: item['image'] ?? _fallbackImage,
-                      placeholder: (context, url) => const Center(
-                        child: SpinKitThreeInOut(
-                          color: Color.fromARGB(255, 8, 127, 148),
-                          size: 30.0,
+                    child: (() {
+                      final imagePath = item['image'] ?? _fallbackImage;
+                      final isAssetImage = imagePath.startsWith('lib/assets/') ||
+                          imagePath.startsWith('assets/');
+
+                      if (isAssetImage) {
+                        return Image.asset(
+                          imagePath,
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.broken_image,
+                            color: Colors.grey,
+                          ),
+                        );
+                      }
+
+                      return CachedNetworkImage(
+                        imageUrl: imagePath,
+                        placeholder: (context, url) => const Center(
+                          child: SpinKitThreeInOut(
+                            color: Color.fromARGB(255, 8, 127, 148),
+                            size: 30.0,
+                          ),
                         ),
-                      ),
-                      errorWidget: (context, url, error) => const Icon(
-                        Icons.broken_image,
-                        color: Colors.grey,
-                      ),
-                      fit: BoxFit.cover,
-                      cacheManager: _customCacheManager,
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.broken_image,
+                          color: Colors.grey,
+                        ),
+                        fit: BoxFit.cover,
+                        memCacheWidth: 400,
+                        memCacheHeight: 400,
+                        cacheManager: _customCacheManager,
+                        height: double.infinity,
+                        width: double.infinity,
+                      );
+                    })(),
                   ),
                   Container(
                     decoration: BoxDecoration(

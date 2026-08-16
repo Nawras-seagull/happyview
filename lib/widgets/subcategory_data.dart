@@ -58,7 +58,7 @@ class SubcategoryData {
         ],
         'shapes': [
           'circles',
-          'squares',
+          'square-shapes',
           'triangles',
           'rectangles',
           'hexagons',
@@ -79,12 +79,76 @@ class SubcategoryData {
           'helicopters',
           'scooters',
           'excavators',
-          'Emergency-Vehicles'
+      //    'Emergency-Vehicles'
         ],
       };
 
   static List<String> getCategoryTopics(String category) {
     return categoryTopicsMap[category.toLowerCase()] ?? [];
+  }
+
+  static String getTopicAsset(String topic) {
+    final normalized = topic.trim().toLowerCase();
+    final assetMap = {
+      'mammals': 'lib/assets/images/mammals.webp',
+      'birds': 'lib/assets/images/birds.webp',
+      'reptiles': 'lib/assets/images/reptiles.webp',
+      'sea-creatures': 'lib/assets/images/sea-creatures.webp',
+      'insects': 'lib/assets/images/insects.webp',
+      'amphibians': 'lib/assets/images/amphibians.webp',
+      'wildlife': 'lib/assets/images/wildlife.webp',
+      'pets': 'lib/assets/images/pets.webp',
+      'farm-animals': 'lib/assets/images/farm-animals.webp',
+      'baby-animals': 'lib/assets/images/baby-animals.webp',
+      'dinosaurs': 'lib/assets/images/dinosaurs.webp',
+      'fruits': 'lib/assets/images/fruits.webp',
+      'vegetables': 'lib/assets/images/vegetables.webp',
+      'desserts': 'lib/assets/images/desserts.webp',
+      'beverages': 'lib/assets/images/beverages.webp',
+      'fast-food': 'lib/assets/images/fast-food.webp',
+      'seafood': 'lib/assets/images/seafood.webp',
+      'dairy': 'lib/assets/images/dairy.webp',
+      'baked-goods': 'lib/assets/images/baked-goods.webp',
+      'healthy-food': 'lib/assets/images/healthy-food.webp',
+      'circles': 'lib/assets/images/circles.webp',
+      'square-shapes': 'lib/assets/images/square-shapes.webp',
+      'triangles': 'lib/assets/images/triangles.webp',
+      'rectangles': 'lib/assets/images/rectangles.webp',
+      'hexagons': 'lib/assets/images/hexagons.webp',
+      'hearts': 'lib/assets/images/hearts.webp',
+      'spirals': 'lib/assets/images/spirals.webp',
+      'diamonds': 'lib/assets/images/diamonds.webp',
+      'ovals': 'lib/assets/images/ovals.webp',
+      'trees': 'lib/assets/images/trees.webp',
+      'flower': 'lib/assets/images/flower.webp',
+      'forests': 'lib/assets/images/forests.webp',
+      'mountains': 'lib/assets/images/mountains.webp',
+      'oceans': 'lib/assets/images/oceans.webp',
+      'snow': 'lib/assets/images/snow.webp',
+      'sunsets': 'lib/assets/images/sunsets.webp',
+      'waterfalls': 'lib/assets/images/waterfalls.webp',
+      'rivers': 'lib/assets/images/rivers.webp',
+      'lakes': 'lib/assets/images/lakes.webp',
+      'leaf': 'lib/assets/images/leaf.webp',
+      'cars': 'lib/assets/images/cars.webp',
+      'motorcycles': 'lib/assets/images/motorcycles.webp',
+      'trucks': 'lib/assets/images/trucks.webp',
+      'bicycles': 'lib/assets/images/bicycles.webp',
+      'buses': 'lib/assets/images/buses.webp',
+      'trains': 'lib/assets/images/trains.webp',
+      'airplanes': 'lib/assets/images/airplanes.webp',
+      'boats': 'lib/assets/images/boats.webp',
+      'helicopters': 'lib/assets/images/helicopters.webp',
+      'scooters': 'lib/assets/images/scooters.webp',
+      'excavators': 'lib/assets/images/excavators.webp',
+      'service-vehicles': 'lib/assets/images/service-vehicles.webp',
+      'planets': 'lib/assets/images/planets.webp',
+      'stars': 'lib/assets/images/stars.webp',
+      'galaxies': 'lib/assets/images/galaxies.webp',
+      'astronauts': 'lib/assets/images/astronauts.webp',
+    };
+
+    return assetMap[normalized] ?? 'lib/assets/images/panda_peek.webp';
   }
 
   static String getTranslatedCategory(dynamic localizations, String category) {

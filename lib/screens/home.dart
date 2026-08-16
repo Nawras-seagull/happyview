@@ -14,14 +14,14 @@ import 'settings_screen.dart';
 import 'package:happy_view/screens/favorites_screen.dart';
 
 // Top-level function for parsing JSON off the main thread
-Map<String, dynamic> parseJson(String responseBody) {
+/* Map<String, dynamic> parseJson(String responseBody) {
   return json.decode(responseBody);
-}
+} */
 
 // Use compute to offload JSON parsing
-Future<Map<String, dynamic>> parseJsonInBackground(String responseBody) async {
+/* Future<Map<String, dynamic>> parseJsonInBackground(String responseBody) async {
   return await compute(parseJson, responseBody);
-}
+} */
 
 class CategoryTile extends StatefulWidget {
   final String name;
@@ -88,6 +88,8 @@ class CategoryTileState extends State<CategoryTile>
       onLongPressUp: () {
         _controller.reset(); // Reset the animation when the press is released
       },
+      child: RepaintBoundary(
+        // Use RepaintBoundary to optimize performance for animated widgets
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
@@ -105,14 +107,14 @@ class CategoryTileState extends State<CategoryTile>
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+               /*    boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.12),
                       blurRadius: 12,
                       spreadRadius: 1,
                       offset: const Offset(0, 6),
                     ),
-                  ],
+                  ], */
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -139,6 +141,7 @@ class CategoryTileState extends State<CategoryTile>
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -183,10 +186,12 @@ class HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  void dispose() {
-    _favoritesCount.dispose();
-    super.dispose();
-  }
+ @override
+void dispose() {
+  FavoritesService().favoritesNotifier.removeListener(_updateFavoritesCount);
+  _favoritesCount.dispose();
+  super.dispose();
+}
 
   Future<void> _initializeFavorites() async {
     final favoritesService = FavoritesService();
@@ -250,10 +255,12 @@ class HomeScreenState extends State<HomeScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.asset(
-              'lib/assets/images/panda_peek.png', // Path to your logo image
+              'lib/assets/images/panda_peek.webp', // Path to your logo image
               height: 40.0,
               width: 40.0, // Specify width to avoid layout shifts
+              cacheHeight: 80, // 2x for high-DPI displays
               cacheWidth: 80, // 2x for high-DPI displays
+            
             ),
             const SizedBox(width: 8.0),
             Text(localizations.appTitle),
@@ -474,6 +481,7 @@ class HomeScreenState extends State<HomeScreen>
                     context,
                     MaterialPageRoute(builder: (context) => SettingsScreen()),
                   );
+                //  controller.dispose(); // Dispose the controller after use
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(localizations.incorrect)),
@@ -481,10 +489,15 @@ class HomeScreenState extends State<HomeScreen>
                 }
               },
               child: Text(localizations.confirm),
+
             ),
+            
           ],
+        
         );
+        
       },
     );
   }
+    
 }

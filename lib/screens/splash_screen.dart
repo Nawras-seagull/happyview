@@ -28,7 +28,8 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed('/home');
+
     });
   }
 
@@ -51,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'lib/assets/images/panda_normal.png',
+                  'lib/assets/images/panda_normal.webp',
                   width: 150,
                   height: 150,
                 ),

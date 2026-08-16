@@ -1,14 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:happy_view/services/pixabay_services.dart';
 import '../l10n/app_localizations.dart';
 import 'package:happy_view/widgets/subcategory_data.dart';
 import 'package:happy_view/services/profanity_filter.dart'; // 👈 Import the profanity filter
 
 class SubcategoryService {
   static final Map<String, List<Map<String, String>>> _categoryCache = {};
-  final Map<String, ImageProvider> _imageCache = {};
-  static const String _fallbackImage = 'lib/assets/images/panda_peek.png';
+  final Map<String, String> _imageUrlCache = {};
+  static const String _fallbackImage = 'lib/assets/images/panda_peek.webp';
 
   // 👇 Add ProfanityFilter instance
   static final ProfanityFilter _filter = ProfanityFilter('');
@@ -49,40 +48,17 @@ class SubcategoryService {
   Future<Map<String, String>?> _fetchTopic(
       AppLocalizations localizations, String topic) async {
     try {
-      if (_imageCache.containsKey(topic)) {
-        return _createSubcategoryItem(localizations, topic, topic);
+      final assetPath = SubcategoryData.getTopicAsset(topic);
+      if (_imageUrlCache.containsKey(topic)) {
+        return _createSubcategoryItem(localizations, topic, _imageUrlCache[topic]!);
       }
 
-      final images = await PixabayService.fetchImages(topic, perPage: 20);
-
-      if (images.isNotEmpty) {
-        // Pick a different image every 3 days, but check for profanity in tags
-        final now = DateTime.now();
-        final dayGroup = now.difference(DateTime(2020, 1, 1)).inDays ~/ 3;
-
-        // Try to find a non-profane image, cycling through hits
-        for (int i = 0; i < images.length; i++) {
-          final index = (dayGroup + i) % images.length;
-          final image = images[index];
-          final tags = (image['title'] as String?) ?? '';
-          if (!_filter.containsBadWords(tags)) {
-            final imageUrl = (image['previewURL'] ??
-                    image['webformatURL'] ??
-                    image['largeImageURL'] ??
-                    image['url']) as String?;
-            if (imageUrl == null || imageUrl.isEmpty) {
-              return _createSubcategoryItem(localizations, topic, _fallbackImage);
-            }
-            _imageCache[topic] = NetworkImage(imageUrl);
-            return _createSubcategoryItem(localizations, topic, imageUrl);
-          }
-        }
-        // If all images have profane tags, fall back
-      }
+      _imageUrlCache[topic] = assetPath;
+      return _createSubcategoryItem(localizations, topic, assetPath);
     } catch (e) {
-      if (kDebugMode) print('Error fetching topic $topic: $e');
+      if (kDebugMode) print('Error resolving topic asset for $topic: $e');
+      return _createSubcategoryItem(localizations, topic, _fallbackImage);
     }
-    return _createSubcategoryItem(localizations, topic, _fallbackImage);
   }
 
   Map<String, String> _createSubcategoryItem(
@@ -96,5 +72,6 @@ class SubcategoryService {
 
   void clearCache() {
     _categoryCache.clear();
+    _imageUrlCache.clear();
   }
 }

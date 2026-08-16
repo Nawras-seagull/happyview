@@ -13,6 +13,22 @@ class PixabayService {
   static final ProfanityFilter _filter = ProfanityFilter('');
   static bool _isFilterLoaded = false;
 
+  // Tracks the number of requests made to the backend for debugging purposes.
+  static int _requestCount = 0;
+
+  static int get requestCount => _requestCount;
+
+  static void incrementRequestCount() {
+    _requestCount++;
+    if (kDebugMode) {
+      print('Pixabay request count: $_requestCount');
+    }
+  }
+
+  static void resetRequestCounter() {
+    _requestCount = 0;
+  }
+// Fetches images from the backend proxy, which in turn fetches from Pixabay.
   static Future<List<Map<String, dynamic>>> fetchImages(
     String query, {
     int page = 1,
@@ -21,6 +37,11 @@ class PixabayService {
     bool safesearch = true,
   }) async {
     try {
+      incrementRequestCount();
+      if (kDebugMode) {
+        print('Pixabay fetchImages called: query="$query", page=$page, perPage=$perPage');
+      }
+
       // Load bad words only once
       if (!_isFilterLoaded) {
         await _filter.loadBadWords('assets/profanity/en.json');
