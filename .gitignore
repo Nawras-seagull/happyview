@@ -62,9 +62,13 @@ android/app/build/
 
 # Backend production secrets - never commit (upload directly to the host instead)
 HappyviewProxy/appsettings.Production.json
+
 **/appsettings.Production.json
+**/appsettings.Development.json
+
 *.apk
 *.bin
+
 
 # Roadmap and QA notes kept local to the workspace
 /docs/ROADMAP.md

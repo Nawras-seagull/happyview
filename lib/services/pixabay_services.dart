@@ -8,7 +8,7 @@ import 'profanity_filter.dart';
 /// Fetches images via the HappyView backend proxy — never calls Pixabay directly
 /// (the API key lives server-side only).
 class PixabayService {
-  static const String baseUrl = '${BackendConfig.baseUrl}/api/images';
+  static final String baseUrl = '${BackendConfig.baseUrl}/api/images';
 
   static final ProfanityFilter _filter = ProfanityFilter('');
   static bool _isFilterLoaded = false;
