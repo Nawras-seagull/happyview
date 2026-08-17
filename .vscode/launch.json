@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "happyview3 (debug mode)",
+            "name": "happyview (debug mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug"
@@ -13,13 +13,13 @@
 
       
         {
-            "name": "happyview3 (profile mode)",
+            "name": "happyview (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "happyview3 (release mode)",
+            "name": "happyview (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
