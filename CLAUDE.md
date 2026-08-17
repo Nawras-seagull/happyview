@@ -1,7 +1,7 @@
 HappyView — Project Instructions
 Read docs/ROADMAP.md before starting any work — it has the full target architecture and phase-by-phase rebuild plan. This file is just the always-on summary.
 Current phase
-Phase 0 — Audit (not yet started)
+Phase 0 — Audit (ended)
 Non-negotiable rules
 The Flutter app never calls a third party directly. Every external call (images via Pixabay, suggestions via Telegram) goes through the ASP.NET backend. The backend is the only gateway.
 No analytics SDKs, no ad SDKs, no advertising identifiers (AAID/IDFA). This is a children's app under Google Play Families Policy and Apple's Kids Category guidelines (Guideline 1.3).

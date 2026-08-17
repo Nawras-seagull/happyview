@@ -123,24 +123,25 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
         ),
       );
 
-  Widget _buildGrid(List<Map<String, String>> items) {
-    final filteredItems = _selectedTopic != null
-        ? items.where((item) => item['query'] == _selectedTopic).toList()
-        : items;
+Widget _buildGrid(List<Map<String, String>> items) {
+  final filteredItems = _selectedTopic != null
+      ? items.where((item) => item['query'] == _selectedTopic).toList()
+      : items;
 
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.9,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemCount: filteredItems.length,
-        itemBuilder: (context, index) {
-          final item = filteredItems[index];
-          return GestureDetector(
+  return Padding(
+    padding: const EdgeInsets.all(12),
+    child: GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.9,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+      ),
+      itemCount: filteredItems.length,
+      itemBuilder: (context, index) {
+        final item = filteredItems[index];
+        return RepaintBoundary(
+          child: GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
@@ -149,65 +150,68 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                       UnifiedPictureScreen(query: item['query'] ?? ''),
                 ),
               );
-            }, //////////////////////////////
-            child: Card(
-              shape: RoundedRectangleBorder(
+            },
+            child: Container(
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(30),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-              elevation: 4,
               child: Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
-                      bottom: Radius.circular(16),
-                    ),
-                    child: (() {
-                      final imagePath = item['image'] ?? _fallbackImage;
-                      final isAssetImage = imagePath.startsWith('lib/assets/') ||
-                          imagePath.startsWith('assets/');
+                    borderRadius: BorderRadius.circular(16),
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        Colors.black.withAlpha(50),
+                        BlendMode.darken,
+                      ),
+                      child: (() {
+                        final imagePath = item['image'] ?? _fallbackImage;
+                        final isAssetImage =
+                            imagePath.startsWith('lib/assets/') ||
+                                imagePath.startsWith('assets/');
 
-                      if (isAssetImage) {
-                        return Image.asset(
-                          imagePath,
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
+                        if (isAssetImage) {
+                          return Image.asset(
+                            imagePath,
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity,
+                            cacheWidth: 400,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                              Icons.broken_image,
+                              color: Colors.grey,
+                            ),
+                          );
+                        }
+
+                        return CachedNetworkImage(
+                          imageUrl: imagePath,
+                          placeholder: (context, url) => const Center(
+                            child: SpinKitThreeInOut(
+                              color: Color.fromARGB(255, 8, 127, 148),
+                              size: 30.0,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
                             Icons.broken_image,
                             color: Colors.grey,
                           ),
+                          fit: BoxFit.cover,
+                          memCacheWidth: 400,
+                          memCacheHeight: 400,
+                          cacheManager: _customCacheManager,
+                          height: double.infinity,
+                          width: double.infinity,
                         );
-                      }
-
-                      return CachedNetworkImage(
-                        imageUrl: imagePath,
-                        placeholder: (context, url) => const Center(
-                          child: SpinKitThreeInOut(
-                            color: Color.fromARGB(255, 8, 127, 148),
-                            size: 30.0,
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => const Icon(
-                          Icons.broken_image,
-                          color: Colors.grey,
-                        ),
-                        fit: BoxFit.cover,
-                        memCacheWidth: 400,
-                        memCacheHeight: 400,
-                        cacheManager: _customCacheManager,
-                        height: double.infinity,
-                        width: double.infinity,
-                      );
-                    })(),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
-                        bottom: Radius.circular(16),
-                      ),
-                      color: Colors.black.withAlpha(50),
+                      })(),
                     ),
                   ),
                   Positioned(
@@ -229,9 +233,11 @@ class SubcategoryScreenState extends State<SubcategoryScreen> {
                 ],
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
+          ),
+        );
+      },
+    ),
+  );
 }
+}
+

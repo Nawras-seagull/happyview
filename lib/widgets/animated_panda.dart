@@ -41,24 +41,19 @@ class AnimatedPandaState extends State<AnimatedPanda>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        if (!isHoldingOn)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SlideTransition(
-              position: _offsetAnimation,
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isHoldingOn = true;
-                  });
-                },
-                child: Image.asset(
-                  'lib/assets/images/panda_normal.webp',
-                  width: 120,
-                ),
-              ),
-            ),
-          ),
+       if (!isHoldingOn)
+  Align(
+    alignment: Alignment.bottomCenter,
+    child: RepaintBoundary(
+      child: SlideTransition(
+        position: _offsetAnimation,
+        child: GestureDetector(
+          onTap: () => setState(() => isHoldingOn = true),
+          child: Image.asset('lib/assets/images/panda_normal.webp', width: 120,cacheHeight: 240, cacheWidth: 240,),
+        ),
+      ),
+    ),
+  ),
         if (isHoldingOn)
           Positioned(
             left: position.dx,

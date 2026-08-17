@@ -1,6 +1,6 @@
-import 'dart:convert';
+//import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:happy_view/services/favorites_service.dart';
 import 'package:happy_view/widgets/sound_effect_handler.dart';
@@ -107,14 +107,14 @@ class CategoryTileState extends State<CategoryTile>
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-               /*    boxShadow: [
+                  boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.12),
                       blurRadius: 12,
                       spreadRadius: 1,
                       offset: const Offset(0, 6),
                     ),
-                  ], */
+                  ], 
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -411,14 +411,7 @@ void dispose() {
     );
   }
 
-  // Surprise me handler
-/*   void _handleSurpriseMe(BuildContext context) {
-    // Play sound in a non-blocking way
-    SoundEffectHandler().playYay();
-    
-    // Show random picture
-    showRandomPicture(context);
-  } */
+
   // New debounced surprise me handler
   void _debouncedSurpriseMe(BuildContext context) {
     // Disable the button immediately

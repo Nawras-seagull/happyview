@@ -277,9 +277,11 @@ class UnifiedPictureScreenState extends State<UnifiedPictureScreen> {
                 ),
               ],
             ),
-            const Positioned(
-              child: AnimatedPanda(),
-            ),
+           const Positioned(
+  child: RepaintBoundary(
+    child: AnimatedPanda(),
+  ),
+),
           ],
         ),
       ), // <-- End SafeArea
