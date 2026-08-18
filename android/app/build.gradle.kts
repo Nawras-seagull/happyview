@@ -7,6 +7,9 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+val releaseStoreFilePath = keystoreProperties.getProperty("storeFile")?.takeIf { it.isNotBlank() }
+val hasReleaseSigningConfig = releaseStoreFilePath != null && rootProject.file(releaseStoreFilePath).exists()
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -37,11 +40,13 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            storePassword = keystoreProperties.getProperty("storePassword") ?: ""
-            keyPassword = keystoreProperties.getProperty("keyPassword") ?: ""
-            keyAlias = keystoreProperties.getProperty("keyAlias") ?: "happyview"
-            storeFile = rootProject.file(keystoreProperties.getProperty("storeFile") ?: "")
+        if (hasReleaseSigningConfig) {
+            create("release") {
+                storePassword = keystoreProperties.getProperty("storePassword") ?: ""
+                keyPassword = keystoreProperties.getProperty("keyPassword") ?: ""
+                keyAlias = keystoreProperties.getProperty("keyAlias") ?: "happyview"
+                storeFile = rootProject.file(releaseStoreFilePath!!)
+            }
         }
     }
 
@@ -53,7 +58,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseSigningConfig) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 }
