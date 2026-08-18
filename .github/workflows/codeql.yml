@@ -92,7 +92,8 @@ jobs:
       run: |
         if [ "${{ matrix.language }}" = "java-kotlin" ]; then
           chmod +x "$GITHUB_WORKSPACE/android/gradlew"
-          "$GITHUB_WORKSPACE/android/gradlew" :app:assembleDebug
+          cd "$GITHUB_WORKSPACE/android"
+          ./gradlew :app:assembleDebug
         fi
 
         if [ "${{ matrix.language }}" = "csharp" ]; then
