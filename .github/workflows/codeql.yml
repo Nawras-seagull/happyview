@@ -91,9 +91,8 @@ jobs:
       shell: bash
       run: |
         if [ "${{ matrix.language }}" = "java-kotlin" ]; then
-          cd android
-          ./gradlew :app:assembleDebug
-          cd ..
+          chmod +x ./android/gradlew
+          ./android/gradlew :app:assembleDebug
         fi
 
         if [ "${{ matrix.language }}" = "csharp" ]; then
