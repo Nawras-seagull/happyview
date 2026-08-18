@@ -45,7 +45,7 @@ jobs:
         include:
         
         - language: csharp
-          build-mode: none
+          build-mode: manual
         - language: java-kotlin
           build-mode: manual
         
@@ -91,12 +91,12 @@ jobs:
       shell: bash
       run: |
         if [ "${{ matrix.language }}" = "java-kotlin" ]; then
-          chmod +x ./android/gradlew
-          ./android/gradlew :app:assembleDebug
+          chmod +x "$GITHUB_WORKSPACE/android/gradlew"
+          "$GITHUB_WORKSPACE/android/gradlew" :app:assembleDebug
         fi
 
         if [ "${{ matrix.language }}" = "csharp" ]; then
-          dotnet build HappyviewProxy/HappyviewProxy.csproj --configuration Release
+          dotnet build "$GITHUB_WORKSPACE/HappyviewProxy/HappyviewProxy.csproj" --configuration Release
         fi
 
     - name: Perform CodeQL Analysis
