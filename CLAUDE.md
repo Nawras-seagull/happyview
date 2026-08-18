@@ -16,3 +16,5 @@ Localization: lib/l10n/app_en.arb, app_ar.arb, app_tr.arb — run flutter gen-l1
 Verify before trusting a prior agent's summary
 Always re-check the actual repo state (grep for firebase, check pubspec.yaml, inspect the backend controllers) rather than assuming a previous session's progress notes are accurate.
 
+
+
