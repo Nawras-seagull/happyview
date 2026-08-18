@@ -90,10 +90,15 @@ jobs:
       if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        cd android
-        ./gradlew :app:assembleDebug
-         cd ..
-         dotnet build HappyviewProxy/HappyviewProxy.csproj
+        if [ "${{ matrix.language }}" = "java-kotlin" ]; then
+          cd android
+          ./gradlew :app:assembleDebug
+          cd ..
+        fi
+
+        if [ "${{ matrix.language }}" = "csharp" ]; then
+          dotnet build HappyviewProxy/HappyviewProxy.csproj --configuration Release
+        fi
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
