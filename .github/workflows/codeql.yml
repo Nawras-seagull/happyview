@@ -70,6 +70,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
+        flutter-version: '3.44.8'
         channel: stable
 
     # Add any setup steps before running the `github/codeql-action/init` action.
@@ -105,6 +106,8 @@ jobs:
           FLUTTER_SDK="$(dirname "$(dirname "$(which flutter)")")"
           ANDROID_SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME}}"
           printf 'sdk.dir=%s\nflutter.sdk=%s\n' "$ANDROID_SDK" "$FLUTTER_SDK" > "$GITHUB_WORKSPACE/android/local.properties"
+          cd "$GITHUB_WORKSPACE"
+          flutter pub get
           chmod +x "$GITHUB_WORKSPACE/android/gradlew"
           cd "$GITHUB_WORKSPACE/android"
           ./gradlew :app:assembleDebug
