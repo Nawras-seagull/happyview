@@ -61,6 +61,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v7
 
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: '17'
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+
     # Add any setup steps before running the `github/codeql-action/init` action.
     # This includes steps like installing compilers or runtimes (`actions/setup-node`
     # or others). This is typically only required for manual builds.
@@ -91,6 +102,9 @@ jobs:
       shell: bash
       run: |
         if [ "${{ matrix.language }}" = "java-kotlin" ]; then
+          FLUTTER_SDK="$(dirname "$(dirname "$(which flutter)")")"
+          ANDROID_SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME}}"
+          printf 'sdk.dir=%s\nflutter.sdk=%s\n' "$ANDROID_SDK" "$FLUTTER_SDK" > "$GITHUB_WORKSPACE/android/local.properties"
           chmod +x "$GITHUB_WORKSPACE/android/gradlew"
           cd "$GITHUB_WORKSPACE/android"
           ./gradlew :app:assembleDebug
