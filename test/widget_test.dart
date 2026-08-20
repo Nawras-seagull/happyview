@@ -6,6 +6,7 @@ import 'package:happy_view/main.dart';
 import 'package:happy_view/l10n/app_localizations.dart';
 import 'package:happy_view/providers/language_provider.dart';
 import 'package:happy_view/screens/subcategory_screen.dart';
+import 'package:happy_view/widgets/animated_panda.dart';
 
 void main() {
   testWidgets('App initializes without crashing', (WidgetTester tester) async {
@@ -46,6 +47,19 @@ void main() {
     await tester.pump();
 
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('AnimatedPanda stops animating when off-screen',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: Scaffold(body: AnimatedPanda())));
+
+    final state = tester.state<AnimatedPandaState>(find.byType(AnimatedPanda));
+    expect(state.isAnimating, isTrue);
+
+    state.setVisible(false);
+    await tester.pump();
+
+    expect(state.isAnimating, isFalse);
   });
 
  /*  testWidgets('HomeScreen displays all categories',
