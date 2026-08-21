@@ -50,13 +50,12 @@ class AnimatedPandaState extends State<AnimatedPanda>
   }
 
   void setVisible(bool visible) {
-    if (_isVisible == visible) return;
+  if (!mounted) return;
+  if (_isVisible == visible) return;
 
-    setState(() {
-      _isVisible = visible;
-      _syncAnimation();
-    });
-  }
+  setState(() => _isVisible = visible);
+  _syncAnimation();
+}
 
   void handleVisibilityChanged(VisibilityInfo info) {
     setVisible(info.visibleFraction > 0);
@@ -83,11 +82,10 @@ class AnimatedPandaState extends State<AnimatedPanda>
                   position: _offsetAnimation,
                   child: GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isHoldingOn = true;
-                        _syncAnimation();
-                      });
-                    },
+  if (!mounted) return;
+  setState(() => isHoldingOn = true);
+  _syncAnimation();
+},
                     child: Image.asset(
                       'lib/assets/images/panda_normal.webp',
                       width: 120,
